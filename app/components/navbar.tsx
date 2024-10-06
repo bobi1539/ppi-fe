@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export const Navbar = () => {
+export default function Navbar() {
   const [isNavbarHidden, setIsNavbarHidden] = useState<boolean>(true);
 
   const handleNavbarHidden = () => {
@@ -51,4 +51,4 @@ export const Navbar = () => {
       </nav>
     </header>
   );
-};
+}

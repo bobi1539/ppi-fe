@@ -1,10 +1,15 @@
-import { Navbar } from "./components/navbar";
+import Navbar from "./components/navbar";
+import ImageCabinet from "./home/image-cabinet";
+import LatestEvent from "./home/latest-event";
+import NewsLetter from "./home/news-letter";
 
 export default function Home() {
   return (
     <div>
-      <Navbar/>
-      <img className="w-screen" src="https://ppiwarwick.org/image/Kabi.png" alt="PPI Warwick Cabinet"></img>
+      <Navbar />
+      <ImageCabinet />
+      <LatestEvent />
+      <NewsLetter />
     </div>
   );
 }
