@@ -60,7 +60,7 @@ export default function Face() {
           </h2>
           <ul className="flex">
             {faces.map((face) => (
-              <li className="w-full">
+              <li key={face.id} className="w-full">
                 <div className="group md:mx-2">
                   <div className="text-center mb-2">
                     <h3 className="text-md text-white font-extrabold">
