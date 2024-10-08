@@ -13,7 +13,7 @@ export default function Footer() {
   };
 
   return (
-    <div className="mb-12 md:mb-6 md:py-8 bg-white py-0">
+    <footer className="mb-12 md:mb-6 md:py-8 bg-white py-0">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-6 md:grid-cols-12 md:gap-8 md:px-8 place-items-center md:place-items-start">
         <div className="flex flex-col max-w-xl text-black md:col-span-7 items-center text-center md:items-start md:text-left">
           <img src="https://ppiwarwick.org/logo.png" className="w-48" alt="PPIW Logo" />
@@ -36,6 +36,6 @@ export default function Footer() {
           </div>
         </form>
       </div>
-    </div>
+    </footer>
   );
 }
