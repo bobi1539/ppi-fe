@@ -158,8 +158,8 @@ export default function Event() {
         <div className="grid gap-6 mt-12 md:mt-14 md:gap-8 md:grid-cols-4">
           {events.map((event) => (
             <Link key={event.id} href={event.detail}>
-              <div className="grid grid-cols-5 md:flex mb-2 md:flex-col md:mb-0 gap-4 md:gap-0">
-                <img className="col-span-2 w-auto h-40 md:w-full md:h-72 xl:h-96 rounded-lg" src={event.image} alt="2nd Pre-Departure Session 24/25" />
+              <div className="grid grid-cols-5 place-items-center md:flex mb-2 md:flex-col md:mb-0 gap-4 md:gap-0">
+                <img className="col-span-2 w-auto h-40 md:w-full md:h-72 xl:h-96 rounded-lg" src={event.image} alt={event.title} />
                 <div className="col-span-3">
                   <h3 className="text-xl font-bold md:mt-4  text-gray-900">{event.title}</h3>
                   <p className="text-xs text-gray-500">{event.date}</p>
