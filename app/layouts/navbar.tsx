@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 export default function Navbar() {
@@ -8,6 +10,26 @@ export default function Navbar() {
   const handleNavbarHidden = () => {
     setIsNavbarHidden(!isNavbarHidden);
   };
+
+  const navbarMenus = [
+    {
+      id: 1,
+      url: "/",
+      name: "Home",
+    },
+    {
+      id: 2,
+      url: "/event",
+      name: "Event",
+    },
+    {
+      id: 3,
+      url: "/newsletter",
+      name: "Newsletter",
+    },
+  ];
+
+  const pathName = usePathname();
 
   return (
     <header>
@@ -30,21 +52,17 @@ export default function Navbar() {
           </div>
           <div className={`${isNavbarHidden ? "hidden" : ""} justify-between items-center w-full md:flex md:w-auto md:order-1 md:-ml-32`} id="mobile-menu-2">
             <ul className="flex flex-col mt-4 font-medium md:flex-row md:space-x-8 md:mt-0">
-              <li>
-                <a href="/" className="block py-2 pr-4 pl-3 text-white rounded bg-secondary-700 md:bg-transparent md:text-secondary-700 md:p-0" aria-current="page">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="/event" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-secondary-700 md:p-0">
-                  Event
-                </a>
-              </li>
-              <li>
-                <a href="/newsletter" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-secondary-700 md:p-0">
-                  Newsletter
-                </a>
-              </li>
+              {navbarMenus.map((menu) => {
+                const isActive = pathName === menu.url || pathName.startsWith(menu.url + "/");
+
+                return (
+                  <li key={menu.id}>
+                    <Link href={menu.url} className={`${isActive ? "text-white bg-secondary-700 md:text-secondary-700 md:bg-transparent rounded" : "text-gray-700"} block py-2 pr-4 pl-3  border-b border-gray-100 hover:text-white hover:bg-secondary-700 hover:rounded md:hover:bg-transparent md:border-0 md:hover:text-secondary-700 md:p-0`}>
+                      {menu.name}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
