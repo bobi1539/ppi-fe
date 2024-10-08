@@ -5,10 +5,10 @@ export default function LatestEvent() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-2 px-6 md:grid-cols-5 md:gap-8 md:px-8 md:divide-x-4 md:divide-secondary-700">
           <div className="grid grid-cols-2 md:col-span-3 gap-4">
             <a className="flex-wrap flex-1" href="https://ppiwarwick.org/event/2nd-Pre-Departure-Session-2425">
-              <img className="aspect-auto" src="https://ppiwarwick.org/file/event/2nd-Pre-Departure-Session-2425-cover.png" />
+              <img className="aspect-auto" src="https://ppiwarwick.org/file/event/2nd-Pre-Departure-Session-2425-cover.png" alt="..." />
             </a>
             <a className="flex-wrap flex-1" href="https://ppiwarwick.org/event/Pre-Departure-Session-2425">
-              <img className="aspect-auto" src="https://ppiwarwick.org/file/event/Pre-Departure-Session-2425-cover.png" />
+              <img className="aspect-auto" src="https://ppiwarwick.org/file/event/Pre-Departure-Session-2425-cover.png" alt="..." />
             </a>
           </div>
           <div className="flex flex-row gap-2 text-center justify-between md:text-left md:flex-col text-black md:col-span-2 md:pl-8">

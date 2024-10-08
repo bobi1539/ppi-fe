@@ -14,7 +14,7 @@ export default function NewsLetter() {
 
   return (
     <section>
-      <div className="bg-ternary-100 py-8">
+      <div className="bg-tertiary-100 py-8">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 md:gap-24 px-6 md:grid-cols-2 md:px-8">
           <div className="flex flex-col justify-center gap-2 md:gap-8 col-span-1">
             <div className="flex flex-col font-extrabold">
@@ -33,10 +33,10 @@ export default function NewsLetter() {
           </div>
           <div className="grid md:grid-cols-2 grid-cols-1 gap-8 place-items-center">
             <a href="https://ppiwarwick.org/newsletter/Bimonthly-Newsletter-HOPE-2">
-              <img className="aspect-auto" src="https://ppiwarwick.org/file/newsletter/Bimonthly-Newsletter-HOPE-2-cover.png" />
+              <img className="aspect-auto" src="https://ppiwarwick.org/file/newsletter/Bimonthly-Newsletter-HOPE-2-cover.png" alt="..." />
             </a>
             <a href="https://ppiwarwick.org/newsletter/Bimonthly-Newsletter-HOPE-1">
-              <img className="aspect-auto" src="https://ppiwarwick.org/file/newsletter/Bimonthly-Newsletter-HOPE-1-cover.png" />
+              <img className="aspect-auto" src="https://ppiwarwick.org/file/newsletter/Bimonthly-Newsletter-HOPE-1-cover.png" alt="..." />
             </a>
           </div>
         </div>
