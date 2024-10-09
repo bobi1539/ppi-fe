@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { limitText } from "../utils/helper";
+import { limitText } from "../../utils/helper";
 
 export default function Event() {
   const events = [
     {
       id: 1,
-      detail: "https://ppiwarwick.org/event/2nd-Pre-Departure-Session-2425",
+      detail: "/event/2nd-Pre-Departure-Session-2425",
       image: "https://ppiwarwick.org/file/event/2nd-Pre-Departure-Session-2425-cover.png",
       title: "2nd Pre-Departure Session 24/25",
       date: "28 Jun 2024 (3 months ago)",
@@ -14,7 +14,7 @@ export default function Event() {
     },
     {
       id: 2,
-      detail: "https://ppiwarwick.org/event/Pre-Departure-Session-2425",
+      detail: "/event/Pre-Departure-Session-2425",
       image: "https://ppiwarwick.org/file/event/Pre-Departure-Session-2425-cover.png",
       title: "Pre-Departure Session 24/25",
       date: "23 Jun 2024 (3 months ago)",
@@ -23,7 +23,7 @@ export default function Event() {
     },
     {
       id: 3,
-      detail: "https://ppiwarwick.org/event/Maritime-Mosaic",
+      detail: "/event/Maritime-Mosaic",
       image: "https://ppiwarwick.org/file/event/Maritime-Mosaic-cover.png",
       title: "Maritime Mosaic",
       date: "17 May 2024 (4 months ago)",
@@ -32,7 +32,7 @@ export default function Event() {
     },
     {
       id: 4,
-      detail: "https://ppiwarwick.org/event/Global-Village",
+      detail: "/event/Global-Village",
       image: "https://ppiwarwick.org/file/event/Global-Village-cover.png",
       title: "Global Village",
       date: "03 May 2024 (5 months ago)",
@@ -41,7 +41,7 @@ export default function Event() {
     },
     {
       id: 5,
-      detail: "https://ppiwarwick.org/event/Kumpul-Bareng-Main-Angklung",
+      detail: "/event/Kumpul-Bareng-Main-Angklung",
       image: "https://ppiwarwick.org/file/event/Kumpul-Bareng-Main-Angklung-cover.png",
       title: "Kumpul Bareng Main Angklung",
       date: "05 May 2024 (5 months ago)",
@@ -50,7 +50,7 @@ export default function Event() {
     },
     {
       id: 6,
-      detail: "https://ppiwarwick.org/event/Halal-Bihalal",
+      detail: "/event/Halal-Bihalal",
       image: "https://ppiwarwick.org/file/event/Halal-Bihalal-cover.png",
       title: "Halal Bihalal",
       date: "13 Apr 2024 (5 months ago)",
@@ -59,7 +59,7 @@ export default function Event() {
     },
     {
       id: 7,
-      detail: "https://ppiwarwick.org/event/Belajar-Bareng",
+      detail: "/event/Belajar-Bareng",
       image: "https://ppiwarwick.org/file/event/Belajar-Bareng-cover.png",
       title: "Belajar Bareng",
       date: "09 Feb 2024 (7 months ago)",
@@ -68,7 +68,7 @@ export default function Event() {
     },
     {
       id: 8,
-      detail: "https://ppiwarwick.org/event/Indonesia-Language-Class",
+      detail: "/event/Indonesia-Language-Class",
       image: "https://ppiwarwick.org/file/event/Indonesia-Language-Class-cover.png",
       title: "Indonesia Language Class",
       date: "07 Feb 2024 (8 months ago)",
@@ -77,7 +77,7 @@ export default function Event() {
     },
     {
       id: 9,
-      detail: "https://ppiwarwick.org/event/Debar-Debar-Nobar",
+      detail: "/event/Debar-Debar-Nobar",
       image: "https://ppiwarwick.org/file/event/Debar-Debar-Nobar-cover.png",
       title: "Debar Debar Nobar",
       date: "04 Feb 2024 (8 months ago)",
@@ -86,7 +86,7 @@ export default function Event() {
     },
     {
       id: 10,
-      detail: "https://ppiwarwick.org/event/Potluck-Mabar",
+      detail: "/event/Potluck-Mabar",
       image: "https://ppiwarwick.org/file/event/Potluck-Mabar-cover.png",
       title: "Potluck: Mabar",
       date: "26 Jan 2024 (8 months ago)",
@@ -95,7 +95,7 @@ export default function Event() {
     },
     {
       id: 11,
-      detail: "https://ppiwarwick.org/event/Serba-serbi-Pemilu-2024-di-Inggris",
+      detail: "/event/Serba-serbi-Pemilu-2024-di-Inggris",
       image: "https://ppiwarwick.org/file/event/Serba-serbi-Pemilu-2024-di-Inggris-cover.png",
       title: "Serba-serbi Pemilu 2024 di Inggris",
       date: "28 Dec 2023 (9 months ago)",
@@ -104,7 +104,7 @@ export default function Event() {
     },
     {
       id: 12,
-      detail: "https://ppiwarwick.org/event/Nature-Walk-Expedition",
+      detail: "/event/Nature-Walk-Expedition",
       image: "https://ppiwarwick.org/file/event/Nature-Walk-Expedition-cover.png",
       title: "Nature Walk Expedition",
       date: "06 Dec 2023 (10 months ago)",
@@ -113,7 +113,7 @@ export default function Event() {
     },
     {
       id: 13,
-      detail: "https://ppiwarwick.org/event/CUPID-101",
+      detail: "/event/CUPID-101",
       image: "https://ppiwarwick.org/file/event/CUPID-101-cover.png",
       title: "CUPID 101",
       date: "01 Dec 2023 (10 months ago)",
@@ -122,7 +122,7 @@ export default function Event() {
     },
     {
       id: 14,
-      detail: "https://ppiwarwick.org/event/BadminDong",
+      detail: "/event/BadminDong",
       image: "https://ppiwarwick.org/file/event/BadminDong-cover.png",
       title: "BadminDong",
       date: "02 Dec 2023 (10 months ago)",
@@ -131,7 +131,7 @@ export default function Event() {
     },
     {
       id: 15,
-      detail: "https://ppiwarwick.org/event/PPI-Warwick-in-Netflix-and-Cheers",
+      detail: "/event/PPI-Warwick-in-Netflix-and-Cheers",
       image: "https://ppiwarwick.org/file/event/PPI-Warwick-in-Netflix-and-Cheers-cover.png",
       title: "PPI Warwick in: Netflix and Cheers!",
       date: "10 Nov 2023 (10 months ago)",
@@ -140,7 +140,7 @@ export default function Event() {
     },
     {
       id: 16,
-      detail: "https://ppiwarwick.org/event/Warmindo-Berdendang",
+      detail: "/event/Warmindo-Berdendang",
       image: "https://ppiwarwick.org/file/event/Warmindo-Berdendang-cover.png",
       title: "Warmindo Berdendang",
       date: "26 Oct 2023 (11 months ago)",

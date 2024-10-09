@@ -1,5 +1,5 @@
-import Footer from "../layouts/footer";
-import Navbar from "../layouts/navbar";
+import Footer from "../../layouts/footer";
+import Navbar from "../../layouts/navbar";
 import ImageCabinet from "./image-cabinet";
 import LatestEvent from "./latest-event";
 import NewsLetter from "./news-letter";

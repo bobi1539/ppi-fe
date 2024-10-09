@@ -1,8 +1,8 @@
 "use client";
 
-import Button from "../components/button";
-import Input from "../components/input";
-import { showSuccessDialog, showConfirmDialog } from "../utils/sweet-alert";
+import Button from "../../components/button";
+import Input from "../../components/input";
+import { showSuccessDialog, showConfirmDialog } from "../../utils/sweet-alert";
 
 export default function NewsLetter() {
   const subscribeNewsletter = async (e: React.FormEvent<HTMLFormElement>) => {

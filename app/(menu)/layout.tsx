@@ -1,7 +1,7 @@
 import Footer from "../layouts/footer";
 import Navbar from "../layouts/navbar";
 
-export default function NewsletterLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function MainMenuLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div>
       <Navbar />

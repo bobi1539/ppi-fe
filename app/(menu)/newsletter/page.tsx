@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { limitText } from "../utils/helper";
+import { limitText } from "../../utils/helper";
 
 export default function Newsletter() {
   const newsletters = [
