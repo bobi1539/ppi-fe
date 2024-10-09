@@ -50,6 +50,11 @@ export default function Support() {
     setCurrentImageId(emblaApi?.selectedScrollSnap() ?? 0);
   };
 
+  const scrollTo = (index: number) => {
+    emblaApi?.scrollTo(index);
+    setCurrentImageId(index);
+  };
+
   return (
     <section>
       <div className=" bg-tertiary-100 py-8">
@@ -66,7 +71,7 @@ export default function Support() {
             </div>
             <div className="flex absolute bottom-8 left-1/2 z-30 space-x-3 -translate-x-1/2">
               {images.map((image, index) => (
-                <button key={image.id} type="button" className={`${index === currentImageId ? "bg-white" : "bg-white/50"} w-3 h-3 rounded-full hover:bg-white`} />
+                <button onClick={() => scrollTo(index)} key={image.id} type="button" className={`${index === currentImageId ? "bg-white" : "bg-white/50"} w-3 h-3 rounded-full hover:bg-white`} />
               ))}
             </div>
             <button onClick={prev} type="button" className="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev="">

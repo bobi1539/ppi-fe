@@ -74,6 +74,11 @@ export default function Face() {
     };
   }, [emblaApi]);
 
+  const scrollTo = (index: number) => {
+    emblaApi?.scrollTo(index);
+    setCurrentFaceId(index);
+  };
+
   return (
     <section>
       <div className="bg-secondary-700 py-8">
@@ -105,7 +110,7 @@ export default function Face() {
           </div>
           <div className="flex gap-2 justify-center mt-4">
             {faces.map((face, index) => (
-              <button key={face.id} className={`${index === currentFaceId ? "bg-white" : "bg-white/50"} w-3 h-3 rounded-full`} />
+              <button onClick={() => scrollTo(index)} key={face.id} className={`${index === currentFaceId ? "bg-white" : "bg-white/50"} w-3 h-3 rounded-full`} />
             ))}
           </div>
         </div>
