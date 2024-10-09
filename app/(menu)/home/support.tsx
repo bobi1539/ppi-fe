@@ -65,8 +65,8 @@ export default function Support() {
               </div>
             </div>
             <div className="flex absolute bottom-8 left-1/2 z-30 space-x-3 -translate-x-1/2">
-              {images.map((image) => (
-                <button key={image.id} type="button" className={`${image.id === currentImageId ? "bg-white" : "bg-white/50"} w-3 h-3 rounded-full hover:bg-white`} />
+              {images.map((image, index) => (
+                <button key={image.id} type="button" className={`${index === currentImageId ? "bg-white" : "bg-white/50"} w-3 h-3 rounded-full hover:bg-white`} />
               ))}
             </div>
             <button onClick={prev} type="button" className="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev="">
