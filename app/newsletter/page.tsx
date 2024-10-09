@@ -5,14 +5,14 @@ export default function Newsletter() {
   const newsletters = [
     {
       id: 1,
-      detail: "https://ppiwarwick.org/newsletter/Bimonthly-Newsletter-HOPE-2",
+      detail: "/newsletter/Bimonthly-Newsletter-HOPE-2",
       image: "https://ppiwarwick.org/file/newsletter/Bimonthly-Newsletter-HOPE-2-cover.png",
       title: "Bimonthly Newsletter HOPE #2",
       description: "Hi everyone, We are excited to share the latest edition of the PPI Warwick Newsletter with you! 🥳 (...)",
     },
     {
       id: 2,
-      detail: "https://ppiwarwick.org/newsletter/Bimonthly-Newsletter-HOPE-1",
+      detail: "/newsletter/Bimonthly-Newsletter-HOPE-1",
       image: "https://ppiwarwick.org/file/newsletter/Bimonthly-Newsletter-HOPE-1-cover.png",
       title: "Bimonthly Newsletter HOPE #1",
       description: "Hi everyone, Hope you had a wonderful break and new year! 🥳 Attached below is PPI Warwick's firs (...)",
