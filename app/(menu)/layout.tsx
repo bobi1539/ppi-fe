@@ -1,5 +1,5 @@
-import Footer from "../layouts/footer";
-import Navbar from "../layouts/navbar";
+import Footer from "./layouts/footer";
+import Navbar from "./layouts/navbar";
 
 export default function MainMenuLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

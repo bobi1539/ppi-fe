@@ -1,8 +1,8 @@
 "use client";
 
-import Button from "../components/button";
-import Input from "../components/input";
-import { showConfirmDialog, showSuccessDialog } from "../utils/sweet-alert";
+import Button from "../../components/button";
+import Input from "../../components/input";
+import { showConfirmDialog, showSuccessDialog } from "../../utils/sweet-alert";
 
 export default function Footer() {
   const subscribeMailingList = async (e: React.FormEvent<HTMLFormElement>) => {

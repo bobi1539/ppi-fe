@@ -57,7 +57,7 @@ export default function Navbar() {
 
                 return (
                   <li key={menu.id}>
-                    <Link href={menu.url} className={`${isActive ? "text-white bg-secondary-700 md:text-secondary-700 md:bg-transparent rounded" : "text-gray-700"} block py-2 pr-4 pl-3  border-b border-gray-100 hover:text-white hover:bg-secondary-700 hover:rounded md:hover:bg-transparent md:border-0 md:hover:text-secondary-700 md:p-0`}>
+                    <Link href={menu.url} onClick={handleNavbarHidden} className={`${isActive ? "text-white bg-secondary-700 md:text-secondary-700 md:bg-transparent rounded" : "text-gray-700"} block py-2 pr-4 pl-3  border-b border-gray-100 hover:text-white hover:bg-secondary-700 hover:rounded md:hover:bg-transparent md:border-0 md:hover:text-secondary-700 md:p-0`}>
                       {menu.name}
                     </Link>
                   </li>
