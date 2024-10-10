@@ -2,6 +2,7 @@
 
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Face() {
@@ -97,11 +98,11 @@ export default function Face() {
                       </h3>
                     </div>
                     <div className="bg-secondary-300 px-2 pt-2 pb-12 rounded-2xl text-center items-center justify-center">
-                      <a href={face.divisionId}>
+                      <Link href={face.divisionId}>
                         <div className=" w-full overflow-hidden bg-gray-200 rounded-xl aspect-square group-hover:opacity-75 border-1 border-black">
                           <img src={face.photo} alt={face.name} className="object-cover object-center w-full h-full md:w-full md:h-full" />
                         </div>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
