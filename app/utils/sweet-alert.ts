@@ -1,6 +1,6 @@
 import Swal, { SweetAlertResult } from "sweetalert2";
 
-export const showConfirmDialog = async (title: string): Promise<SweetAlertResult<any>> => {
+export const showConfirmDialog = async (title: string): Promise<SweetAlertResult<null>> => {
   return await Swal.fire({
     title: title,
     text: "You won't be able to revert this!",
