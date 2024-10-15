@@ -1,12 +1,21 @@
+"use client";
+
+import { useState } from "react";
 import Sidebar from "./components/sidebar";
 import Topbar from "./components/topbar";
 
 export default function OfficeLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  const handleSidebarOpen = () => {
+    setIsSidebarOpen((prevState) => !prevState);
+  };
+
   return (
     <div>
-      <Topbar />
-      <Sidebar />
-      <main className="md:ml-64 min-h-screen pt-20">{children}</main>
+      <Topbar setIsSidebarOpen={handleSidebarOpen} />
+      <Sidebar isSidebarOpen={isSidebarOpen} />
+      <main className="md:ml-64 min-h-screen p-4 pt-20">{children}</main>
     </div>
   );
 }

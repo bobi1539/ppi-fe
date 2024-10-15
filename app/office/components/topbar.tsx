@@ -4,14 +4,18 @@ import Link from "next/link";
 import { FE_DASHBOARD } from "@/app/constants/endpoint-fe";
 import { useState } from "react";
 
-export default function Topbar() {
+interface TopbarProps {
+  setIsSidebarOpen: () => void;
+}
+
+export default function Topbar(props: Readonly<TopbarProps>) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
 
   return (
     <nav className="bg-white border-b border-gray-200 px-4 py-2.5 fixed left-0 right-0 top-0 z-50">
       <div className="flex flex-wrap justify-between items-center">
         <div className="flex justify-start items-center">
-          <button className="p-2 mr-2 rounded-lg cursor-pointer md:hidden text-secondary-700 hover:text-secondary-600 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100">
+          <button onClick={props.setIsSidebarOpen} className="p-2 mr-2 rounded-lg cursor-pointer md:hidden text-secondary-700 hover:text-secondary-600 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100">
             <svg aria-hidden="true" className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
             </svg>
@@ -25,7 +29,7 @@ export default function Topbar() {
             <span className="hidden md:block self-center text-secondary-800 text-xl font-semibold whitespace-nowrap">PPI Warwick</span>
           </Link>
         </div>
-        <div className="flex items-center lg:order-2">
+        <div className="flex items-center">
           <button type="button" className="p-2 mr-1 text-secondary-700 rounded-lg hover:text-secondary-600 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300">
             <span className="sr-only">View notifications</span>
             <svg aria-hidden="true" className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
