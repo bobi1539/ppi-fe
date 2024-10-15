@@ -6,6 +6,8 @@ import InputLabel from "../components/input-label";
 import ButtonLoading from "../components/button-loading";
 import { FE_DASHBOARD } from "../constants/endpoint-fe";
 import { useRouter } from "next/navigation";
+import { LoginRequest } from "../dto/request/login-request";
+import { login } from "../backend-api/auth";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -14,6 +16,15 @@ export default function Login() {
   const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const loginRequest: LoginRequest = {
+      username: formData.get("username") as string,
+      password: formData.get("password") as string,
+    };
+    const response = await login(loginRequest);
+    console.log(response);
+
     router.push(FE_DASHBOARD);
     setIsLoading(false);
   };
