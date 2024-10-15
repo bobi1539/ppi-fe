@@ -1,12 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import Button from "../components/button";
 import InputLabel from "../components/input-label";
+import ButtonLoading from "../components/button-loading";
+import { FE_DASHBOARD } from "../constants/endpoint-fe";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+
   const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     e.preventDefault();
-    alert("Success");
+    router.push(FE_DASHBOARD);
+    setIsLoading(false);
   };
 
   return (
@@ -22,7 +31,7 @@ export default function Login() {
             <form onSubmit={submitLogin} className="flex flex-col gap-4">
               <InputLabel name="username" type="text" placeHolder="" isRequired={true} />
               <InputLabel name="password" type="password" placeHolder="••••••••" isRequired={true} />
-              <Button text="Sign In" className="mt-2" />
+              {isLoading ? <ButtonLoading text="Processing Login..." className="mt-2" /> : <Button text="Sign In" className="mt-2" />}
             </form>
           </div>
         </div>
