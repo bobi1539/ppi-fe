@@ -1,10 +1,20 @@
-import Swal from "sweetalert2";
+import { getSession } from "../login/helper";
+import { showErrorDialog } from "../utils/sweet-alert";
 
 export const createHeadersWithoutSession = async (): Promise<Headers> => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
   return new Headers(headers);
+};
+
+export const createHeaders = async (): Promise<Headers> => {
+  const session = await getSession();
+  const headersObj: Record<string, string> = {
+    "Content-Type": "application/json",
+    Authorization: session.loginData.jwt ? `Bearer ${session.loginData.jwt}` : "",
+  };
+  return new Headers(headersObj);
 };
 
 export const makeGetRequest = async (url: string, headers: Headers): Promise<Response> => {
@@ -40,11 +50,7 @@ export const makeDeleteRequest = async (id: number, url: string, headers: Header
 export const handleResponse = async (response: Response): Promise<any> => {
   const result = await response.json();
   if (!response.ok) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: result.message,
-    });
+    showErrorDialog(result.message);
     throw new Error(`Error : ${result.message}`);
   }
   return result.data;

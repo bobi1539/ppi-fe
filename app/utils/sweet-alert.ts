@@ -20,3 +20,12 @@ export const showSuccessDialog = async (text: string): Promise<void> => {
     confirmButtonColor: "#6d28d9",
   });
 };
+
+export const showErrorDialog = async (text: string): Promise<void> => {
+  await Swal.fire({
+    title: "Oops...",
+    text: text,
+    icon: "error",
+    confirmButtonColor: "#6d28d9",
+  });
+};
