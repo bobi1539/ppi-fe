@@ -1,3 +1,4 @@
+import { PageResponse } from "../dto/response/page-response";
 import { getSession } from "../login/helper";
 import { showErrorDialog } from "../utils/sweet-alert";
 
@@ -58,4 +59,16 @@ export const handleResponse = async (response: Response): Promise<any> => {
 
 export const createRequestBody = (body: any): string => {
   return JSON.stringify(body);
+};
+
+export const buildPageResponse = async (result: any): Promise<PageResponse> => {
+  return {
+    content: result.content,
+    pageable: {
+      pageNumber: result.pageable.pageNumber,
+      pageSize: result.pageable.pageSize,
+    },
+    totalElements: result.totalElements,
+    totalPages: result.totalPages,
+  };
 };

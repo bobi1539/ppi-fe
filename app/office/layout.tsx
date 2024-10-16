@@ -34,7 +34,7 @@ export default function OfficeLayout({ children }: Readonly<{ children: React.Re
         <div>
           <Topbar setIsSidebarOpen={handleSidebarOpen} />
           <Sidebar isSidebarOpen={isSidebarOpen} />
-          <main className="md:ml-64 min-h-screen p-4 pt-20">{children}</main>
+          <main className="bg-gray-50 md:ml-64 min-h-screen p-4 pt-20">{children}</main>
           <div onClick={handleSidebarOpen} className={`${isSidebarOpen ? "bg-gray-900/50 fixed inset-0 z-30" : ""}`} />
         </div>
       )}
