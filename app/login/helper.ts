@@ -14,10 +14,16 @@ export const getSession = async () => {
   return session;
 };
 
-export const saveSessionLogin = async (loginData: LoginResponse): Promise<void> => {
+export const saveSessionLogin = async (loginData: LoginResponse): Promise<boolean> => {
   const session = await getSession();
   session.isLoggedIn = true;
   session.loginData = loginData;
   console.log(session);
   await session.save();
+  return session.isLoggedIn;
+};
+
+export const logout = async (): Promise<void> => {
+  const session = await getSession();
+  session.destroy();
 };

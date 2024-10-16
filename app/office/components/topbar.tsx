@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { FE_DASHBOARD } from "@/app/constants/endpoint-fe";
+import { FE_DASHBOARD, FE_LOGIN } from "@/app/constants/endpoint-fe";
 import { useState } from "react";
+import { logout } from "@/app/login/helper";
+import { useRouter } from "next/navigation";
+import { showConfirmDialog } from "@/app/utils/sweet-alert";
 
 interface TopbarProps {
   setIsSidebarOpen: () => void;
@@ -10,6 +13,15 @@ interface TopbarProps {
 
 export default function Topbar(props: Readonly<TopbarProps>) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const result = await showConfirmDialog("Are you sure to logout ?");
+    if (result.isConfirmed) {
+      await logout();
+      router.push(FE_LOGIN);
+    }
+  };
 
   return (
     <nav className="bg-white border-b border-gray-200 px-4 py-2.5 fixed left-0 right-0 top-0 z-50">
@@ -60,7 +72,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
             </ul>
             <ul className="py-1 text-gray-700 dark:text-gray-300">
               <li>
-                <Link href="#" className="block py-2 px-4 text-sm text-gray-700 hover:text-white hover:bg-secondary-700 transition ease-in duration-200">
+                <Link onClick={handleLogout} href="#" className="block py-2 px-4 text-sm text-gray-700 hover:text-white hover:bg-secondary-700 transition ease-in duration-200">
                   Sign out
                 </Link>
               </li>
