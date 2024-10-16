@@ -12,6 +12,7 @@
     "@fortawesome/fontawesome-free": "^6.6.0",
     "embla-carousel-autoplay": "^8.3.0",
     "embla-carousel-react": "^8.3.0",
+    "iron-session": "^8.0.3",
     "next": "14.2.14",
     "react": "^18",
     "react-dom": "^18",

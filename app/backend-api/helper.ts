@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 export const createHeadersWithoutSession = async (): Promise<Headers> => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -38,7 +40,12 @@ export const makeDeleteRequest = async (id: number, url: string, headers: Header
 export const handleResponse = async (response: Response): Promise<any> => {
   const result = await response.json();
   if (!response.ok) {
-    throw new Error(`Error : ${result.result}`);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: result.message,
+    });
+    throw new Error(`Error : ${result.message}`);
   }
   return result.data;
 };

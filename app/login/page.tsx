@@ -8,6 +8,10 @@ import { FE_DASHBOARD } from "../constants/endpoint-fe";
 import { useRouter } from "next/navigation";
 import { LoginRequest } from "../dto/request/login-request";
 import { login } from "../backend-api/auth";
+import { saveSessionLogin } from "./helper";
+
+export const USERNAME: string = "username";
+export const PASSWORD: string = "password";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -18,15 +22,24 @@ export default function Login() {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const loginRequest: LoginRequest = {
-      username: formData.get("username") as string,
-      password: formData.get("password") as string,
-    };
-    const response = await login(loginRequest);
-    console.log(response);
+    const loginRequest = buildLoginRequest(formData);
 
-    router.push(FE_DASHBOARD);
-    setIsLoading(false);
+    try {
+      const response = await login(loginRequest);
+      saveSessionLogin(response);
+      router.push(FE_DASHBOARD);
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const buildLoginRequest = (formData: FormData): LoginRequest => {
+    return {
+      username: formData.get(USERNAME) as string,
+      password: formData.get(PASSWORD) as string,
+    };
   };
 
   return (
@@ -40,8 +53,8 @@ export default function Login() {
             </div>
             <h1 className="text-xl font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl mb-6">Sign in to your account</h1>
             <form onSubmit={submitLogin} className="flex flex-col gap-4">
-              <InputLabel name="username" type="text" placeHolder="" isRequired={true} />
-              <InputLabel name="password" type="password" placeHolder="••••••••" isRequired={true} />
+              <InputLabel name={USERNAME} type="text" placeHolder="" isRequired={true} />
+              <InputLabel name={PASSWORD} type="password" placeHolder="••••••••" isRequired={true} />
               {isLoading ? <ButtonLoading text="Processing Login..." className="mt-2" /> : <Button text="Sign In" className="mt-2" />}
             </form>
           </div>

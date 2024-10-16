@@ -11,7 +11,7 @@ export const login = async (request: LoginRequest): Promise<LoginResponse> => {
   return buildLoginResponse(result);
 };
 
-const buildLoginResponse = async (result: any): Promise<LoginResponse> => {
+export const buildLoginResponse = async (result: any): Promise<LoginResponse> => {
   return {
     jwt: result.jwt,
     refreshToken: result.refreshToken,
