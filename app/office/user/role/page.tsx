@@ -108,16 +108,16 @@ export default function UserRole() {
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-black uppercase bg-gray-50">
               <tr className="text-center">
-                <th scope="col" className="px-2 py-2 font-bold">
+                <th scope="col" className="px-2 py-2 font-bold whitespace-nowrap">
                   #seq
                 </th>
-                <th scope="col" className="px-2 py-2 font-bold">
+                <th scope="col" className="px-2 py-2 font-bold whitespace-nowrap">
                   role name
                 </th>
-                <th scope="col" className="px-2 py-2 font-bold">
+                <th scope="col" className="px-2 py-2 font-bold whitespace-nowrap">
                   user count
                 </th>
-                <th scope="col" className="px-2 py-2 font-bold" />
+                <th scope="col" className="px-2 py-2 font-bold whitespace-nowrap" />
               </tr>
             </thead>
             <tbody>
@@ -126,7 +126,7 @@ export default function UserRole() {
                   <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
                     {currentPage * CONSTANT_PAGE_SIZE_VALUE + index + 1}
                   </td>
-                  <td scope="row" className="px-2.5 py-2 break-words text-left">
+                  <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
                     {userRole.name}
                   </td>
                   <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
