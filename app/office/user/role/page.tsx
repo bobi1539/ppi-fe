@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import ButtonIcon from "../../../components/button-icon";
 import ContentTitle from "../../components/content-title";
 import InputSearch from "../../components/input-search";
-import { userRoleCreate, userRoleFindAllPagination } from "@/app/backend-api/user-role";
+import { userRoleCreate, userRoleDelete, userRoleFindAllPagination } from "@/app/backend-api/user-role";
 import InputLabel from "@/app/components/input-label";
 import { UserRoleRequest } from "@/app/dto/request/user-role-request";
-import { showSuccessDialog } from "@/app/utils/sweet-alert";
+import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
 import { SearchDto } from "@/app/dto/search/search-dto";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { CONSTANT_PAGE_SIZE_VALUE } from "@/app/constants/constant";
@@ -76,6 +76,16 @@ export default function UserRole() {
     });
   };
 
+  const handleDeleteUserRole = async (userRoleId: number): Promise<void> => {
+    const result = await showConfirmDialog("Are you sure to delete?");
+    if (result.isConfirmed) {
+      await userRoleDelete(userRoleId);
+      showSuccessDialog();
+      fetchUserRole();
+      handleDropDownTableOpen(userRoleId);
+    }
+  };
+
   return (
     <div>
       <ContentTitle title="User Role" />
@@ -102,7 +112,7 @@ export default function UserRole() {
             </thead>
             <tbody>
               {userRolePages?.content.map((userRole, index) => (
-                <tr key={userRole.id} className="border-b text-center">
+                <tr key={userRole.id} className={`${userRole.deleted ? "line-through" : ""} border-b text-center`}>
                   <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
                     {currentPage * CONSTANT_PAGE_SIZE_VALUE + index + 1}
                   </td>
@@ -122,7 +132,7 @@ export default function UserRole() {
                           <ButtonDropdown text="Edit" icon="fa-solid fa-pen-to-square" />
                         </li>
                         <li>
-                          <ButtonDropdown text="Delete" icon="fa-solid fa-trash-can" className="text-red-500" />
+                          <ButtonDropdown onClick={() => handleDeleteUserRole(userRole.id)} text="Delete" icon="fa-solid fa-trash-can" className="text-red-500" />
                         </li>
                       </ul>
                     </div>

@@ -5,5 +5,5 @@ export interface BaseResponse {
   updatedBy?: number;
   createdByName?: string;
   updatedByName?: string;
-  isDeleted?: boolean;
+  deleted?: boolean;
 }
