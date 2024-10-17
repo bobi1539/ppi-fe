@@ -12,7 +12,7 @@ export const showConfirmDialog = async (title: string): Promise<SweetAlertResult
   });
 };
 
-export const showSuccessDialog = async (text: string): Promise<void> => {
+export const showSuccessDialog = async (text?: string): Promise<void> => {
   await Swal.fire({
     title: "Success",
     text: text,

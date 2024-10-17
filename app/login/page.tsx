@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Button from "../components/button";
 import InputLabel from "../components/input-label";
 import ButtonLoading from "../components/button-loading";
 import { FE_DASHBOARD } from "../constants/endpoint-fe";
@@ -9,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { LoginRequest } from "../dto/request/login-request";
 import { login } from "../backend-api/auth";
 import { getSession, saveSessionLogin } from "./helper";
+import ButtonIcon from "../components/button-icon";
 
 export const USERNAME: string = "username";
 export const PASSWORD: string = "password";
@@ -69,9 +69,9 @@ export default function Login() {
                 </div>
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl mb-6">Sign in to your account</h1>
                 <form onSubmit={submitLogin} className="flex flex-col gap-4">
-                  <InputLabel name={USERNAME} type="text" placeHolder="" isRequired={true} />
-                  <InputLabel name={PASSWORD} type="password" placeHolder="••••••••" isRequired={true} />
-                  {isLoading ? <ButtonLoading text="Processing Login..." className="mt-2" /> : <Button text="Sign In" className="mt-2" />}
+                  <InputLabel label="Username" name={USERNAME} type="text" isRequired={true} />
+                  <InputLabel label="Password" name={PASSWORD} type="password" placeHolder="••••••••" isRequired={true} />
+                  {isLoading ? <ButtonLoading text="Processing Login..." className="mt-2" /> : <ButtonIcon type="submit" icon="fa-solid fa-right-to-bracket" text="Sign In" className="mt-2 py-2.5" />}
                 </form>
               </div>
             </div>
