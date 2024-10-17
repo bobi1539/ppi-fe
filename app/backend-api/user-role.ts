@@ -3,58 +3,63 @@ import { BE_USER_ROLE } from "../constants/endpoint-be";
 import { UserRoleRequest } from "../dto/request/user-role-request";
 import { PageResponse } from "../dto/response/page-response";
 import { UserRoleResponse } from "../dto/response/user-role-response";
-import { buildPageResponse, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest, setBaseResponse } from "./helper";
+import { buildPageResponse, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
 import { CONSTANT_IS_DELETED, CONSTANT_PAGE, CONSTANT_SEARCH, CONSTANT_SIZE } from "../constants/constant";
 
 export const userRoleFindAllPagination = async (search: SearchDto): Promise<PageResponse<UserRoleResponse>> => {
   const headers = await createHeaders();
-  const response = await makeGetRequest(buildUrlFindAll(search), headers);
+  const response = await makeGetRequest(buildUrlFindAll(BE_USER_ROLE, search), headers);
   const result = await handleResponse(response);
   return buildPageResponse(result);
+};
+
+export const userRoleFindAll = async (search: SearchDto): Promise<UserRoleResponse[]> => {
+  const headers = await createHeaders();
+  const response = await makeGetRequest(buildUrlFindAll(BE_USER_ROLE + "/all", search), headers);
+  return await handleResponse(response);
+};
+
+export const userRoleFindById = async (id: number): Promise<UserRoleResponse> => {
+  const headers = await createHeaders();
+  const response = await makeGetRequest(BE_USER_ROLE + "/" + id, headers);
+  return await handleResponse(response);
 };
 
 export const userRoleCreate = async (request: UserRoleRequest): Promise<UserRoleResponse> => {
   const headers = await createHeaders();
   const response = await makePostRequest(BE_USER_ROLE, headers, request);
-  const result = await handleResponse(response);
-  return buildUserRoleResponse(result);
+  return await handleResponse(response);
 };
 
-export const userRoleDelete = async (userRoleId: number): Promise<UserRoleResponse> => {
+export const userRoleUpdate = async (id: number, request: UserRoleRequest): Promise<UserRoleResponse> => {
   const headers = await createHeaders();
-  const response = await makeDeleteRequest(userRoleId, BE_USER_ROLE, headers);
-  const result = await handleResponse(response);
-  return buildUserRoleResponse(result);
+  const response = await makePutRequest(id, BE_USER_ROLE, headers, request);
+  return await handleResponse(response);
 };
 
-export const userRoleRestore = async (userRoleId: number): Promise<UserRoleResponse> => {
+export const userRoleDelete = async (id: number): Promise<UserRoleResponse> => {
   const headers = await createHeaders();
-  const response = await makePutRequest(userRoleId, BE_USER_ROLE + "/restore", headers, null);
-  const result = await handleResponse(response);
-  return buildUserRoleResponse(result);
+  const response = await makeDeleteRequest(id, BE_USER_ROLE, headers);
+  return await handleResponse(response);
 };
 
-export const buildUrlFindAll = (search: SearchDto): string => {
-  const url = new URL(BE_USER_ROLE);
-  url.searchParams.append(CONSTANT_SEARCH, search.search);
+export const userRoleRestore = async (id: number): Promise<UserRoleResponse> => {
+  const headers = await createHeaders();
+  const response = await makePutRequest(id, BE_USER_ROLE + "/restore", headers, null);
+  return await handleResponse(response);
+};
+
+export const buildUrlFindAll = (url: string, search: SearchDto): string => {
+  const urlWithParam = new URL(url);
+  urlWithParam.searchParams.append(CONSTANT_SEARCH, search.search);
   if (search.isDeleted) {
-    url.searchParams.append(CONSTANT_IS_DELETED, search.isDeleted.toString());
+    urlWithParam.searchParams.append(CONSTANT_IS_DELETED, search.isDeleted.toString());
   }
   if (search.page) {
-    url.searchParams.append(CONSTANT_PAGE, search.page.toString());
+    urlWithParam.searchParams.append(CONSTANT_PAGE, search.page.toString());
   }
   if (search.size) {
-    url.searchParams.append(CONSTANT_SIZE, search.size.toString());
+    urlWithParam.searchParams.append(CONSTANT_SIZE, search.size.toString());
   }
-  return url.toString();
-};
-
-export const buildUserRoleResponse = async (result: any): Promise<UserRoleResponse> => {
-  const response: UserRoleResponse = {
-    id: result.id,
-    name: result.name,
-    userCount: result.userCount,
-  };
-  setBaseResponse(response, result);
-  return response;
+  return urlWithParam.toString();
 };

@@ -1,4 +1,3 @@
-import { BaseResponse } from "../dto/response/base-response";
 import { PageResponse } from "../dto/response/page-response";
 import { getSession } from "../login/helper";
 import { showErrorDialog } from "../utils/sweet-alert";
@@ -73,14 +72,4 @@ export const buildPageResponse = async (result: any): Promise<PageResponse<any>>
     totalPages: result.totalPages,
     numberOfElements: result.numberOfElements,
   };
-};
-
-export const setBaseResponse = (response: BaseResponse, result: any): void => {
-  response.createdAt = result.createdAt;
-  response.updatedAt = result.updatedAt;
-  response.createdBy = result.createdBy;
-  response.updatedBy = result.updatedBy;
-  response.createdByName = result.createdByName;
-  response.updatedByName = result.updatedByName;
-  response.deleted = result.deleted;
 };
