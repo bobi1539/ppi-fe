@@ -1,12 +1,14 @@
+import { SearchDto } from "./../dto/search/search-dto";
 import { BE_USER_ROLE } from "../constants/endpoint-be";
 import { UserRoleRequest } from "../dto/request/user-role-request";
 import { PageResponse } from "../dto/response/page-response";
 import { UserRoleResponse } from "../dto/response/user-role-response";
 import { buildPageResponse, createHeaders, handleResponse, makeGetRequest, makePostRequest, setBaseResponse } from "./helper";
+import { CONSTANT_IS_DELETED, CONSTANT_SEARCH } from "../constants/constant";
 
-export const userRoleFindAllPagination = async (): Promise<PageResponse> => {
+export const userRoleFindAllPagination = async (search: SearchDto): Promise<PageResponse> => {
   const headers = await createHeaders();
-  const response = await makeGetRequest(BE_USER_ROLE, headers);
+  const response = await makeGetRequest(buildUrlFindAll(search), headers);
   const result = await handleResponse(response);
   return buildPageResponse(result);
 };
@@ -16,6 +18,15 @@ export const userRoleCreate = async (request: UserRoleRequest): Promise<UserRole
   const response = await makePostRequest(BE_USER_ROLE, headers, request);
   const result = await handleResponse(response);
   return buildUserRoleResponse(result);
+};
+
+export const buildUrlFindAll = (search: SearchDto): string => {
+  const url = new URL(BE_USER_ROLE);
+  url.searchParams.append(CONSTANT_SEARCH, search.search);
+  if (search.isDeleted) {
+    url.searchParams.append(CONSTANT_IS_DELETED, search.isDeleted.toString());
+  }
+  return url.toString();
 };
 
 export const buildUserRoleResponse = async (result: any): Promise<UserRoleResponse> => {

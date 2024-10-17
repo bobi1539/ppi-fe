@@ -9,20 +9,32 @@ import { UserRoleResponse } from "@/app/dto/response/user-role-response";
 import InputLabel from "@/app/components/input-label";
 import { UserRoleRequest } from "@/app/dto/request/user-role-request";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
+import { SearchDto } from "@/app/dto/search/search-dto";
 
 export const ROLE_NAME = "role-name";
 
 export default function UserRole() {
   const [userRoles, setUserRoles] = useState<UserRoleResponse[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
     fetchUserRole();
   }, []);
 
   const fetchUserRole = async () => {
-    const response = await userRoleFindAllPagination();
+    const response = await userRoleFindAllPagination(buildSearchDto());
     setUserRoles(response.content);
+  };
+
+  const buildSearchDto = (): SearchDto => {
+    return {
+      search: searchValue,
+    };
+  };
+
+  const handleSearch = (): void => {
+    fetchUserRole();
   };
 
   const submitSaveUserRole = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +58,7 @@ export default function UserRole() {
       <ContentTitle title="User Role" />
       <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden">
         <div className="flex flex-col md:flex-row justify-between gap-3 p-4">
-          <InputSearch />
+          <InputSearch onChange={(e) => setSearchValue(e.target.value)} onKeyUp={handleSearch} />
           <ButtonIcon onClick={() => setIsModalOpen(!isModalOpen)} type="button" icon="fa-solid fa-plus" text="Add User Role" className="w-full md:w-auto" />
         </div>
         <div className="overflow-x-auto">
@@ -121,7 +133,7 @@ export default function UserRole() {
         {isModalOpen && (
           <div className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-gray-900/50 ">
             <div className="max-w-lg relative w-full max-h-full p-4 bg-white rounded-lg shadow m-4">
-              <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5">
+              <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b">
                 <h3 className="text-lg font-semibold text-gray-900">Add User Role</h3>
                 <button onClick={() => setIsModalOpen(!isModalOpen)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-2 ml-auto inline-flex justify-center items-center w-7 h-7">
                   <i className="fa-solid fa-xmark fa-lg"></i>
