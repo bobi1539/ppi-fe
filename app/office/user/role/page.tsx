@@ -15,6 +15,7 @@ import PaginationTable from "@/app/components/pagination-table";
 import PaginationSummary from "@/app/components/pagination-summary";
 import ButtonDropdown from "@/app/components/button-dropdown";
 import { UserRoleResponse } from "@/app/dto/response/user-role-response";
+import Modal from "@/app/components/modal";
 
 export const ROLE_NAME = "role-name";
 
@@ -157,25 +158,16 @@ export default function UserRole() {
           <PaginationTable total={userRolePages?.totalPages ?? 10} handlePageChange={handlePageChange} />
         </div>
         {isModalOpen && (
-          <div className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-gray-900/50 ">
-            <div className="max-w-lg relative w-full max-h-full p-4 bg-white rounded-lg shadow m-4">
-              <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b">
-                <h3 className="text-lg font-semibold text-gray-900">Add User Role</h3>
-                <button onClick={() => setIsModalOpen(!isModalOpen)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-2 ml-auto inline-flex justify-center items-center w-7 h-7">
-                  <i className="fa-solid fa-xmark fa-lg"></i>
-                  <span className="sr-only">Close modal</span>
-                </button>
+          <Modal title="Add User Role" setIsModalOpen={() => setIsModalOpen(!isModalOpen)}>
+            <form onSubmit={submitSaveUserRole}>
+              <div className="my-4">
+                <InputLabel label="Role Name" name={ROLE_NAME} type="text" placeHolder="Type role name" isRequired={true} />
               </div>
-              <form onSubmit={submitSaveUserRole}>
-                <div className="my-4">
-                  <InputLabel label="Role Name" name={ROLE_NAME} type="text" placeHolder="Type role name" isRequired={true} />
-                </div>
-                <div className="flex justify-end">
-                  <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
-                </div>
-              </form>
-            </div>
-          </div>
+              <div className="flex justify-end">
+                <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+              </div>
+            </form>
+          </Modal>
         )}
       </section>
     </div>
