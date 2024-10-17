@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import ButtonIcon from "../../../components/button-icon";
 import ContentTitle from "../../components/content-title";
 import InputSearch from "../../components/input-search";
-import { userRoleCreate, userRoleDelete, userRoleFindAllPagination, userRoleRestore } from "@/app/backend-api/user-role";
-import InputLabel from "@/app/components/input-label";
-import { UserRoleRequest } from "@/app/dto/request/user-role-request";
+import { userRoleDelete, userRoleFindAllPagination, userRoleRestore } from "@/app/backend-api/user-role";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
 import { SearchDto } from "@/app/dto/search/search-dto";
 import { PageResponse } from "@/app/dto/response/page-response";
@@ -15,13 +13,14 @@ import PaginationTable from "@/app/components/pagination-table";
 import PaginationSummary from "@/app/components/pagination-summary";
 import ButtonDropdown from "@/app/components/button-dropdown";
 import { UserRoleResponse } from "@/app/dto/response/user-role-response";
-import Modal from "@/app/components/modal";
-
-export const ROLE_NAME = "role-name";
+import UserRoleModalCreate from "./create";
+import UserRoleModalUpdate from "./update";
 
 export default function UserRole() {
   const [userRolePages, setUserRolePages] = useState<PageResponse<UserRoleResponse>>();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalCreateOpen, setIsModalCreateOpen] = useState<boolean>(false);
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState<boolean>(false);
+  const [userRoleIdUpdate, setUserRoleIdUpdate] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [isDropDownTableOpen, setIsDropDownTableOpen] = useState<{ [key: number]: boolean }>({});
@@ -30,7 +29,7 @@ export default function UserRole() {
     fetchUserRole();
   }, [currentPage, searchValue]);
 
-  const fetchUserRole = async () => {
+  const fetchUserRole = async (): Promise<void> => {
     const response = await userRoleFindAllPagination(buildSearchDto());
     setUserRolePages(response);
   };
@@ -47,22 +46,6 @@ export default function UserRole() {
     setCurrentPage(page - 1);
   };
 
-  const submitSaveUserRole = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const request = buildUserRoleRequest(formData);
-    await userRoleCreate(request);
-    showSuccessDialog();
-    setIsModalOpen(!isModalOpen);
-    fetchUserRole();
-  };
-
-  const buildUserRoleRequest = (formData: FormData): UserRoleRequest => {
-    return {
-      name: formData.get(ROLE_NAME) as string,
-    };
-  };
-
   const handleDropDownTableOpen = (id: number): void => {
     setIsDropDownTableOpen((prevState: Record<string, boolean>) => {
       const newState = Object.keys(prevState).reduce((acc, key) => {
@@ -75,6 +58,12 @@ export default function UserRole() {
         [id]: !prevState[id],
       };
     });
+  };
+
+  const handleEditUserRole = (id: number): void => {
+    setIsModalUpdateOpen(!isModalUpdateOpen);
+    setUserRoleIdUpdate(id);
+    handleDropDownTableOpen(id);
   };
 
   const handleDeleteUserRole = async (userRoleId: number): Promise<void> => {
@@ -103,7 +92,7 @@ export default function UserRole() {
       <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden pb-5">
         <div className="flex flex-col md:flex-row justify-between gap-3 p-4">
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
-          <ButtonIcon onClick={() => setIsModalOpen(!isModalOpen)} type="button" icon="fa-solid fa-plus" text="Add User Role" className="w-full md:w-auto" />
+          <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add User Role" className="w-full md:w-auto" />
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500">
@@ -140,7 +129,7 @@ export default function UserRole() {
                     <div className="absolute">
                       <div className={`${isDropDownTableOpen[userRole.id] ? "" : "hidden"} absolute mt-3 z-50 w-44 bg-white rounded shadow py-1 -left-32 md:-left-28 xl:-left-10`}>
                         <ul className="divide-y divide-gray-100">
-                          <li>{userRole.deleted ? <ButtonDropdown onClick={() => handleRestoreUserRole(userRole.id)} text="Restore" icon="fa-solid fa-trash-can-arrow-up" className="text-secondary-700" /> : <ButtonDropdown text="Edit" icon="fa-solid fa-pen-to-square" />}</li>
+                          <li>{userRole.deleted ? <ButtonDropdown onClick={() => handleRestoreUserRole(userRole.id)} text="Restore" icon="fa-solid fa-trash-can-arrow-up" className="text-secondary-700" /> : <ButtonDropdown onClick={() => handleEditUserRole(userRole.id)} text="Edit" icon="fa-solid fa-pen-to-square" />}</li>
                           <li>
                             <ButtonDropdown onClick={() => handleDeleteUserRole(userRole.id)} text="Delete" icon="fa-solid fa-trash-can" className="text-red-500" />
                           </li>
@@ -157,18 +146,8 @@ export default function UserRole() {
           <PaginationSummary numberOfElements={userRolePages?.numberOfElements} totalElements={userRolePages?.totalElements} />
           <PaginationTable total={userRolePages?.totalPages ?? 10} handlePageChange={handlePageChange} />
         </div>
-        {isModalOpen && (
-          <Modal title="Add User Role" setIsModalOpen={() => setIsModalOpen(!isModalOpen)}>
-            <form onSubmit={submitSaveUserRole}>
-              <div className="my-4">
-                <InputLabel label="Role Name" name={ROLE_NAME} type="text" placeHolder="Type role name" isRequired={true} />
-              </div>
-              <div className="flex justify-end">
-                <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
-              </div>
-            </form>
-          </Modal>
-        )}
+        {isModalCreateOpen && <UserRoleModalCreate closeModal={() => setIsModalCreateOpen(false)} fetchUserRole={fetchUserRole} />}
+        {isModalUpdateOpen && <UserRoleModalUpdate id={userRoleIdUpdate} closeModal={() => setIsModalUpdateOpen(false)} fetchUserRole={fetchUserRole} />}
       </section>
     </div>
   );
