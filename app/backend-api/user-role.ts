@@ -6,7 +6,7 @@ import { UserRoleResponse } from "../dto/response/user-role-response";
 import { buildPageResponse, createHeaders, handleResponse, makeGetRequest, makePostRequest, setBaseResponse } from "./helper";
 import { CONSTANT_IS_DELETED, CONSTANT_PAGE, CONSTANT_SEARCH, CONSTANT_SIZE } from "../constants/constant";
 
-export const userRoleFindAllPagination = async (search: SearchDto): Promise<PageResponse> => {
+export const userRoleFindAllPagination = async (search: SearchDto): Promise<PageResponse<UserRoleResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(buildUrlFindAll(search), headers);
   const result = await handleResponse(response);

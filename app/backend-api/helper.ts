@@ -62,7 +62,7 @@ export const createRequestBody = (body: any): string => {
   return JSON.stringify(body);
 };
 
-export const buildPageResponse = async (result: any): Promise<PageResponse> => {
+export const buildPageResponse = async (result: any): Promise<PageResponse<any>> => {
   return {
     content: result.content,
     pageable: {

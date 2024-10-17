@@ -63,14 +63,14 @@ export default function Topbar(props: Readonly<TopbarProps>) {
               <span className="block text-sm font-semibold text-gray-900">Admin</span>
               <span className="block text-sm text-gray-900 truncate">admin@ppi-warwick.org</span>
             </div>
-            <ul className="py-1 text-gray-700 dark:text-gray-300">
+            <ul className="py-1 text-gray-700">
               <li>
                 <Link href="#" className="block py-2 px-4 text-sm text-gray-700 hover:text-white hover:bg-secondary-700 transition ease-in duration-200">
                   My profile
                 </Link>
               </li>
             </ul>
-            <ul className="py-1 text-gray-700 dark:text-gray-300">
+            <ul className="py-1 text-gray-700">
               <li>
                 <Link onClick={handleLogout} href="#" className="block py-2 px-4 text-sm text-gray-700 hover:text-white hover:bg-secondary-700 transition ease-in duration-200">
                   Sign out
