@@ -3,7 +3,7 @@ import { BE_USER_ROLE } from "../constants/endpoint-be";
 import { UserRoleRequest } from "../dto/request/user-role-request";
 import { PageResponse } from "../dto/response/page-response";
 import { UserRoleResponse } from "../dto/response/user-role-response";
-import { buildPageResponse, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, setBaseResponse } from "./helper";
+import { buildPageResponse, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest, setBaseResponse } from "./helper";
 import { CONSTANT_IS_DELETED, CONSTANT_PAGE, CONSTANT_SEARCH, CONSTANT_SIZE } from "../constants/constant";
 
 export const userRoleFindAllPagination = async (search: SearchDto): Promise<PageResponse<UserRoleResponse>> => {
@@ -23,6 +23,13 @@ export const userRoleCreate = async (request: UserRoleRequest): Promise<UserRole
 export const userRoleDelete = async (userRoleId: number): Promise<UserRoleResponse> => {
   const headers = await createHeaders();
   const response = await makeDeleteRequest(userRoleId, BE_USER_ROLE, headers);
+  const result = await handleResponse(response);
+  return buildUserRoleResponse(result);
+};
+
+export const userRoleRestore = async (userRoleId: number): Promise<UserRoleResponse> => {
+  const headers = await createHeaders();
+  const response = await makePutRequest(userRoleId, BE_USER_ROLE + "/restore", headers, null);
   const result = await handleResponse(response);
   return buildUserRoleResponse(result);
 };

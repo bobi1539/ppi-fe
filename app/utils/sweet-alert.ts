@@ -18,6 +18,9 @@ export const showSuccessDialog = async (text?: string): Promise<void> => {
     text: text,
     icon: "success",
     confirmButtonColor: "#6d28d9",
+    customClass: {
+      popup: "custom-swal"
+    }
   });
 };
 

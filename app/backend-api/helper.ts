@@ -82,5 +82,5 @@ export const setBaseResponse = (response: BaseResponse, result: any): void => {
   response.updatedBy = result.updatedBy;
   response.createdByName = result.createdByName;
   response.updatedByName = result.updatedByName;
-  response.isDeleted = result.deleted;
+  response.deleted = result.deleted;
 };

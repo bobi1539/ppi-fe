@@ -5,3 +5,15 @@
 nextjs-portal {
   display: none;
 }
+
+.custom-swal div:where(.swal2-icon).swal2-success [class^="swal2-success-line"] {
+  background-color: #6d28d9;
+}
+
+.custom-swal .swal2-success {
+  border-color: #6d28d9;
+}
+
+.custom-swal .swal2-success .swal2-success-ring {
+  border: 0.25em solid rgba(109, 40, 217, 0.3);
+}

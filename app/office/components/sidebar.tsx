@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
+  setIsSidebarOpen: () => void;
 }
 
 export default function Sidebar(props: Readonly<SidebarProps>) {
@@ -38,7 +39,7 @@ export default function Sidebar(props: Readonly<SidebarProps>) {
           {menus.map((menu) => (
             <li key={menu.id}>
               {menu.subMenus && menu.subMenus.length === 0 ? (
-                <Link href={menu.route} className={`${pathName.startsWith(menu.route) ? "text-white bg-secondary-700" : "text-secondary-700"} flex items-center gap-3 p-2 text-base rounded-lg font-medium transition duration-200 hover:text-white hover:bg-secondary-700`}>
+                <Link onClick={props.setIsSidebarOpen} href={menu.route} className={`${pathName.startsWith(menu.route) ? "text-white bg-secondary-700" : "text-secondary-700"} flex items-center gap-3 p-2 text-base rounded-lg font-medium transition duration-200 hover:text-white hover:bg-secondary-700`}>
                   <span className="w-7 h-7 flex justify-center items-center">
                     <i className={`${menu.icon} fa-lg`} />
                   </span>
@@ -58,7 +59,7 @@ export default function Sidebar(props: Readonly<SidebarProps>) {
                   <ul className={`${isSubMenuOpen[menu.id] ? "" : "hidden"} py-2 space-y-2`}>
                     {menu.subMenus.map((subMenu) => (
                       <li key={subMenu.id}>
-                        <Link href={subMenu.route} className={`${pathName.startsWith(subMenu.route) ? "text-white bg-secondary-700" : "text-secondary-700"} flex items-center p-2 pl-12 w-full text-base rounded-lg font-medium transition duration-200 hover:text-white hover:bg-secondary-700`}>
+                        <Link onClick={props.setIsSidebarOpen} href={subMenu.route} className={`${pathName.startsWith(subMenu.route) ? "text-white bg-secondary-700" : "text-secondary-700"} flex items-center p-2 pl-12 w-full text-base rounded-lg font-medium transition duration-200 hover:text-white hover:bg-secondary-700`}>
                           {subMenu.name}
                         </Link>
                       </li>
