@@ -144,7 +144,7 @@ export default function UserRole() {
         </div>
         <div className="flex flex-col items-end md:flex-row md:justify-between md:items-center gap-2 p-2 mt-2">
           <PaginationSummary numberOfElements={userRolePages?.numberOfElements} totalElements={userRolePages?.totalElements} />
-          <PaginationTable total={userRolePages?.totalPages ?? 10} handlePageChange={handlePageChange} />
+          {userRolePages && userRolePages.totalElements > 0 && <PaginationTable total={userRolePages?.totalPages ?? 10} handlePageChange={handlePageChange} />}
         </div>
         {isModalCreateOpen && <UserRoleModalCreate closeModal={() => setIsModalCreateOpen(false)} fetchUserRole={fetchUserRole} />}
         {isModalUpdateOpen && <UserRoleModalUpdate id={userRoleIdUpdate} closeModal={() => setIsModalUpdateOpen(false)} fetchUserRole={fetchUserRole} />}
