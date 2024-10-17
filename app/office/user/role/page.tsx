@@ -5,36 +5,42 @@ import ButtonIcon from "../../../components/button-icon";
 import ContentTitle from "../../components/content-title";
 import InputSearch from "../../components/input-search";
 import { userRoleCreate, userRoleFindAllPagination } from "@/app/backend-api/user-role";
-import { UserRoleResponse } from "@/app/dto/response/user-role-response";
 import InputLabel from "@/app/components/input-label";
 import { UserRoleRequest } from "@/app/dto/request/user-role-request";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { SearchDto } from "@/app/dto/search/search-dto";
+import { PageResponse } from "@/app/dto/response/page-response";
+import { CONSTANT_PAGE_SIZE_VALUE } from "@/app/constants/constant";
+import PaginationTable from "@/app/components/pagination-table";
+import PaginationSummary from "@/app/components/pagination-summary";
 
 export const ROLE_NAME = "role-name";
 
 export default function UserRole() {
-  const [userRoles, setUserRoles] = useState<UserRoleResponse[]>([]);
+  const [userRolePages, setUserRolePages] = useState<PageResponse>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
   useEffect(() => {
     fetchUserRole();
-  }, []);
+  }, [currentPage, searchValue]);
 
   const fetchUserRole = async () => {
     const response = await userRoleFindAllPagination(buildSearchDto());
-    setUserRoles(response.content);
+    setUserRolePages(response);
   };
 
   const buildSearchDto = (): SearchDto => {
     return {
       search: searchValue,
+      page: currentPage,
+      size: CONSTANT_PAGE_SIZE_VALUE,
     };
   };
 
-  const handleSearch = (): void => {
-    fetchUserRole();
+  const handlePageChange = (page: number): void => {
+    setCurrentPage(page - 1);
   };
 
   const submitSaveUserRole = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,7 +64,7 @@ export default function UserRole() {
       <ContentTitle title="User Role" />
       <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden">
         <div className="flex flex-col md:flex-row justify-between gap-3 p-4">
-          <InputSearch onChange={(e) => setSearchValue(e.target.value)} onKeyUp={handleSearch} />
+          <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
           <ButtonIcon onClick={() => setIsModalOpen(!isModalOpen)} type="button" icon="fa-solid fa-plus" text="Add User Role" className="w-full md:w-auto" />
         </div>
         <div className="overflow-x-auto">
@@ -69,7 +75,7 @@ export default function UserRole() {
                   #seq
                 </th>
                 <th scope="col" className="px-2 py-2 font-bold">
-                  name
+                  role name
                 </th>
                 <th scope="col" className="px-2 py-2 font-bold">
                   user count
@@ -78,10 +84,10 @@ export default function UserRole() {
               </tr>
             </thead>
             <tbody>
-              {userRoles.map((userRole, index) => (
+              {userRolePages?.content.map((userRole, index) => (
                 <tr key={userRole.id} className="border-b text-center">
                   <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
-                    {index + 1}
+                    {currentPage * CONSTANT_PAGE_SIZE_VALUE + index + 1}
                   </td>
                   <td scope="row" className="px-2.5 py-2 break-words text-left">
                     {userRole.name}
@@ -122,14 +128,10 @@ export default function UserRole() {
             </tbody>
           </table>
         </div>
-        <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
-          <span className="text-sm font-normal text-gray-500">
-            Showing<span className="font-semibold text-gray-900">1 to 4</span>of<span className="font-semibold text-gray-900">4</span>
-          </span>
-          <ul className="inline-flex items-stretch -space-x-px">
-            <div className="text-xs"></div>
-          </ul>
-        </nav>
+        <div className="flex flex-col items-end md:flex-row md:justify-between md:items-center gap-2 p-2 mt-2">
+          <PaginationSummary numberOfElements={userRolePages?.numberOfElements} totalElements={userRolePages?.totalElements} />
+          <PaginationTable total={userRolePages?.totalPages ?? 10} handlePageChange={handlePageChange} />
+        </div>
         {isModalOpen && (
           <div className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-gray-900/50 ">
             <div className="max-w-lg relative w-full max-h-full p-4 bg-white rounded-lg shadow m-4">

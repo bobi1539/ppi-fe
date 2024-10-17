@@ -71,6 +71,7 @@ export const buildPageResponse = async (result: any): Promise<PageResponse> => {
     },
     totalElements: result.totalElements,
     totalPages: result.totalPages,
+    numberOfElements: result.numberOfElements,
   };
 };
 

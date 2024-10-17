@@ -4,7 +4,7 @@ import { UserRoleRequest } from "../dto/request/user-role-request";
 import { PageResponse } from "../dto/response/page-response";
 import { UserRoleResponse } from "../dto/response/user-role-response";
 import { buildPageResponse, createHeaders, handleResponse, makeGetRequest, makePostRequest, setBaseResponse } from "./helper";
-import { CONSTANT_IS_DELETED, CONSTANT_SEARCH } from "../constants/constant";
+import { CONSTANT_IS_DELETED, CONSTANT_PAGE, CONSTANT_SEARCH, CONSTANT_SIZE } from "../constants/constant";
 
 export const userRoleFindAllPagination = async (search: SearchDto): Promise<PageResponse> => {
   const headers = await createHeaders();
@@ -25,6 +25,12 @@ export const buildUrlFindAll = (search: SearchDto): string => {
   url.searchParams.append(CONSTANT_SEARCH, search.search);
   if (search.isDeleted) {
     url.searchParams.append(CONSTANT_IS_DELETED, search.isDeleted.toString());
+  }
+  if (search.page) {
+    url.searchParams.append(CONSTANT_PAGE, search.page.toString());
+  }
+  if (search.size) {
+    url.searchParams.append(CONSTANT_SIZE, search.size.toString());
   }
   return url.toString();
 };

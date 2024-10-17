@@ -6,4 +6,5 @@ export interface PageResponse {
   };
   totalElements: number;
   totalPages: number;
+  numberOfElements: number;
 }
