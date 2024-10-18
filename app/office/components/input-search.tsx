@@ -13,7 +13,7 @@ export default function InputSearch(props: Readonly<InputSearchProps>) {
           <div className="absolute inset-y-0 flex items-center left-0 pl-3 pointer-events-none text-gray-500">
             <i className="fa-solid fa-magnifying-glass"></i>
           </div>
-          <input onChange={props.onChange} name="search" type="search" className="text-gray-900 placeholder:text-gray-400 bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full pl-10 p-2 focus:ring-inset focus:ring-2 focus:ring-secondary-700 focus:border-secondary-700" placeholder="Search..." />
+          <input onChange={props.onChange} name="search" type="search" className="text-gray-900 placeholder:text-gray-400 bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full pl-10 p-2 focus:ring-inset focus:ring-2 focus:ring-secondary-700" placeholder="Search..." />
         </div>
       </div>
     </div>

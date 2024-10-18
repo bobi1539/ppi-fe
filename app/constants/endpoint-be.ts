@@ -5,3 +5,4 @@ export const BE_USER_ROLE: string = BE_BASE + "/user-roles";
 export const BE_USER_ROLE_MENU: string = BE_USER_ROLE + "/menus";
 export const BE_PERIOD: string = BE_BASE + "/periods";
 export const BE_DIVISION: string = BE_BASE + "/divisions";
+export const BE_MENU: string = BE_BASE + "/menus";
