@@ -3,8 +3,7 @@ import { BE_USER_ROLE } from "../constants/endpoint-be";
 import { UserRoleRequest } from "../dto/request/user-role-request";
 import { PageResponse } from "../dto/response/page-response";
 import { UserRoleResponse } from "../dto/response/user-role-response";
-import { buildPageResponse, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
-import { CONSTANT_IS_DELETED, CONSTANT_PAGE, CONSTANT_SEARCH, CONSTANT_SIZE } from "../constants/constant";
+import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
 
 export const userRoleFindAllPagination = async (search: SearchDto): Promise<PageResponse<UserRoleResponse>> => {
   const headers = await createHeaders();
@@ -47,19 +46,4 @@ export const userRoleRestore = async (id: number): Promise<UserRoleResponse> => 
   const headers = await createHeaders();
   const response = await makePutRequest(id, BE_USER_ROLE + "/restore", headers, null);
   return await handleResponse(response);
-};
-
-export const buildUrlFindAll = (url: string, search: SearchDto): string => {
-  const urlWithParam = new URL(url);
-  urlWithParam.searchParams.append(CONSTANT_SEARCH, search.search);
-  if (search.isDeleted) {
-    urlWithParam.searchParams.append(CONSTANT_IS_DELETED, search.isDeleted.toString());
-  }
-  if (search.page) {
-    urlWithParam.searchParams.append(CONSTANT_PAGE, search.page.toString());
-  }
-  if (search.size) {
-    urlWithParam.searchParams.append(CONSTANT_SIZE, search.size.toString());
-  }
-  return urlWithParam.toString();
 };

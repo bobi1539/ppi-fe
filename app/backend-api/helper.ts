@@ -1,4 +1,6 @@
+import { CONSTANT_IS_DELETED, CONSTANT_PAGE, CONSTANT_SEARCH, CONSTANT_SIZE } from "../constants/constant";
 import { PageResponse } from "../dto/response/page-response";
+import { SearchDto } from "../dto/search/search-dto";
 import { getSession } from "../login/helper";
 import { showErrorDialog } from "../utils/sweet-alert";
 
@@ -72,4 +74,19 @@ export const buildPageResponse = async (result: any): Promise<PageResponse<any>>
     totalPages: result.totalPages,
     numberOfElements: result.numberOfElements,
   };
+};
+
+export const buildUrlFindAll = (url: string, search: SearchDto): string => {
+  const urlWithParam = new URL(url);
+  urlWithParam.searchParams.append(CONSTANT_SEARCH, search.search);
+  if (search.isDeleted) {
+    urlWithParam.searchParams.append(CONSTANT_IS_DELETED, search.isDeleted.toString());
+  }
+  if (search.page) {
+    urlWithParam.searchParams.append(CONSTANT_PAGE, search.page.toString());
+  }
+  if (search.size) {
+    urlWithParam.searchParams.append(CONSTANT_SIZE, search.size.toString());
+  }
+  return urlWithParam.toString();
 };
