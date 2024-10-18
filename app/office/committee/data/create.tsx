@@ -1,10 +1,10 @@
 import Modal from "@/app/components/modal/modal";
-import { buildPeriodRequest, COMMITTEE_NAME, END_DATE, START_DATE, STATUS } from "./helper";
+import { buildPeriodRequest, COMMITTEE_NAME, END_DATE, START_DATE, STATUS, statusOptions } from "./helper";
 import { periodCreate } from "@/app/backend-api/period";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import InputLabel from "@/app/components/input/input-label";
 import ButtonIcon from "@/app/components/button/button-icon";
-import InputSelect, { Option } from "@/app/components/input/input-select";
+import InputSelect from "@/app/components/input/input-select";
 
 interface CommitteeDataModalCreateProps {
   closeModal: () => void;
@@ -21,17 +21,6 @@ export default function CommitteeDataModalCreate(props: Readonly<CommitteeDataMo
     await props.fetchPeriod();
     props.closeModal();
   };
-
-  const statusOptions: Option[] = [
-    {
-      value: "active",
-      label: "Active",
-    },
-    {
-      value: "inactive",
-      label: "Inactive",
-    },
-  ];
 
   return (
     <Modal title="Add Committee Data" closeModal={props.closeModal} className="max-w-2xl">

@@ -1,3 +1,4 @@
+import { Option } from "@/app/components/input/input-select";
 import { PeriodRequest } from "@/app/dto/request/period-request";
 
 export const COMMITTEE_NAME: string = "committee-name";
@@ -13,3 +14,14 @@ export const buildPeriodRequest = (formData: FormData): PeriodRequest => {
     status: String(formData.get(STATUS)) === "active",
   };
 };
+
+export const statusOptions: Option[] = [
+  {
+    value: "active",
+    label: "Active",
+  },
+  {
+    value: "inactive",
+    label: "Inactive",
+  },
+];

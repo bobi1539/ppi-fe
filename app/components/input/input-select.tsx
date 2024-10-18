@@ -7,6 +7,7 @@ interface InputSelectProps {
   label: string;
   name: string;
   options: Option[];
+  currentValue?: string;
 }
 
 export default function InputSelect(props: Readonly<InputSelectProps>) {
@@ -17,7 +18,7 @@ export default function InputSelect(props: Readonly<InputSelectProps>) {
       </label>
       <select name={props.name} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-700 focus:border-secondary-700 block w-full px-2.5 py-[11px] appearance-none">
         {props.options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option key={option.value} value={option.value} selected={option.value === props.currentValue}>
             {option.label}
           </option>
         ))}

@@ -1,5 +1,5 @@
 export const formatDate = (dateString: string): string => {
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   const date = new Date(dateString);
   const day = String(date.getDate()).padStart(2, "0");
