@@ -1,8 +1,8 @@
 "use client";
 
-import InputLabel from "@/app/components/input-label";
-import Modal from "@/app/components/modal";
-import ButtonIcon from "@/app/components/button-icon";
+import InputLabel from "@/app/components/input/input-label";
+import Modal from "@/app/components/modal/modal";
+import ButtonIcon from "@/app/components/button/button-icon";
 import { buildUserRoleRequest, ROLE_NAME } from "./helper";
 import { userRoleFindById, userRoleUpdate } from "@/app/backend-api/user-role";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";

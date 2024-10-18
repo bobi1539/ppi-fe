@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import InputLabel from "../components/input-label";
-import ButtonLoading from "../components/button-loading";
+import InputLabel from "../components/input/input-label";
+import ButtonLoading from "../components/button/button-loading";
 import { FE_DASHBOARD } from "../constants/endpoint-fe";
 import { useRouter } from "next/navigation";
 import { LoginRequest } from "../dto/request/login-request";
 import { login } from "../backend-api/auth";
 import { getSession, saveSessionLogin } from "./helper";
-import ButtonIcon from "../components/button-icon";
+import ButtonIcon from "../components/button/button-icon";
 
 export const USERNAME: string = "username";
 export const PASSWORD: string = "password";
