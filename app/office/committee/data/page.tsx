@@ -10,7 +10,7 @@ import { periodDelete, periodFindAllPagination, periodRestore } from "@/app/back
 import { SearchDto } from "@/app/dto/search/search-dto";
 import { CONSTANT_PAGE_SIZE_VALUE } from "@/app/constants/constant";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
-import CustomTable from "@/app/components/table/custom-table";
+import CustomTable, { handleDropDownAction } from "@/app/components/table/custom-table";
 import ButtonDropdown from "@/app/components/button/button-dropdown";
 import FooterTable from "@/app/components/table/footer-table";
 import { formatDate } from "@/app/utils/date-helper";
@@ -50,17 +50,7 @@ export default function CommitteeData() {
   };
 
   const handleDropDownTableOpen = (id: number): void => {
-    setIsDropDownTableOpen((prevState: Record<string, boolean>) => {
-      const newState = Object.keys(prevState).reduce((acc, key) => {
-        acc[Number(key)] = false;
-        return acc;
-      }, {} as { [key: number]: boolean });
-
-      return {
-        ...newState,
-        [id]: !prevState[id],
-      };
-    });
+    handleDropDownAction(id, setIsDropDownTableOpen);
   };
 
   const handleEditPeriod = (id: number): void => {

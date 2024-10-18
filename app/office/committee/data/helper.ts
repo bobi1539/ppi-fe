@@ -8,9 +8,9 @@ export const STATUS: string = "status";
 
 export const buildPeriodRequest = (formData: FormData): PeriodRequest => {
   return {
-    name: formData.get(COMMITTEE_NAME) as string,
-    startDate: formData.get(START_DATE) as string,
-    endDate: formData.get(END_DATE) as string,
+    name: String(formData.get(COMMITTEE_NAME)),
+    startDate: String(formData.get(START_DATE)),
+    endDate: String(formData.get(END_DATE)),
     status: String(formData.get(STATUS)) === "active",
   };
 };

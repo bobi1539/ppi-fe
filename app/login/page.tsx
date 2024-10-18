@@ -39,8 +39,8 @@ export default function Login() {
 
   const buildLoginRequest = (formData: FormData): LoginRequest => {
     return {
-      username: formData.get(USERNAME) as string,
-      password: formData.get(PASSWORD) as string,
+      username: String(formData.get(USERNAME)),
+      password: String(formData.get(PASSWORD)),
     };
   };
 
