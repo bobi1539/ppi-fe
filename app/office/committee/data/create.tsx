@@ -12,7 +12,7 @@ interface CommitteeDataModalCreateProps {
 }
 
 export default function CommitteeDataModalCreate(props: Readonly<CommitteeDataModalCreateProps>) {
-  const submitSavePeriod = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submitSavePeriod = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const request = buildPeriodRequest(formData);

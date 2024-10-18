@@ -11,7 +11,7 @@ interface UserRoleCreateProps {
 }
 
 export default function UserRoleModalCreate(props: Readonly<UserRoleCreateProps>) {
-  const submitSaveUserRole = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submitSaveUserRole = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const request = buildUserRoleRequest(formData);

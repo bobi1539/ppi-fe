@@ -25,7 +25,7 @@ export default function CommitteeDataModalUpdate(props: Readonly<CommitteeDataMo
     fetchPeriodById();
   }, []);
 
-  const fetchPeriodById = async () => {
+  const fetchPeriodById = async (): Promise<void> => {
     const response = await periodFindById(props.id);
     setCommitteeName(response.name);
     setStartDate(response.startDate);
@@ -33,7 +33,7 @@ export default function CommitteeDataModalUpdate(props: Readonly<CommitteeDataMo
     setStatus(response.status ? "active" : "inactive");
   };
 
-  const submitUpdatePeriod = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submitUpdatePeriod = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const request = buildPeriodRequest(formData);
@@ -44,7 +44,7 @@ export default function CommitteeDataModalUpdate(props: Readonly<CommitteeDataMo
   };
 
   return (
-    <Modal title="Add Committee Data" closeModal={props.closeModal} className="max-w-2xl">
+    <Modal title="Edit Committee Data" closeModal={props.closeModal} className="max-w-2xl">
       <form onSubmit={submitUpdatePeriod}>
         <div className="my-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

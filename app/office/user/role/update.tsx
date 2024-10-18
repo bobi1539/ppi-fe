@@ -26,7 +26,7 @@ export default function UserRoleModalUpdate(props: Readonly<UserRoleUpdateProps>
     setRoleName(response.name);
   };
 
-  const submitUpdateUserRole = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submitUpdateUserRole = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const request = buildUserRoleRequest(formData);
@@ -37,7 +37,7 @@ export default function UserRoleModalUpdate(props: Readonly<UserRoleUpdateProps>
   };
 
   return (
-    <Modal title="Update User Role" closeModal={props.closeModal} className="max-w-lg">
+    <Modal title="Edit User Role" closeModal={props.closeModal} className="max-w-lg">
       <form onSubmit={submitUpdateUserRole}>
         <div className="my-4">
           <InputLabel value={roleName} onChange={(e) => setRoleName(e.target.value)} label="Role Name" name={ROLE_NAME} type="text" placeHolder="Type role name" isRequired={true} />

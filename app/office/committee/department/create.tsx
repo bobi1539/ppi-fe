@@ -14,7 +14,7 @@ interface CommitteeDepartmentModalCreateProps {
 }
 
 export default function CommitteeDepartmentModalCreate(props: Readonly<CommitteeDepartmentModalCreateProps>) {
-  const submitSavePeriod = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submitSavePeriod = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const request = buildDivisionRequest(formData);

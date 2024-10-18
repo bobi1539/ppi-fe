@@ -2,7 +2,7 @@ import { Option } from "@/app/components/input/input-select";
 import { DivisionRequest } from "@/app/dto/request/division-request";
 import { PeriodResponse } from "@/app/dto/response/period-response";
 
-export const DEPARTMENT_NAME: string = "committee-name";
+export const DEPARTMENT_NAME: string = "department-name";
 export const PERIOD_ID: string = "period-id";
 
 export const buildDivisionRequest = (formData: FormData): DivisionRequest => {
