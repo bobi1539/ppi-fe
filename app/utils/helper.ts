@@ -15,3 +15,7 @@ export const sessionOptions: SessionOptions = {
     secure: process.env.NODE_ENV === "production",
   },
 };
+
+export const removeNonDigit = (e: React.ChangeEvent<HTMLInputElement>): number => {
+  return Number(e.target.value.replace(/\D/g, ""));
+};

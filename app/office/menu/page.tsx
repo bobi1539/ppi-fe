@@ -8,11 +8,14 @@ import { MenuResponse } from "@/app/dto/response/menu-response";
 import { menuFindAll } from "@/app/backend-api/menu";
 import CustomTable, { handleDropDownAction } from "@/app/components/table/custom-table";
 import ButtonDropdown from "@/app/components/button/button-dropdown";
+import MenuModalUpdate from "./menu-update";
 
 export default function Menu() {
   const [menus, setMenus] = useState<MenuResponse[]>([]);
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState<boolean>(false);
+  const [isModalUpdateMenuOpen, setIsModalUpdateMenuOpen] = useState<boolean>(false);
+  const [isModalUpdateSubMenuOpen, setIsModalUpdateSubMenuOpen] = useState<boolean>(false);
   const [menuIdUpdate, setMenuIdUpdate] = useState<number>(0);
+  const [subMenuIdUpdate, setSubMenuIdUpdate] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>("");
   const [isDropDownMenuOpen, setIsDropDownMenuOpen] = useState<{ [key: number]: boolean }>({});
   const [isDropDownSubMenuOpen, setIsDropDownSubMenuOpen] = useState<{ [key: number]: boolean }>({});
@@ -31,13 +34,8 @@ export default function Menu() {
     handleDropDownAction(-1, setIsDropDownSubMenuOpen);
   };
 
-  const handleDropDownSubMenuOpen = (id: number): void => {
-    handleDropDownAction(id, setIsDropDownSubMenuOpen);
-    handleDropDownAction(-1, setIsDropDownMenuOpen);
-  };
-
   const handleEditMenu = (id: number): void => {
-    setIsModalUpdateOpen(!isModalUpdateOpen);
+    setIsModalUpdateMenuOpen(!isModalUpdateMenuOpen);
     setMenuIdUpdate(id);
     handleDropDownMenuOpen(id);
   };
@@ -61,7 +59,14 @@ export default function Menu() {
     );
   };
 
+  const handleDropDownSubMenuOpen = (id: number): void => {
+    handleDropDownAction(id, setIsDropDownSubMenuOpen);
+    handleDropDownAction(-1, setIsDropDownMenuOpen);
+  };
+
   const handleEditSubMenu = (id: number): void => {
+    setIsModalUpdateSubMenuOpen(!isModalUpdateSubMenuOpen);
+    setSubMenuIdUpdate(id);
     handleDropDownSubMenuOpen(id);
   };
 
@@ -147,6 +152,7 @@ export default function Menu() {
           })()}
         </CustomTable>
         <div className="mb-10" />
+        {isModalUpdateMenuOpen && <MenuModalUpdate id={menuIdUpdate} closeModal={() => setIsModalUpdateMenuOpen(false)} fetchMenu={fetchMenu} />}
       </section>
     </div>
   );
