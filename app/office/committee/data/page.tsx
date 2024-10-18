@@ -14,6 +14,8 @@ import CustomTable from "@/app/components/table/custom-table";
 import ButtonDropdown from "@/app/components/button/button-dropdown";
 import FooterTable from "@/app/components/table/footer-table";
 import { formatDate } from "@/app/utils/date-helper";
+import BadgeActive from "@/app/components/badge/badge-active";
+import BadgeInactive from "@/app/components/badge/badge-inactive";
 
 export default function CommitteeData() {
   const [periodPages, setPeriodPages] = useState<PageResponse<PeriodResponse>>();
@@ -30,7 +32,6 @@ export default function CommitteeData() {
 
   const fetchPeriod = async (): Promise<void> => {
     const response = await periodFindAllPagination(buildSearchDto());
-    console.log(response);
     setPeriodPages(response);
   };
 
@@ -86,7 +87,7 @@ export default function CommitteeData() {
     }
   };
 
-  const headsTable = ["seq", "committee name", "start", "end", ""];
+  const headsTable = ["seq", "committee name", "start", "end", "status", ""];
 
   return (
     <div>
@@ -110,6 +111,9 @@ export default function CommitteeData() {
               </td>
               <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
                 {formatDate(period.endDate)}
+              </td>
+              <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
+                {period.status ? <BadgeActive /> : <BadgeInactive />}
               </td>
               <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
                 <button onClick={() => handleDropDownTableOpen(period.id)} className="w-7 h-7 p-4 inline-flex items-center justify-center text-sm font-medium hover:bg-gray-100 text-gray-500 hover:text-gray-900 rounded-lg" type="button">
