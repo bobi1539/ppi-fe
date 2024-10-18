@@ -19,6 +19,7 @@ import { PeriodResponse } from "@/app/dto/response/period-response";
 import CommitteeDepartmentModalUpdate from "./update";
 import { getPeriodOptions, PERIOD_ID } from "./helper";
 import ContentSearch from "../../components/content-search";
+import InputSelectSearch from "@/app/components/input/input-select-search";
 
 export default function CommitteeDepartment() {
   const [divisionPages, setDivisionPages] = useState<PageResponse<DivisionResponse>>();
@@ -97,21 +98,7 @@ export default function CommitteeDepartment() {
       <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden pb-5">
         <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
-          <div className="w-full relative">
-            <select value={""} required className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-700 focus:border-secondary-700 block w-full px-2.5 py-2 appearance-none">
-              <option value="" disabled>
-                --Commitee--
-              </option>
-              {getPeriodOptions(periods).map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-900">
-              <i className="fas fa-chevron-down" />
-            </div>
-          </div>
+          <InputSelectSearch title="--Commitee--" name={PERIOD_ID} options={getPeriodOptions(periods)} currentValue={periodId?.toString() ?? ""} onChange={(e) => setPeriodId(Number(e.target.value))} />
         </ContentSearch>
         <div className="p-4 pt-0 flex justify-end items-center">
           <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add Department" className="w-full md:w-auto" />
