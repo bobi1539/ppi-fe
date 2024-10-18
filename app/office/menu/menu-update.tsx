@@ -43,7 +43,7 @@ export default function MenuModalUpdate(props: Readonly<MenuModalUpdateProps>) {
   };
 
   return (
-    <Modal title="Edit User Role" closeModal={props.closeModal} className="max-w-lg">
+    <Modal title="Edit Menu" closeModal={props.closeModal} className="max-w-lg">
       <form onSubmit={submitUpdateMenu}>
         <div className="my-4">
           <InputLabel value={menuName} onChange={(e) => setMenuName(e.target.value)} label="Menu Name" name={MENU_NAME} type="text" placeHolder="Type menu name" isRequired={true} />

@@ -6,3 +6,4 @@ export const BE_USER_ROLE_MENU: string = BE_USER_ROLE + "/menus";
 export const BE_PERIOD: string = BE_BASE + "/periods";
 export const BE_DIVISION: string = BE_BASE + "/divisions";
 export const BE_MENU: string = BE_BASE + "/menus";
+export const BE_SUB_MENU: string = BE_BASE + "/sub-menus";
