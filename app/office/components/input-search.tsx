@@ -4,7 +4,7 @@ export interface InputSearchProps {
 
 export default function InputSearch(props: Readonly<InputSearchProps>) {
   return (
-    <div className="w-full md:w-1/2">
+    <div className="w-full">
       <div className="flex items-center">
         <label htmlFor="simple-search" className="sr-only">
           Search

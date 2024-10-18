@@ -15,6 +15,7 @@ import UserRoleModalCreate from "./create";
 import UserRoleModalUpdate from "./update";
 import CustomTable, { handleDropDownAction } from "@/app/components/table/custom-table";
 import FooterTable from "@/app/components/table/footer-table";
+import ContentSearch from "../../components/content-search";
 
 export default function UserRole() {
   const [userRolePages, setUserRolePages] = useState<PageResponse<UserRoleResponse>>();
@@ -82,10 +83,12 @@ export default function UserRole() {
     <div>
       <ContentTitle title="User Role" />
       <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden pb-5">
-        <div className="flex flex-col md:flex-row justify-between gap-3 p-4">
+        <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
-          <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add User Role" className="w-full md:w-auto" />
-        </div>
+          <div className="flex justify-end">
+            <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add User Role" className="w-full md:w-auto" />
+          </div>
+        </ContentSearch>
         <CustomTable heads={headsTable}>
           {userRolePages?.content.map((userRole, index) => (
             <tr key={userRole.id} className={`${userRole.deleted ? "line-through text-red-500" : ""} border-b text-center`}>

@@ -18,6 +18,7 @@ import BadgeActive from "@/app/components/badge/badge-active";
 import BadgeInactive from "@/app/components/badge/badge-inactive";
 import CommitteeDataModalCreate from "./create";
 import CommitteeDataModalUpdate from "./update";
+import ContentSearch from "../../components/content-search";
 
 export default function CommitteeData() {
   const [periodPages, setPeriodPages] = useState<PageResponse<PeriodResponse>>();
@@ -85,10 +86,12 @@ export default function CommitteeData() {
     <div>
       <ContentTitle title="Committee Data" />
       <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden pb-5">
-        <div className="flex flex-col md:flex-row justify-between gap-3 p-4">
+        <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
-          <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add Committee Data" className="w-full md:w-auto" />
-        </div>
+          <div className="flex justify-end">
+            <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add Committee Data" className="w-full md:w-auto" />
+          </div>
+        </ContentSearch>
         <CustomTable heads={headsTable}>
           {periodPages?.content.map((period, index) => (
             <tr key={period.id} className={`${period.deleted ? "line-through text-red-500" : ""} border-b text-center`}>
