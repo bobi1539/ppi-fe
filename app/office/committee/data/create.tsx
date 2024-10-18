@@ -26,7 +26,7 @@ export default function CommitteeDataModalCreate(props: Readonly<CommitteeDataMo
     <Modal title="Add Committee Data" closeModal={props.closeModal} className="max-w-2xl">
       <form onSubmit={submitSavePeriod}>
         <div className="my-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <InputLabel label="Committee Name" name={COMMITTEE_NAME} type="text" placeHolder="Type committee name" isRequired={true} />
             <InputSelect label="Status" name={STATUS} options={statusOptions} />
             <InputLabel label="Start" name={START_DATE} type="date" isRequired={true} />

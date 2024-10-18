@@ -10,7 +10,7 @@ interface InputLabelProps {
 
 export default function InputLabel(props: Readonly<InputLabelProps>) {
   return (
-    <div className="mb-3">
+    <div className="">
       <label htmlFor={props.name} className="block mb-1 text-sm font-medium text-gray-900">
         {props.label}
       </label>
