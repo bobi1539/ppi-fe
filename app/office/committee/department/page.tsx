@@ -14,24 +14,27 @@ import ButtonDropdown from "@/app/components/button/button-dropdown";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
 import FooterTable from "@/app/components/table/footer-table";
 import CommitteeDepartmentModalCreate from "./create";
+import { periodFindAll } from "@/app/backend-api/period";
+import { PeriodResponse } from "@/app/dto/response/period-response";
 
 export default function CommitteeDepartment() {
   const [divisionPages, setDivisionPages] = useState<PageResponse<DivisionResponse>>();
   const [isModalCreateOpen, setIsModalCreateOpen] = useState<boolean>(false);
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState<boolean>(false);
-  const [periodIdUpdate, setPeriodIdUpdate] = useState<number>(0);
+  const [divisionIdUpdate, setDivisionIdUpdate] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [periodId, setPeriodId] = useState<number | undefined>();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [isDropDownTableOpen, setIsDropDownTableOpen] = useState<{ [key: number]: boolean }>({});
+  const [periodId, setPeriodId] = useState<number | undefined>();
+  const [periods, setPeriods] = useState<PeriodResponse[]>([]);
 
   useEffect(() => {
     fetchDivision();
+    fetchPeriod();
   }, [currentPage, searchValue, periodId]);
 
   const fetchDivision = async (): Promise<void> => {
     const response = await divisionFindAllPagination(buildSearchDto());
-    console.log(response);
     setDivisionPages(response);
   };
 
@@ -44,6 +47,11 @@ export default function CommitteeDepartment() {
     };
   };
 
+  const fetchPeriod = async (): Promise<void> => {
+    const response = await periodFindAll({ search: "", isDeleted: false });
+    setPeriods(response);
+  };
+
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);
   };
@@ -54,7 +62,7 @@ export default function CommitteeDepartment() {
 
   const handleEditDivision = (id: number): void => {
     setIsModalUpdateOpen(!isModalUpdateOpen);
-    setPeriodIdUpdate(id);
+    setDivisionIdUpdate(id);
     handleDropDownTableOpen(id);
   };
 
@@ -119,7 +127,7 @@ export default function CommitteeDepartment() {
           ))}
         </CustomTable>
         <FooterTable numberOfElements={divisionPages?.numberOfElements ?? 0} totalElements={divisionPages?.totalElements ?? 0} totalPages={divisionPages?.totalPages ?? 10} handlePageChange={handlePageChange} />
-        {isModalCreateOpen && <CommitteeDepartmentModalCreate closeModal={() => setIsModalCreateOpen(false)} fetchDivision={fetchDivision} />}
+        {isModalCreateOpen && <CommitteeDepartmentModalCreate periods={periods} closeModal={() => setIsModalCreateOpen(false)} fetchDivision={fetchDivision} />}
       </section>
     </div>
   );

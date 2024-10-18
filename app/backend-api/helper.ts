@@ -79,7 +79,7 @@ export const buildPageResponse = async (result: any): Promise<PageResponse<any>>
 export const buildUrlFindAll = (url: string, search: SearchDto): string => {
   const urlWithParam = new URL(url);
   urlWithParam.searchParams.append(CONSTANT_SEARCH, search.search);
-  if (search.isDeleted) {
+  if (search.isDeleted !== undefined) {
     urlWithParam.searchParams.append(CONSTANT_IS_DELETED, search.isDeleted.toString());
   }
   if (search.page) {

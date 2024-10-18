@@ -3,9 +3,12 @@ import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import InputLabel from "@/app/components/input/input-label";
 import ButtonIcon from "@/app/components/button/button-icon";
 import { divisionCreate } from "@/app/backend-api/division";
-import { buildDivisionRequest, DEPARTMENT_NAME } from "./helper";
+import { buildDivisionRequest, DEPARTMENT_NAME, getPeriodOptions, PERIOD_ID } from "./helper";
+import { PeriodResponse } from "@/app/dto/response/period-response";
+import InputSelect from "@/app/components/input/input-select";
 
 interface CommitteeDepartmentModalCreateProps {
+  periods: PeriodResponse[];
   closeModal: () => void;
   fetchDivision: () => Promise<void>;
 }
@@ -26,7 +29,7 @@ export default function CommitteeDepartmentModalCreate(props: Readonly<Committee
       <form onSubmit={submitSavePeriod}>
         <div className="my-4">
           <div className="grid grid-cols-1 gap-3">
-            <InputLabel label="Department Name" name={DEPARTMENT_NAME} type="text" placeHolder="Type department name" isRequired={true} />
+            <InputSelect label="Committee" name={PERIOD_ID} options={getPeriodOptions(props.periods)} />
             <InputLabel label="Department Name" name={DEPARTMENT_NAME} type="text" placeHolder="Type department name" isRequired={true} />
           </div>
         </div>
