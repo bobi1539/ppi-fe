@@ -16,6 +16,7 @@ import FooterTable from "@/app/components/table/footer-table";
 import { formatDate } from "@/app/utils/date-helper";
 import BadgeActive from "@/app/components/badge/badge-active";
 import BadgeInactive from "@/app/components/badge/badge-inactive";
+import CommitteeDataModalCreate from "./create";
 
 export default function CommitteeData() {
   const [periodPages, setPeriodPages] = useState<PageResponse<PeriodResponse>>();
@@ -134,6 +135,7 @@ export default function CommitteeData() {
           ))}
         </CustomTable>
         <FooterTable numberOfElements={periodPages?.numberOfElements ?? 0} totalElements={periodPages?.totalElements ?? 0} totalPages={periodPages?.totalPages ?? 10} handlePageChange={handlePageChange} />
+        {isModalCreateOpen && <CommitteeDataModalCreate closeModal={() => setIsModalCreateOpen(false)} fetchPeriod={fetchPeriod} />}
       </section>
     </div>
   );
