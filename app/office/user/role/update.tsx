@@ -41,7 +41,7 @@ export default function UserRoleModalUpdate(props: Readonly<UserRoleUpdateProps>
   };
 
   return (
-    <Modal title="Update User Role" closeModal={props.closeModal}>
+    <Modal title="Update User Role" closeModal={props.closeModal} className="max-w-lg">
       <form onSubmit={submitUpdateUserRole}>
         <div className="my-4">
           <InputLabel value={roleName} onChange={handleInputChange} label="Role Name" name={ROLE_NAME} type="text" placeHolder="Type role name" isRequired={true} />

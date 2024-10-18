@@ -4,6 +4,7 @@ import { periodCreate } from "@/app/backend-api/period";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import InputLabel from "@/app/components/input/input-label";
 import ButtonIcon from "@/app/components/button/button-icon";
+import InputSelect, { Option } from "@/app/components/input/input-select";
 
 interface CommitteeDataModalCreateProps {
   closeModal: () => void;
@@ -21,21 +22,26 @@ export default function CommitteeDataModalCreate(props: Readonly<CommitteeDataMo
     props.closeModal();
   };
 
+  const statusOptions: Option[] = [
+    {
+      value: "active",
+      label: "Active",
+    },
+    {
+      value: "inactive",
+      label: "Inactive",
+    },
+  ];
+
   return (
-    <Modal title="Add Committee Data" closeModal={props.closeModal}>
+    <Modal title="Add Committee Data" closeModal={props.closeModal} className="max-w-2xl">
       <form onSubmit={submitSavePeriod}>
         <div className="my-4">
-          <InputLabel label="Committee Name" name={COMMITTEE_NAME} type="text" placeHolder="Type committee name" isRequired={true} />
-          <InputLabel label="Start" name={START_DATE} type="date" placeHolder="" isRequired={true} />
-          <InputLabel label="End" name={END_DATE} type="date" placeHolder="" isRequired={true} />
-          <div className="mb-3">
-            <label htmlFor="tes" className="block mb-1 text-sm font-medium text-gray-900">
-              Status
-            </label>
-            <select name={STATUS} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-700 focus:border-secondary-700 block w-full p-2.5">
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
+          <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-3">
+            <InputLabel label="Committee Name" name={COMMITTEE_NAME} type="text" placeHolder="Type committee name" isRequired={true} />
+            <InputSelect label="Status" name={STATUS} options={statusOptions} />
+            <InputLabel label="Start" name={START_DATE} type="date" isRequired={true} />
+            <InputLabel label="End" name={END_DATE} type="date" isRequired={true} />
           </div>
         </div>
         <div className="flex justify-end">

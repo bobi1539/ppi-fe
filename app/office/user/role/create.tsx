@@ -22,7 +22,7 @@ export default function UserRoleModalCreate(props: Readonly<UserRoleCreateProps>
   };
 
   return (
-    <Modal title="Add User Role" closeModal={props.closeModal}>
+    <Modal title="Add User Role" closeModal={props.closeModal} className="max-w-lg">
       <form onSubmit={submitSaveUserRole}>
         <div className="my-4">
           <InputLabel label="Role Name" name={ROLE_NAME} type="text" placeHolder="Type role name" isRequired={true} />
