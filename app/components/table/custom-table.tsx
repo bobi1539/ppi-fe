@@ -3,20 +3,6 @@ interface CustomTableProps {
   children: React.ReactNode;
 }
 
-export const handleDropDownAction = (id: number, setState: React.Dispatch<React.SetStateAction<{ [key: number]: boolean }>>): void => {
-  setState((prevState) => {
-    const newState = Object.keys(prevState).reduce((acc, key) => {
-      acc[Number(key)] = false;
-      return acc;
-    }, {} as { [key: number]: boolean });
-
-    return {
-      ...newState,
-      [id]: !prevState[id],
-    };
-  });
-};
-
 export default function CustomTable(props: Readonly<CustomTableProps>) {
   return (
     <div className="overflow-x-auto">
