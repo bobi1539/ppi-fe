@@ -17,12 +17,11 @@ import CustomDropdownItem from "@/app/components/dropdown/custom-dropdown-item";
 import BadgeActive from "@/app/components/badge/badge-active";
 import BadgeInactive from "@/app/components/badge/badge-inactive";
 import FooterTable from "@/app/components/table/footer-table";
-import UserModalCreate from "./create";
+import Link from "next/link";
+import { FE_USER_DATA_CREATE } from "@/app/constants/endpoint-fe";
 
 export default function UserData() {
   const [userPages, setUserPages] = useState<PageResponse<UserResponse>>();
-  const [isModalCreateOpen, setIsModalCreateOpen] = useState<boolean>(false);
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState<boolean>(false);
   const [userIdUpdate, setUserIdUpdate] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -49,7 +48,6 @@ export default function UserData() {
   };
 
   const handleEditUser = (id: number): void => {
-    setIsModalUpdateOpen(!isModalUpdateOpen);
     setUserIdUpdate(id);
   };
 
@@ -80,7 +78,9 @@ export default function UserData() {
         <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
           <div className="flex justify-end">
-            <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add User" className="w-full md:w-auto" />
+            <Link href={FE_USER_DATA_CREATE}>
+              <ButtonIcon type="button" icon="fa-solid fa-plus" text="Add User" className="w-full md:w-auto" />
+            </Link>
           </div>
         </ContentSearch>
         <CustomTable heads={headsTable}>
@@ -114,7 +114,6 @@ export default function UserData() {
           ))}
         </CustomTable>
         <FooterTable numberOfElements={userPages?.numberOfElements ?? 0} totalElements={userPages?.totalElements ?? 0} totalPages={userPages?.totalPages ?? 10} handlePageChange={handlePageChange} />
-        {isModalCreateOpen && <UserModalCreate closeModal={() => setIsModalCreateOpen(false)} fetchUser={fetchUser} />}
       </section>
     </div>
   );
