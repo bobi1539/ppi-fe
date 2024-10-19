@@ -8,10 +8,9 @@ import { PageResponse } from "@/app/dto/response/page-response";
 import { PeriodResponse } from "@/app/dto/response/period-response";
 import { periodDelete, periodFindAllPagination, periodRestore } from "@/app/backend-api/period";
 import { SearchDto } from "@/app/dto/search/search-dto";
-import { CONSTANT_PAGE_SIZE_VALUE } from "@/app/constants/constant";
+import { CONSTANT_PAGE_SIZE_VALUE, ICON_DELETE, ICON_EDIT, ICON_RESTORE, TEXT_COLOR_DELETE, TEXT_COLOR_EDIT, TEXT_COLOR_RESTORE, TEXT_DELETE, TEXT_EDIT, TEXT_RESTORE } from "@/app/constants/constant";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
-import CustomTable, { handleDropDownAction } from "@/app/components/table/custom-table";
-import ButtonDropdown from "@/app/components/button/button-dropdown";
+import CustomTable from "@/app/components/table/custom-table";
 import FooterTable from "@/app/components/table/footer-table";
 import { formatDate } from "@/app/utils/date-helper";
 import BadgeActive from "@/app/components/badge/badge-active";
@@ -19,6 +18,8 @@ import BadgeInactive from "@/app/components/badge/badge-inactive";
 import CommitteeDataModalCreate from "./create";
 import CommitteeDataModalUpdate from "./update";
 import ContentSearch from "../../components/content-search";
+import CustomDropdown from "@/app/components/dropdown/custom-dropdown";
+import CustomDropdownItem from "@/app/components/dropdown/custom-dropdown-item";
 
 export default function CommitteeData() {
   const [periodPages, setPeriodPages] = useState<PageResponse<PeriodResponse>>();
@@ -27,7 +28,6 @@ export default function CommitteeData() {
   const [periodIdUpdate, setPeriodIdUpdate] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [isDropDownTableOpen, setIsDropDownTableOpen] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
     fetchPeriod();
@@ -50,14 +50,9 @@ export default function CommitteeData() {
     setCurrentPage(page - 1);
   };
 
-  const handleDropDownTableOpen = (id: number): void => {
-    handleDropDownAction(id, setIsDropDownTableOpen);
-  };
-
   const handleEditPeriod = (id: number): void => {
     setIsModalUpdateOpen(!isModalUpdateOpen);
     setPeriodIdUpdate(id);
-    handleDropDownTableOpen(id);
   };
 
   const handleDeletePeriod = async (periodId: number): Promise<void> => {
@@ -66,7 +61,6 @@ export default function CommitteeData() {
       await periodDelete(periodId);
       showSuccessDialog();
       fetchPeriod();
-      handleDropDownTableOpen(periodId);
     }
   };
 
@@ -76,7 +70,6 @@ export default function CommitteeData() {
       await periodRestore(periodId);
       showSuccessDialog();
       fetchPeriod();
-      handleDropDownTableOpen(periodId);
     }
   };
 
@@ -111,19 +104,10 @@ export default function CommitteeData() {
                 {period.status ? <BadgeActive /> : <BadgeInactive />}
               </td>
               <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
-                <button onClick={() => handleDropDownTableOpen(period.id)} className="w-7 h-7 p-4 inline-flex items-center justify-center text-sm font-medium hover:bg-gray-100 text-gray-500 hover:text-gray-900 rounded-lg" type="button">
-                  <i className="fa-solid fa-ellipsis fa-lg" />
-                </button>
-                <div className="absolute">
-                  <div className={`${isDropDownTableOpen[period.id] ? "" : "hidden"} absolute mt-3 z-50 w-44 bg-white rounded shadow py-1 -left-32 md:-left-28 xl:-left-10`}>
-                    <ul className="divide-y divide-gray-100">
-                      <li>{period.deleted ? <ButtonDropdown onClick={() => handleRestorePeriod(period.id)} text="Restore" icon="fa-solid fa-trash-can-arrow-up" className="text-secondary-700" /> : <ButtonDropdown onClick={() => handleEditPeriod(period.id)} text="Edit" icon="fa-solid fa-pen-to-square" />}</li>
-                      <li>
-                        <ButtonDropdown onClick={() => handleDeletePeriod(period.id)} text="Delete" icon="fa-solid fa-trash-can" className="text-red-500" />
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                <CustomDropdown>
+                  {period.deleted ? <CustomDropdownItem onClick={() => handleRestorePeriod(period.id)} className={TEXT_COLOR_RESTORE} icon={ICON_RESTORE} text={TEXT_RESTORE} /> : <CustomDropdownItem onClick={() => handleEditPeriod(period.id)} className={TEXT_COLOR_EDIT} icon={ICON_EDIT} text={TEXT_EDIT} />}
+                  <CustomDropdownItem onClick={() => handleDeletePeriod(period.id)} className={TEXT_COLOR_DELETE} icon={ICON_DELETE} text={TEXT_DELETE} />
+                </CustomDropdown>
               </td>
             </tr>
           ))}
