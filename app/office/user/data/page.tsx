@@ -16,6 +16,8 @@ import CustomDropdown from "@/app/components/dropdown/custom-dropdown";
 import CustomDropdownItem from "@/app/components/dropdown/custom-dropdown-item";
 import BadgeActive from "@/app/components/badge/badge-active";
 import BadgeInactive from "@/app/components/badge/badge-inactive";
+import FooterTable from "@/app/components/table/footer-table";
+import UserModalCreate from "./create";
 
 export default function UserData() {
   const [userPages, setUserPages] = useState<PageResponse<UserResponse>>();
@@ -69,7 +71,7 @@ export default function UserData() {
     }
   };
 
-  const headsTable = ["seq", "username", "name", "email", "status", ""];
+  const headsTable = ["seq", "username", "name", "email", "role", "status", ""];
 
   return (
     <div>
@@ -78,7 +80,7 @@ export default function UserData() {
         <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
           <div className="flex justify-end">
-            <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add User Role" className="w-full md:w-auto" />
+            <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add User" className="w-full md:w-auto" />
           </div>
         </ContentSearch>
         <CustomTable heads={headsTable}>
@@ -96,6 +98,9 @@ export default function UserData() {
               <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
                 {user.email}
               </td>
+              <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
+                {user.userRole.name}
+              </td>
               <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap">
                 {user.isActive ? <BadgeActive /> : <BadgeInactive />}
               </td>
@@ -108,6 +113,8 @@ export default function UserData() {
             </tr>
           ))}
         </CustomTable>
+        <FooterTable numberOfElements={userPages?.numberOfElements ?? 0} totalElements={userPages?.totalElements ?? 0} totalPages={userPages?.totalPages ?? 10} handlePageChange={handlePageChange} />
+        {isModalCreateOpen && <UserModalCreate closeModal={() => setIsModalCreateOpen(false)} fetchUser={fetchUser} />}
       </section>
     </div>
   );

@@ -3,8 +3,8 @@ export interface UserRequest {
   name: string;
   email: string;
   isActive: boolean;
-  photoBase64: string;
-  photoFileName: string;
-  description: string;
+  photoBase64: string | null;
+  photoFileName: string | null;
+  description: string | null;
   userRoleId: number;
 }
