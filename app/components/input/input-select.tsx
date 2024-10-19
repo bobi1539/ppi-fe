@@ -26,7 +26,7 @@ export default function InputSelect(props: Readonly<InputSelectProps>) {
       <label htmlFor={props.name} className="block mb-1 text-sm font-medium text-gray-900">
         {props.label}
       </label>
-      <select value={selectedValue} onChange={(e) => setSelectedValue(e.target.value)} name={props.name} id={props.name} required className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-700 focus:border-secondary-700 block w-full p-2.5 appearance-none">
+      <select value={selectedValue} onChange={(e) => setSelectedValue(e.target.value)} name={props.name} id={props.name} required className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-inset focus:ring-2 focus:ring-secondary-700 block w-full p-2.5 appearance-none outline-none">
         <option value="" disabled>
           --Select--
         </option>

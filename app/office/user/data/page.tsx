@@ -73,7 +73,7 @@ export default function UserData() {
 
   return (
     <div>
-      <ContentTitle title="User Role" />
+      <ContentTitle title="User Data" />
       <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden pb-5">
         <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
