@@ -1,9 +1,12 @@
 export const BE_API_URL: string = process.env.BE_API_URL ?? "http://localhost:8080";
 export const BE_BASE: string = BE_API_URL + "/api";
 export const BE_AUTH: string = BE_BASE + "/auths";
+export const BE_USER: string = BE_BASE + "/users";
 export const BE_USER_ROLE: string = BE_BASE + "/user-roles";
 export const BE_USER_ROLE_MENU: string = BE_USER_ROLE + "/menus";
 export const BE_PERIOD: string = BE_BASE + "/periods";
 export const BE_DIVISION: string = BE_BASE + "/divisions";
 export const BE_MENU: string = BE_BASE + "/menus";
 export const BE_SUB_MENU: string = BE_BASE + "/sub-menus";
+export const BE_SYSTEM_PARAMETER: string = BE_BASE + "/system-parameters";
+export const BE_SYSTEM_PARAMETER_LIST: string = BE_BASE + "/system-parameter-lists";
