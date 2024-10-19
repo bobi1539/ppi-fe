@@ -6,10 +6,12 @@ import ContentTitle from "../components/content-title";
 import InputSearch from "../components/input-search";
 import { MenuResponse } from "@/app/dto/response/menu-response";
 import { menuFindAll } from "@/app/backend-api/menu";
-import CustomTable, { handleDropDownAction } from "@/app/components/table/custom-table";
-import ButtonDropdown from "@/app/components/button/button-dropdown";
+import CustomTable from "@/app/components/table/custom-table";
 import MenuModalUpdate from "./menu-update";
 import SubMenuModalUpdate from "./sub-menu-update";
+import CustomDropdown from "@/app/components/dropdown/custom-dropdown";
+import CustomDropdownItem from "@/app/components/dropdown/custom-dropdown-item";
+import { ICON_EDIT, TEXT_COLOR_EDIT, TEXT_EDIT } from "@/app/constants/constant";
 
 export default function Menu() {
   const [menus, setMenus] = useState<MenuResponse[]>([]);
@@ -19,8 +21,6 @@ export default function Menu() {
   const [subMenuIdUpdate, setSubMenuIdUpdate] = useState<number>(0);
   const [menuName, setMenuName] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
-  const [isDropDownMenuOpen, setIsDropDownMenuOpen] = useState<{ [key: number]: boolean }>({});
-  const [isDropDownSubMenuOpen, setIsDropDownSubMenuOpen] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
     fetchMenu();
@@ -31,64 +31,30 @@ export default function Menu() {
     setMenus(response);
   };
 
-  const handleDropDownMenuOpen = (id: number): void => {
-    handleDropDownAction(id, setIsDropDownMenuOpen);
-    handleDropDownAction(-1, setIsDropDownSubMenuOpen);
-  };
-
   const handleEditMenu = (id: number): void => {
     setIsModalUpdateMenuOpen(!isModalUpdateMenuOpen);
     setMenuIdUpdate(id);
-    handleDropDownMenuOpen(id);
   };
 
   const viewDropDownMenu = (menuId: number): React.ReactNode => {
     return (
-      <>
-        <button onClick={() => handleDropDownMenuOpen(menuId)} className="w-7 h-7 p-4 inline-flex items-center justify-center text-sm font-medium hover:bg-gray-100 text-gray-500 hover:text-gray-900 rounded-lg" type="button">
-          <i className="fa-solid fa-ellipsis fa-lg" />
-        </button>
-        <div className="absolute">
-          <div className={`${isDropDownMenuOpen[menuId] ? "" : "hidden"} absolute mt-3 z-50 w-44 bg-white rounded shadow py-1 -left-32 md:-left-28 xl:-left-10`}>
-            <ul className="divide-y divide-gray-100">
-              <li>
-                <ButtonDropdown onClick={() => handleEditMenu(menuId)} text="Edit" icon="fa-solid fa-pen-to-square" />
-              </li>
-            </ul>
-          </div>
-        </div>
-      </>
+      <CustomDropdown>
+        <CustomDropdownItem onClick={() => handleEditMenu(menuId)} className={TEXT_COLOR_EDIT} icon={ICON_EDIT} text={TEXT_EDIT} />
+      </CustomDropdown>
     );
-  };
-
-  const handleDropDownSubMenuOpen = (id: number): void => {
-    handleDropDownAction(id, setIsDropDownSubMenuOpen);
-    handleDropDownAction(-1, setIsDropDownMenuOpen);
   };
 
   const handleEditSubMenu = (id: number, menuNameParam: string): void => {
     setMenuName(menuNameParam);
     setIsModalUpdateSubMenuOpen(!isModalUpdateSubMenuOpen);
     setSubMenuIdUpdate(id);
-    handleDropDownSubMenuOpen(id);
   };
 
   const viewDropDownSubMenu = (subMenuId: number, menuNameParam: string): React.ReactNode => {
     return (
-      <>
-        <button onClick={() => handleDropDownSubMenuOpen(subMenuId)} className="w-7 h-7 p-4 inline-flex items-center justify-center text-sm font-medium hover:bg-gray-100 text-gray-500 hover:text-gray-900 rounded-lg" type="button">
-          <i className="fa-solid fa-ellipsis fa-lg" />
-        </button>
-        <div className="absolute">
-          <div className={`${isDropDownSubMenuOpen[subMenuId] ? "" : "hidden"} absolute mt-3 z-50 w-44 bg-white rounded shadow py-1 -left-32 md:-left-28 xl:-left-10`}>
-            <ul className="divide-y divide-gray-100">
-              <li>
-                <ButtonDropdown onClick={() => handleEditSubMenu(subMenuId, menuNameParam)} text="Edit" icon="fa-solid fa-pen-to-square" />
-              </li>
-            </ul>
-          </div>
-        </div>
-      </>
+      <CustomDropdown>
+        <CustomDropdownItem onClick={() => handleEditSubMenu(subMenuId, menuNameParam)} className={TEXT_COLOR_EDIT} icon={ICON_EDIT} text={TEXT_EDIT} />
+      </CustomDropdown>
     );
   };
 

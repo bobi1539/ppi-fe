@@ -8,7 +8,7 @@ import { userRoleDelete, userRoleFindAllPagination, userRoleRestore } from "@/ap
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
 import { SearchDto } from "@/app/dto/search/search-dto";
 import { PageResponse } from "@/app/dto/response/page-response";
-import { CONSTANT_PAGE_SIZE_VALUE } from "@/app/constants/constant";
+import { CONSTANT_PAGE_SIZE_VALUE, ICON_DELETE, ICON_EDIT, ICON_RESTORE, TEXT_COLOR_DELETE, TEXT_COLOR_EDIT, TEXT_COLOR_RESTORE, TEXT_DELETE, TEXT_EDIT, TEXT_RESTORE } from "@/app/constants/constant";
 import { UserRoleResponse } from "@/app/dto/response/user-role-response";
 import UserRoleModalCreate from "./create";
 import UserRoleModalUpdate from "./update";
@@ -96,8 +96,8 @@ export default function UserRole() {
               </td>
               <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
                 <CustomDropdown>
-                  {userRole.deleted ? <CustomDropdownItem onClick={() => handleRestoreUserRole(userRole.id)} className="text-secondary-700" icon="fa-solid fa-trash-can-arrow-up" text="Restore" /> : <CustomDropdownItem onClick={() => handleEditUserRole(userRole.id)} className="text-gray-700" icon="fa-solid fa-pen-to-square" text="Edit" />}
-                  <CustomDropdownItem onClick={() => handleDeleteUserRole(userRole.id)} className="text-red-500" icon="fa-solid fa-trash-can" text="Delete" />
+                  {userRole.deleted ? <CustomDropdownItem onClick={() => handleRestoreUserRole(userRole.id)} className={TEXT_COLOR_RESTORE} icon={ICON_RESTORE} text={TEXT_RESTORE} /> : <CustomDropdownItem onClick={() => handleEditUserRole(userRole.id)} className={TEXT_COLOR_EDIT} icon={ICON_EDIT} text={TEXT_EDIT} />}
+                  <CustomDropdownItem onClick={() => handleDeleteUserRole(userRole.id)} className={TEXT_COLOR_DELETE} icon={ICON_DELETE} text={TEXT_DELETE} />
                 </CustomDropdown>
               </td>
             </tr>
