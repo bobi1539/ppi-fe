@@ -1,12 +1,13 @@
 "use client";
 
-import { fileDownload } from "@/app/backend-api/file";
+import { imageDownload } from "@/app/backend-api/file";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface InputImageProps {
   classNameImagePreview: string;
   inputName: string;
   currentImage?: string;
+  directoryName: string;
 }
 
 export default function InputImage(props: Readonly<InputImageProps>) {
@@ -18,9 +19,7 @@ export default function InputImage(props: Readonly<InputImageProps>) {
 
   const setCurrentImagePreview = async (): Promise<void> => {
     if (props.currentImage && props.currentImage !== null) {
-      const photo = await fileDownload("user", props.currentImage);
-      const url = URL.createObjectURL(photo);
-      setImagePreview(url);
+      setImagePreview(imageDownload(props.directoryName, props.currentImage));
     }
   };
 

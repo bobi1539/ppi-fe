@@ -15,6 +15,7 @@ import Link from "next/link";
 import { FE_USER_DATA } from "@/app/constants/endpoint-fe";
 import { useRouter } from "next/navigation";
 import InputImage from "@/app/components/input/input-image";
+import { DIRECTORY_USER } from "@/app/constants/constant";
 
 export default function UserDataUpdate({ params }: Readonly<{ params: { userId: number } }>) {
   const router = useRouter();
@@ -77,7 +78,7 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
                   <InputSelect currentValue={isActive} label="Status" name={IS_ACTIVE} options={statusOptions} />
                   <InputLabel value={description} onChange={(e) => setDescription(e.target.value)} label="Description" name={DESCRIPTION} type="text" placeHolder="Type Description" isRequired={false} />
                 </div>
-                <InputImage currentImage={photo} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />
+                <InputImage directoryName={DIRECTORY_USER} currentImage={photo} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />
               </div>
             </div>
             <div className="flex justify-between">

@@ -15,6 +15,7 @@ import Link from "next/link";
 import { FE_USER_DATA } from "@/app/constants/endpoint-fe";
 import { useRouter } from "next/navigation";
 import InputImage from "@/app/components/input/input-image";
+import { DIRECTORY_USER } from "@/app/constants/constant";
 
 export default function UserDataCreate() {
   const [userRoles, setUserRoles] = useState<UserRoleResponse[]>([]);
@@ -58,7 +59,7 @@ export default function UserDataCreate() {
                   <InputSelect label="Status" name={IS_ACTIVE} options={statusOptions} />
                   <InputLabel label="Description" name={DESCRIPTION} type="text" placeHolder="Type Description" isRequired={false} />
                 </div>
-                <InputImage inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />
+                <InputImage directoryName={DIRECTORY_USER} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />
               </div>
             </div>
             <div className="flex justify-between">
