@@ -9,6 +9,7 @@ interface InputImageProps {
   inputName: string;
   currentImage?: string;
   directoryName: string;
+  label?: string;
 }
 
 export default function InputImage(props: Readonly<InputImageProps>) {
@@ -37,7 +38,7 @@ export default function InputImage(props: Readonly<InputImageProps>) {
       <img className={props.classNameImagePreview} src={imagePreview && imagePreview !== null ? imagePreview : DEFAULT_IMAGE_URL} alt="profile" />
       <label htmlFor="upload-photo" className="flex justify-center items-center gap-2 px-2.5 py-1.5 text-sm text-white bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200 cursor-pointer">
         <i className="fa-solid fa-upload" />
-        <span>Upload Photo</span>
+        <span>{props.label ?? "Upload Photo"}</span>
         <input onChange={handleImageChange} id="upload-photo" name={props.inputName} className="hidden" type="file" accept="image/*" />
       </label>
     </div>

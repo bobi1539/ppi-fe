@@ -14,6 +14,8 @@ import { DIRECTORY_EVENT } from "@/app/constants/constant";
 import { formatDate } from "@/app/utils/date-helper";
 import { limitText } from "@/app/utils/helper";
 import FooterTable from "@/app/components/table/footer-table";
+import Link from "next/link";
+import { FE_EVENT_CREATE } from "@/app/constants/endpoint-fe";
 
 export default function Event() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
@@ -48,14 +50,16 @@ export default function Event() {
         <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
           <div className="flex justify-end">
-            <ButtonIcon type="button" icon="fa-solid fa-plus" text="Add Event" className="w-full md:w-auto" />
+            <Link href={FE_EVENT_CREATE}>
+              <ButtonIcon type="button" icon="fa-solid fa-plus" text="Add Event" className="w-full md:w-auto" />
+            </Link>
           </div>
         </ContentSearch>
         <div className="grid gap-4 md:gap-8 md:grid-cols-2 lg:grid-cols-4 p-4 md:p-8 pt-0 md:pt-4">
           {eventPages?.content.map((event) => (
             <div key={event.id} className="grid grid-cols-5 gap-2 justify-center md:flex md:flex-col cursor-pointer">
               <div className="col-span-2 flex justify-center">
-                <img key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={`${imageDownload(DIRECTORY_EVENT, event.cover)}&v=${new Date().getTime()}`} alt={`${event.title} ... ${event.id}`} />
+                <img key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={`${imageDownload(DIRECTORY_EVENT, event.cover)}&v=${new Date().getTime()}${event.id}`} alt={`${event.title} ... ${event.id}`} />
               </div>
               <div className="col-span-3">
                 <h3 className="text-xl font-bold text-gray-900">{event.title}</h3>
