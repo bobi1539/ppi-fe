@@ -13,6 +13,12 @@ export const userFindAllPagination = async (search: SearchDto): Promise<PageResp
   return buildPageResponse(result);
 };
 
+export const userFindByHeader = async (): Promise<UserResponse> => {
+  const headers = await createHeaders();
+  const response = await makeGetRequest(BE_USER + "/header", headers);
+  return await handleResponse(response);
+};
+
 export const userFindById = async (id: number): Promise<UserResponse> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(BE_USER + "/" + id, headers);

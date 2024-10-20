@@ -12,3 +12,4 @@ export const TEXT_COLOR_RESTORE: string = "text-secondary-700";
 export const TEXT_EDIT: string = "Edit";
 export const TEXT_DELETE: string = "Delete";
 export const TEXT_RESTORE: string = "Restore";
+export const DIRECTORY_USER: string = "user";

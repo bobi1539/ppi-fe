@@ -2,18 +2,42 @@
 
 import Link from "next/link";
 import { FE_DASHBOARD, FE_LOGIN } from "@/app/constants/endpoint-fe";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { logout } from "@/app/login/helper";
 import { useRouter } from "next/navigation";
 import { showConfirmDialog } from "@/app/utils/sweet-alert";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuPortal, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { userFindByHeader } from "@/app/backend-api/user";
+import { UserResponse } from "@/app/dto/response/user-response";
+import { fileDownload } from "@/app/backend-api/file";
+import { DIRECTORY_USER } from "@/app/constants/constant";
 
 interface TopbarProps {
   setIsSidebarOpen: () => void;
 }
 
 export default function Topbar(props: Readonly<TopbarProps>) {
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
+  const [user, setUser] = useState<UserResponse>();
+  const [photoUrl, setPhotoUrl] = useState<string>("");
   const router = useRouter();
+
+  useEffect(() => {
+    fetchUserByHeader();
+  }, []);
+
+  const fetchUserByHeader = async (): Promise<void> => {
+    const response = await userFindByHeader();
+    setUser(response);
+    setPhotoUrlFromResponse(response);
+  };
+
+  const setPhotoUrlFromResponse = async (response: UserResponse): Promise<void> => {
+    if (response.photo && response.photo !== null) {
+      const photo = await fileDownload(DIRECTORY_USER, response.photo);
+      const url = URL.createObjectURL(photo);
+      setPhotoUrl(url);
+    }
+  };
 
   const handleLogout = async () => {
     const result = await showConfirmDialog("Are you sure to logout ?");
@@ -41,8 +65,8 @@ export default function Topbar(props: Readonly<TopbarProps>) {
             <span className="hidden md:block self-center text-secondary-800 text-xl font-semibold whitespace-nowrap">PPI Warwick</span>
           </Link>
         </div>
-        <div className="flex items-center">
-          <button type="button" className="p-2 mr-1 text-secondary-700 rounded-lg hover:text-secondary-600 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300">
+        <div className="flex items-center gap-1">
+          <button type="button" className="p-2 text-secondary-700 rounded-lg hover:text-secondary-600 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300">
             <span className="sr-only">View notifications</span>
             <svg aria-hidden="true" className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
@@ -54,30 +78,34 @@ export default function Topbar(props: Readonly<TopbarProps>) {
               <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
             </svg>
           </button>
-          <button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} type="button" className="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300">
-            <span className="sr-only">Open user menu</span>
-            <img className="w-8 h-8 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png" alt="..." />
-          </button>
-          <div className={`${isUserMenuOpen ? "" : "hidden"} absolute top-0 right-0 mt-16 z-50 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-xl`}>
-            <div className="py-3 px-4">
-              <span className="block text-sm font-semibold text-gray-900">Admin</span>
-              <span className="block text-sm text-gray-900 truncate">admin@ppi-warwick.org</span>
-            </div>
-            <ul className="py-1 text-gray-700">
-              <li>
-                <Link href="#" className="block py-2 px-4 text-sm text-gray-700 hover:text-white hover:bg-secondary-700 transition ease-in duration-200">
-                  My profile
-                </Link>
-              </li>
-            </ul>
-            <ul className="py-1 text-gray-700">
-              <li>
-                <Link onClick={handleLogout} href="#" className="block py-2 px-4 text-sm text-gray-700 hover:text-white hover:bg-secondary-700 transition ease-in duration-200">
-                  Sign out
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger type="button" className="outline-none hover:bg-gray-100 px-2 py-1 rounded-lg">
+              <span className="sr-only">Open user menu</span>
+              <img className="w-8 h-8 rounded-full border border-gray-200" src={user?.photo && user.photo !== null ? photoUrl : "/images/profile.png"} alt="profile" />
+            </DropdownMenuTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuContent className="mt-5 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-lg">
+                <div className="py-3 px-4">
+                  <span className="block text-sm font-semibold text-gray-900">{user?.name}</span>
+                  <span className="block text-sm text-gray-900 truncate">{user?.email}</span>
+                </div>
+                <ul className="py-1 text-gray-700">
+                  <li>
+                    <Link href="#" className="block py-2 px-4 text-sm text-gray-700 hover:text-white hover:bg-secondary-700 transition ease-in duration-200">
+                      My profile
+                    </Link>
+                  </li>
+                </ul>
+                <ul className="py-1 text-gray-700">
+                  <li>
+                    <Link onClick={handleLogout} href="#" className="block py-2 px-4 text-sm text-gray-700 hover:text-white hover:bg-secondary-700 transition ease-in duration-200">
+                      Sign out
+                    </Link>
+                  </li>
+                </ul>
+              </DropdownMenuContent>
+            </DropdownMenuPortal>
+          </DropdownMenu>
         </div>
       </div>
     </nav>

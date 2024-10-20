@@ -10,3 +10,4 @@ export const BE_MENU: string = BE_BASE + "/menus";
 export const BE_SUB_MENU: string = BE_BASE + "/sub-menus";
 export const BE_SYSTEM_PARAMETER: string = BE_BASE + "/system-parameters";
 export const BE_SYSTEM_PARAMETER_LIST: string = BE_BASE + "/system-parameter-lists";
+export const BE_FILE: string = BE_BASE + "/files";
