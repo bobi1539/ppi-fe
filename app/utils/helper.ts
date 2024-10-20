@@ -19,3 +19,21 @@ export const sessionOptions: SessionOptions = {
 export const removeNonDigit = (e: React.ChangeEvent<HTMLInputElement>): number => {
   return Number(e.target.value.replace(/\D/g, ""));
 };
+
+export const convertFileToBase64 = async (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const result = reader.result?.toString().split(",")[1];
+      if (result) {
+        resolve(result);
+      } else {
+        reject(new Error("FileReader result is not a valid base64 string."));
+      }
+    };
+    reader.onerror = () => {
+      reject(new Error("FileReader error: " + reader.error?.message));
+    };
+  });
+};

@@ -7,7 +7,7 @@ export const showConfirmDialog = async (title: string): Promise<SweetAlertResult
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#6d28d9",
-    cancelButtonColor: "#f97316",
+    cancelButtonColor: "#6b7280",
     confirmButtonText: "Yes",
   });
 };
