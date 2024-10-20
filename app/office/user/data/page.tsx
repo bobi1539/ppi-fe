@@ -18,13 +18,14 @@ import BadgeActive from "@/app/components/badge/badge-active";
 import BadgeInactive from "@/app/components/badge/badge-inactive";
 import FooterTable from "@/app/components/table/footer-table";
 import Link from "next/link";
-import { FE_USER_DATA_CREATE } from "@/app/constants/endpoint-fe";
+import { FE_USER_DATA, FE_USER_DATA_CREATE } from "@/app/constants/endpoint-fe";
+import { useRouter } from "next/navigation";
 
 export default function UserData() {
   const [userPages, setUserPages] = useState<PageResponse<UserResponse>>();
-  const [userIdUpdate, setUserIdUpdate] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const router = useRouter();
 
   useEffect(() => {
     fetchUser();
@@ -48,7 +49,7 @@ export default function UserData() {
   };
 
   const handleEditUser = (id: number): void => {
-    setUserIdUpdate(id);
+    router.push(FE_USER_DATA + "/" + id + "/update");
   };
 
   const handleDeleteUser = async (userId: number): Promise<void> => {

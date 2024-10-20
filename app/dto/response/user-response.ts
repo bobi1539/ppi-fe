@@ -1,5 +1,4 @@
 import { BaseResponse } from "./base-response";
-import { SystemParameterListResponse } from "./system-parameter-list-response";
 import { UserRoleResponse } from "./user-role-response";
 
 export interface UserResponse extends BaseResponse {

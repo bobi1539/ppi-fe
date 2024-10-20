@@ -1,7 +1,8 @@
 import { Option } from "@/app/components/input/input-select";
 import { UserCreateRequest } from "@/app/dto/request/user-create-request";
+import { UserUpdateRequest } from "@/app/dto/request/user-update-request";
 import { UserRoleResponse } from "@/app/dto/response/user-role-response";
-import { convertFileToBase64 } from "@/app/utils/helper";
+import { getFileFormData } from "@/app/utils/helper";
 
 export const USERNAME: string = "username";
 export const NAME: string = "name";
@@ -14,24 +15,32 @@ export const PASSWORD: string = "password";
 export const PASSWORD_CONFIRM: string = "password-confirm";
 
 export const buildUserCreateRequest = async (formData: FormData): Promise<UserCreateRequest> => {
-  const photo = formData.get(PHOTO) as File;
-  let photoFileName = null;
-  let photoBase64 = null;
-  if (photo.name !== "") {
-    photoFileName = photo.name;
-    photoBase64 = await convertFileToBase64(photo);
-  }
+  const fileDto = await getFileFormData(formData, PHOTO);
   return {
     username: String(formData.get(USERNAME)),
     name: String(formData.get(NAME)),
     email: String(formData.get(EMAIL)),
     isActive: String(formData.get(IS_ACTIVE)) === "active",
-    photoBase64: photoBase64,
-    photoFileName: photoFileName,
+    photoBase64: fileDto.base64,
+    photoFileName: fileDto.fileName,
     description: String(formData.get(DESCRIPTION)).length === 0 ? null : String(formData.get(DESCRIPTION)),
     userRoleId: Number(formData.get(USER_ROLE_ID)),
     password: String(formData.get(PASSWORD)),
     passwordConfirm: String(formData.get(PASSWORD_CONFIRM)),
+  };
+};
+
+export const buildUserUpdateRequest = async (formData: FormData): Promise<UserUpdateRequest> => {
+  const fileDto = await getFileFormData(formData, PHOTO);
+  return {
+    username: String(formData.get(USERNAME)),
+    name: String(formData.get(NAME)),
+    email: String(formData.get(EMAIL)),
+    isActive: String(formData.get(IS_ACTIVE)) === "active",
+    photoBase64: fileDto.base64,
+    photoFileName: fileDto.fileName,
+    description: String(formData.get(DESCRIPTION)).length === 0 ? null : String(formData.get(DESCRIPTION)),
+    userRoleId: Number(formData.get(USER_ROLE_ID)),
   };
 };
 

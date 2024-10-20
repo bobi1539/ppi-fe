@@ -1,4 +1,5 @@
 import { SessionOptions } from "iron-session";
+import { FileDto } from "../dto/file-dto";
 
 export const limitText = (text: string, limit: number, suffix: string = "(...)"): string => {
   if (text.length > limit) {
@@ -36,4 +37,13 @@ export const convertFileToBase64 = async (file: File): Promise<string> => {
       reject(new Error("FileReader error: " + reader.error?.message));
     };
   });
+};
+
+export const getFileFormData = async (formData: FormData, key: string): Promise<FileDto> => {
+  const file = formData.get(key) as File;
+  if (file && file.name !== "") {
+    const base64 = await convertFileToBase64(file);
+    return { fileName: file.name, base64 };
+  }
+  return { fileName: null, base64: null };
 };

@@ -29,7 +29,7 @@ export default function UserDataCreate() {
     setUserRoles(response);
   };
 
-  const submitSaveUserRole = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const submitSaveUser = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const request = await buildUserCreateRequest(formData);
@@ -45,7 +45,7 @@ export default function UserDataCreate() {
           <ContentTitle title="Add User Data" />
         </div>
         <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden p-5">
-          <form onSubmit={submitSaveUserRole}>
+          <form onSubmit={submitSaveUser}>
             <div className="my-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3">
