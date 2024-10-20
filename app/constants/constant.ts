@@ -13,4 +13,5 @@ export const TEXT_EDIT: string = "Edit";
 export const TEXT_DELETE: string = "Delete";
 export const TEXT_RESTORE: string = "Restore";
 export const DIRECTORY_USER: string = "user";
+export const DIRECTORY_EVENT: string = "event";
 export const DEFAULT_IMAGE_URL: string = "/images/default-image.jpg";
