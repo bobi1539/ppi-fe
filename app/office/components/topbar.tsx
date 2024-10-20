@@ -10,7 +10,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuPortal, DropdownMenuTrig
 import { userFindByHeader } from "@/app/backend-api/user";
 import { UserResponse } from "@/app/dto/response/user-response";
 import { imageDownload } from "@/app/backend-api/file";
-import { DIRECTORY_USER } from "@/app/constants/constant";
+import { DEFAULT_IMAGE_URL, DIRECTORY_USER } from "@/app/constants/constant";
 
 interface TopbarProps {
   setIsSidebarOpen: () => void;
@@ -79,7 +79,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
           <DropdownMenu>
             <DropdownMenuTrigger type="button" className="outline-none hover:bg-gray-100 px-2 py-1 rounded-lg">
               <span className="sr-only">Open user menu</span>
-              <img className="w-8 h-8 rounded-full border border-gray-200" src={user?.photo && user.photo !== null ? photoUrl : "/images/profile.png"} alt="profile" />
+              <img className="w-8 h-8 rounded-full border border-gray-200" src={user?.photo && user.photo !== null ? photoUrl : DEFAULT_IMAGE_URL} alt="profile" />
             </DropdownMenuTrigger>
             <DropdownMenuPortal>
               <DropdownMenuContent className="mt-5 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-lg">
