@@ -1,7 +1,7 @@
 import { CONSTANT_IS_DELETED, CONSTANT_PAGE, CONSTANT_SEARCH, CONSTANT_SIZE } from "../constants/constant";
 import { PageResponse } from "../dto/response/page-response";
 import { SearchDto } from "../dto/search/search-dto";
-import { getSession } from "../login/helper";
+import { getSessionForClient } from "../login/helper";
 import { showErrorDialog } from "../utils/sweet-alert";
 
 export const createHeadersWithoutSession = async (): Promise<Headers> => {
@@ -12,7 +12,7 @@ export const createHeadersWithoutSession = async (): Promise<Headers> => {
 };
 
 export const createHeaders = async (): Promise<Headers> => {
-  const session = await getSession();
+  const session = await getSessionForClient();
   const headersObj: Record<string, string> = {
     "Content-Type": "application/json",
     Authorization: session.loginData.jwt ? `Bearer ${session.loginData.jwt}` : "",

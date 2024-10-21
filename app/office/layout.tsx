@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "./components/sidebar";
 import Topbar from "./components/topbar";
-import { getSession } from "../login/helper";
+import { getSessionForClient } from "../login/helper";
 import { useRouter } from "next/navigation";
 import { FE_LOGIN } from "../constants/endpoint-fe";
 
@@ -25,7 +25,7 @@ export default function OfficeLayout({ children }: Readonly<{ children: React.Re
   }, []);
 
   const validateIsLogin = async () => {
-    const session = await getSession();
+    const session = await getSessionForClient();
     setIsLogin(session.isLoggedIn);
     if (!session.isLoggedIn) {
       router.push(FE_LOGIN);

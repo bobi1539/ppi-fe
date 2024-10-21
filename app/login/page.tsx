@@ -7,7 +7,7 @@ import { FE_DASHBOARD } from "../constants/endpoint-fe";
 import { useRouter } from "next/navigation";
 import { LoginRequest } from "../dto/request/login-request";
 import { login } from "../backend-api/auth";
-import { getSession, saveSessionLogin } from "./helper";
+import { getSessionForClient, saveSessionLogin } from "./helper";
 import ButtonIcon from "../components/button/button-icon";
 
 export const USERNAME: string = "username";
@@ -31,7 +31,7 @@ export default function Login() {
       setIsLogin(isLoginSession);
       router.push(FE_DASHBOARD);
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -49,7 +49,7 @@ export default function Login() {
   }, []);
 
   const validateIsLogin = async () => {
-    const session = await getSession();
+    const session = await getSessionForClient();
     setIsLogin(session.isLoggedIn);
     if (session.isLoggedIn) {
       router.push(FE_DASHBOARD);
