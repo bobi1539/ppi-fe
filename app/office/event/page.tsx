@@ -10,17 +10,21 @@ import ContentSearch from "../components/content-search";
 import InputSearch from "../components/input-search";
 import ButtonIcon from "@/app/components/button/button-icon";
 import { imageDownload } from "@/app/backend-api/file";
-import { DIRECTORY_EVENT } from "@/app/constants/constant";
+import { DIRECTORY_EVENT, ICON_DELETE, ICON_EDIT, TEXT_COLOR_DELETE, TEXT_DELETE } from "@/app/constants/constant";
 import { formatDate } from "@/app/utils/date-helper";
 import { limitText } from "@/app/utils/helper";
 import FooterTable from "@/app/components/table/footer-table";
 import Link from "next/link";
-import { FE_EVENT_CREATE } from "@/app/constants/endpoint-fe";
+import { FE_EVENT, FE_EVENT_CREATE } from "@/app/constants/endpoint-fe";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function Event() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [popUpItemId, setPopUpItemId] = useState<number>(0);
+  const router = useRouter();
 
   useEffect(() => {
     fetchEvent();
@@ -43,6 +47,10 @@ export default function Event() {
     setCurrentPage(page - 1);
   };
 
+  const handleEditEvent = (id: number): void => {
+    router.push(FE_EVENT + "/" + id + "/update");
+  };
+
   return (
     <div>
       <ContentTitle title="Event" />
@@ -57,16 +65,28 @@ export default function Event() {
         </ContentSearch>
         <div className="grid gap-4 md:gap-8 md:grid-cols-2 lg:grid-cols-4 p-4 md:p-8 pt-0 md:pt-4">
           {eventPages?.content.map((event) => (
-            <div key={event.id} className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
-              <div className="col-span-2 flex justify-center">
-                <img key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={`${imageDownload(DIRECTORY_EVENT, event.cover)}&v=${new Date().getTime()}${event.id}`} alt={`${event.title} ... ${event.id}`} />
+            <div key={event.id} onClick={() => setPopUpItemId(popUpItemId === event.id ? 0 : event.id)} className="relative">
+              <div className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
+                <div className="col-span-2 flex justify-center">
+                  <img key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={imageDownload(DIRECTORY_EVENT, event.cover)} alt={`${event.title} ... ${event.id}`} />
+                </div>
+                <div className="col-span-3">
+                  <h3 className="text-xl font-bold text-gray-900">{event.title}</h3>
+                  <p className="text-xs text-gray-500">{formatDate(event.startDate)}</p>
+                  <p className="text-xs mb-2.5 text-gray-500">{`${event.startTime} - ${event.endTime} (${event.duration})`}</p>
+                  <p className="text-justify text-sm text-gray-800">{limitText(event.description, 100)}</p>
+                </div>
               </div>
-              <div className="col-span-3">
-                <h3 className="text-xl font-bold text-gray-900">{event.title}</h3>
-                <p className="text-xs text-gray-500">{formatDate(event.startDate)}</p>
-                <p className="text-xs mb-2.5 text-gray-500">{`${event.startTime} - ${event.endTime} (${event.duration})`}</p>
-                <p className="text-justify text-sm text-gray-800">{limitText(event.description, 100)}</p>
-              </div>
+              <AnimatePresence>
+                {popUpItemId === event.id && (
+                  <motion.div initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -50, opacity: 0 }} transition={{ duration: 0.5 }} className="absolute top-0 w-full">
+                    <div className="w-full bg-gray-200 p-4 flex justify-between gap-4" onClick={(e) => e.stopPropagation()}>
+                      <ButtonIcon onClick={() => handleEditEvent(event.id)} type="button" icon={ICON_EDIT} text="Edit" className={`w-full`} />
+                      <ButtonIcon type="button" icon={ICON_DELETE} text="Delete" className={`w-full`} color="bg-red-500" />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>
