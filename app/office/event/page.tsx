@@ -57,7 +57,7 @@ export default function Event() {
         </ContentSearch>
         <div className="grid gap-4 md:gap-8 md:grid-cols-2 lg:grid-cols-4 p-4 md:p-8 pt-0 md:pt-4">
           {eventPages?.content.map((event) => (
-            <div key={event.id} className="grid grid-cols-5 gap-2 justify-center md:flex md:flex-col cursor-pointer">
+            <div key={event.id} className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
               <div className="col-span-2 flex justify-center">
                 <img key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={`${imageDownload(DIRECTORY_EVENT, event.cover)}&v=${new Date().getTime()}${event.id}`} alt={`${event.title} ... ${event.id}`} />
               </div>
