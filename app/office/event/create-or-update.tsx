@@ -11,16 +11,15 @@ import { DESCRIPTION, END_DATE, END_TIME, START_DATE, START_TIME, TITLE } from "
 import ContentTitle from "../components/content-title";
 import { useEffect, useState } from "react";
 import { EventResponse } from "@/app/dto/response/event-response";
-import { eventFindById } from "@/app/backend-api/event";
 
 interface EventCreateOrUpdateProps {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  eventId?: number;
   title: string;
+  event?: EventResponse;
 }
 
 export default function EventCreateOrUpdate(props: Readonly<EventCreateOrUpdateProps>) {
-  const [event, setEvent] = useState<EventResponse>();
+  const [cover, setCover] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
@@ -29,21 +28,16 @@ export default function EventCreateOrUpdate(props: Readonly<EventCreateOrUpdateP
   const [description, setDescription] = useState<string>("");
 
   useEffect(() => {
-    fetchEventById();
-  }, []);
-
-  const fetchEventById = async (): Promise<void> => {
-    if (props.eventId) {
-      const response = await eventFindById(props.eventId);
-      setEvent(response);
-      setTitle(response.title);
-      setStartDate(response.startDate);
-      setEndDate(response.endDate);
-      setStartTime(response.startTime);
-      setEndTime(response.endTime);
-      setDescription(response.description);
+    if (props.event) {
+      setCover(props.event.cover);
+      setTitle(props.event.title);
+      setStartDate(props.event.startDate);
+      setEndDate(props.event.endDate);
+      setStartTime(props.event.startTime);
+      setEndTime(props.event.endTime);
+      setDescription(props.event.description);
     }
-  };
+  }, [props.event]);
 
   return (
     <div className="flex justify-center">
@@ -53,7 +47,7 @@ export default function EventCreateOrUpdate(props: Readonly<EventCreateOrUpdateP
           <form onSubmit={props.submit}>
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4 justify-center">
               <div className="col-span-2">
-                <InputImage label="Upload Cover" currentImage={event?.cover} directoryName={DIRECTORY_EVENT} inputName={"cover"} classNameImagePreview="border border-gray-200 rounded-lg" />
+                <InputImage label="Upload Cover" currentImage={cover} directoryName={DIRECTORY_EVENT} inputName={"cover"} classNameImagePreview="border border-gray-200 rounded-lg" />
               </div>
               <div className="col-span-3 flex flex-col gap-4">
                 <InputLabel label="Title" value={title} onChange={(e) => setTitle(e.target.value)} name={TITLE} type="text" placeHolder="Type title" isRequired={true} />

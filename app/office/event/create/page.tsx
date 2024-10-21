@@ -1,7 +1,7 @@
 "use client";
 
 import { FE_EVENT } from "@/app/constants/endpoint-fe";
-import { buildEventRequest } from "../helper";
+import { buildCreateEventRequest } from "../helper";
 import { eventCreate } from "@/app/backend-api/event";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ export default function EventCreate() {
   const submitSaveEvent = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const request = await buildEventRequest(formData);
+    const request = await buildCreateEventRequest(formData);
     await eventCreate(request);
     await showSuccessDialog();
     router.push(FE_EVENT);

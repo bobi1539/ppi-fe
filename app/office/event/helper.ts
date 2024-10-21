@@ -9,8 +9,26 @@ export const START_TIME: string = "start-time";
 export const END_TIME: string = "end-time";
 export const COVER: string = "cover";
 
-export const buildEventRequest = async (formData: FormData): Promise<EventRequest> => {
+export const buildCreateEventRequest = async (formData: FormData): Promise<EventRequest> => {
   const fileDto = await getFileFormData(formData, COVER);
+  return {
+    title: String(formData.get(TITLE)),
+    description: String(formData.get(DESCRIPTION)),
+    startDate: String(formData.get(START_DATE)),
+    endDate: String(formData.get(END_DATE)),
+    startTime: String(formData.get(START_TIME)),
+    endTime: String(formData.get(END_TIME)),
+    coverBase64: fileDto.base64,
+    coverFileName: fileDto.fileName,
+  };
+};
+
+export const buildUpdateEventRequest = async (formData: FormData, coverFileNameExisting: string): Promise<EventRequest> => {
+  const fileDto = await getFileFormData(formData, COVER);
+  if (fileDto.fileName === null) {
+    fileDto.base64 = "string";
+    fileDto.fileName = coverFileNameExisting;
+  }
   return {
     title: String(formData.get(TITLE)),
     description: String(formData.get(DESCRIPTION)),
