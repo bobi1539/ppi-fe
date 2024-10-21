@@ -2,6 +2,7 @@
 
 import { imageDownload } from "@/app/backend-api/file";
 import { DEFAULT_IMAGE_URL } from "@/app/constants/constant";
+import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface InputImageProps {
@@ -35,7 +36,7 @@ export default function InputImage(props: Readonly<InputImageProps>) {
 
   return (
     <div className="flex flex-col gap-4 justify-center items-center p-4">
-      <img className={props.classNameImagePreview} src={imagePreview && imagePreview !== null ? imagePreview : DEFAULT_IMAGE_URL} alt="profile" />
+      <Image className={props.classNameImagePreview} src={imagePreview && imagePreview !== null ? imagePreview : DEFAULT_IMAGE_URL} alt="profile" width={500} height={500} priority />
       <label htmlFor="upload-photo" className="flex justify-center items-center gap-2 px-2.5 py-1.5 text-sm text-white bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200 cursor-pointer">
         <i className="fa-solid fa-upload" />
         <span>{props.label ?? "Upload Photo"}</span>
