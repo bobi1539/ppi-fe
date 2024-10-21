@@ -19,6 +19,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import ButtonDropdown from "@/app/components/button/button-dropdown";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
+import Image from "next/image";
 
 export default function Event() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
@@ -90,7 +91,7 @@ export default function Event() {
               {(event.deleted || popUpItemId === event.id) && <div className="bg-gray-400/50 w-full h-full absolute rounded-lg cursor-pointer -m-2" />}
               <div className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
                 <div className="col-span-2 flex justify-center">
-                  <img key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={imageDownload(DIRECTORY_EVENT, event.cover)} alt={`${event.title} ... ${event.id}`} />
+                  <Image key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={imageDownload(DIRECTORY_EVENT, event.cover)} alt={`${event.title}`} width={1024} height={1024} priority />
                 </div>
                 <div className="col-span-3">
                   <h3 className="text-xl font-bold text-gray-900">{event.title}</h3>
