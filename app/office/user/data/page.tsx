@@ -17,7 +17,6 @@ import CustomDropdownItem from "@/app/components/dropdown/custom-dropdown-item";
 import BadgeActive from "@/app/components/badge/badge-active";
 import BadgeInactive from "@/app/components/badge/badge-inactive";
 import FooterTable from "@/app/components/table/footer-table";
-import Link from "next/link";
 import { FE_USER_DATA, FE_USER_DATA_CREATE } from "@/app/constants/endpoint-fe";
 import { useRouter } from "next/navigation";
 
@@ -46,6 +45,10 @@ export default function UserData() {
 
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);
+  };
+
+  const handleCreateUser = (): void => {
+    router.push(FE_USER_DATA_CREATE);
   };
 
   const handleEditUser = (id: number): void => {
@@ -79,9 +82,7 @@ export default function UserData() {
         <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
           <div className="flex justify-end">
-            <Link href={FE_USER_DATA_CREATE}>
-              <ButtonIcon type="button" icon="fa-solid fa-plus" text="Add User" className="w-full md:w-auto" />
-            </Link>
+            <ButtonIcon onClick={() => handleCreateUser()} type="button" icon="fa-solid fa-plus" text="Add User" className="w-full md:w-auto" />
           </div>
         </ContentSearch>
         <CustomTable heads={headsTable}>

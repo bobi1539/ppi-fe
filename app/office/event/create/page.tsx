@@ -19,5 +19,5 @@ export default function EventCreate() {
     router.push(FE_EVENT);
   };
 
-  return <EventCreateOrUpdate submit={submitSaveEvent} />;
+  return <EventCreateOrUpdate submit={submitSaveEvent} title="Add Event" />;
 }

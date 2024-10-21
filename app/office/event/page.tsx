@@ -4,20 +4,21 @@ import { useEffect, useState } from "react";
 import ContentTitle from "../components/content-title";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { EventResponse } from "@/app/dto/response/event-response";
-import { eventFindAllPagination } from "@/app/backend-api/event";
+import { eventDelete, eventFindAllPagination, eventRestore } from "@/app/backend-api/event";
 import { SearchDto } from "@/app/dto/search/search-dto";
 import ContentSearch from "../components/content-search";
 import InputSearch from "../components/input-search";
 import ButtonIcon from "@/app/components/button/button-icon";
 import { imageDownload } from "@/app/backend-api/file";
-import { DIRECTORY_EVENT, ICON_DELETE, ICON_EDIT, TEXT_COLOR_DELETE, TEXT_DELETE } from "@/app/constants/constant";
+import { DIRECTORY_EVENT, ICON_DELETE, ICON_EDIT, ICON_RESTORE, TEXT_COLOR_DELETE, TEXT_COLOR_RESTORE, TEXT_DELETE, TEXT_EDIT, TEXT_RESTORE } from "@/app/constants/constant";
 import { formatDate } from "@/app/utils/date-helper";
 import { limitText } from "@/app/utils/helper";
 import FooterTable from "@/app/components/table/footer-table";
-import Link from "next/link";
 import { FE_EVENT, FE_EVENT_CREATE } from "@/app/constants/endpoint-fe";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import ButtonDropdown from "@/app/components/button/button-dropdown";
+import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
 
 export default function Event() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
@@ -47,8 +48,30 @@ export default function Event() {
     setCurrentPage(page - 1);
   };
 
+  const handleCreateEvent = (): void => {
+    router.push(FE_EVENT_CREATE);
+  };
+
   const handleEditEvent = (id: number): void => {
     router.push(FE_EVENT + "/" + id + "/update");
+  };
+
+  const handleDeleteEvent = async (id: number): Promise<void> => {
+    const result = await showConfirmDialog("Are you sure to delete?");
+    if (result.isConfirmed) {
+      await eventDelete(id);
+      showSuccessDialog();
+      fetchEvent();
+    }
+  };
+
+  const handleRestoreEvent = async (id: number): Promise<void> => {
+    const result = await showConfirmDialog("Are you sure to restore?");
+    if (result.isConfirmed) {
+      await eventRestore(id);
+      showSuccessDialog();
+      fetchEvent();
+    }
   };
 
   return (
@@ -58,14 +81,13 @@ export default function Event() {
         <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
           <div className="flex justify-end">
-            <Link href={FE_EVENT_CREATE}>
-              <ButtonIcon type="button" icon="fa-solid fa-plus" text="Add Event" className="w-full md:w-auto" />
-            </Link>
+            <ButtonIcon onClick={() => handleCreateEvent()} type="button" icon="fa-solid fa-plus" text="Add Event" className="w-full md:w-auto" />
           </div>
         </ContentSearch>
-        <div className="grid gap-4 md:gap-8 md:grid-cols-2 lg:grid-cols-4 p-4 md:p-8 pt-0 md:pt-4">
+        <div className="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4 md:p-8 pt-0 md:pt-2">
           {eventPages?.content.map((event) => (
-            <div key={event.id} onClick={() => setPopUpItemId(popUpItemId === event.id ? 0 : event.id)} className="relative">
+            <div key={event.id} onClick={() => setPopUpItemId(popUpItemId === event.id ? 0 : event.id)} className="relative p-2">
+              {(event.deleted || popUpItemId === event.id) && <div className="bg-gray-400/50 w-full h-full absolute rounded-lg cursor-pointer -m-2" />}
               <div className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
                 <div className="col-span-2 flex justify-center">
                   <img key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={imageDownload(DIRECTORY_EVENT, event.cover)} alt={`${event.title} ... ${event.id}`} />
@@ -79,10 +101,10 @@ export default function Event() {
               </div>
               <AnimatePresence>
                 {popUpItemId === event.id && (
-                  <motion.div initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -50, opacity: 0 }} transition={{ duration: 0.5 }} className="absolute top-0 w-full">
-                    <div className="w-full bg-gray-200 p-4 flex justify-between gap-4" onClick={(e) => e.stopPropagation()}>
-                      <ButtonIcon onClick={() => handleEditEvent(event.id)} type="button" icon={ICON_EDIT} text="Edit" className={`w-full`} />
-                      <ButtonIcon type="button" icon={ICON_DELETE} text="Delete" className={`w-full`} color="bg-red-500" />
+                  <motion.div initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -50, opacity: 0 }} transition={{ duration: 0.5 }} className="absolute w-full top-1/4 md:top-[40%] left-1/4">
+                    <div className="w-1/2 py-1 bg-white shadow rounded divide-y divide-gray-200 text-sm" onClick={(e) => e.stopPropagation()}>
+                      {event.deleted ? <ButtonDropdown onClick={() => handleRestoreEvent(event.id)} icon={ICON_RESTORE} text={TEXT_RESTORE} textColor={TEXT_COLOR_RESTORE} /> : <ButtonDropdown onClick={() => handleEditEvent(event.id)} icon={ICON_EDIT} text={TEXT_EDIT} />}
+                      <ButtonDropdown onClick={() => handleDeleteEvent(event.id)} icon={ICON_DELETE} text={TEXT_DELETE} textColor={TEXT_COLOR_DELETE} />
                     </div>
                   </motion.div>
                 )}

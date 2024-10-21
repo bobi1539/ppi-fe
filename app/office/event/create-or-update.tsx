@@ -16,6 +16,7 @@ import { eventFindById } from "@/app/backend-api/event";
 interface EventCreateOrUpdateProps {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   eventId?: number;
+  title: string;
 }
 
 export default function EventCreateOrUpdate(props: Readonly<EventCreateOrUpdateProps>) {
@@ -47,7 +48,7 @@ export default function EventCreateOrUpdate(props: Readonly<EventCreateOrUpdateP
   return (
     <div className="flex justify-center">
       <div className="w-full md:max-w-5xl">
-        <ContentTitle title="Add Event" />
+        <ContentTitle title={props.title} />
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form onSubmit={props.submit}>
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4 justify-center">

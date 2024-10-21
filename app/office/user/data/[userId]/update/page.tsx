@@ -64,7 +64,7 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
     <div className="flex justify-center">
       <div className="w-full md:max-w-5xl">
         <div className="flex justify-between">
-          <ContentTitle title="Add User Data" />
+          <ContentTitle title="Edit User Data" />
         </div>
         <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden p-5">
           <form onSubmit={submitUpdateUser}>

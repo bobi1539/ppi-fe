@@ -19,5 +19,5 @@ export default function EventUpdate({ params }: Readonly<{ params: { eventId: nu
     router.push(FE_EVENT);
   };
 
-  return <EventCreateOrUpdate submit={submitUpdateEvent} eventId={params.eventId} />;
+  return <EventCreateOrUpdate submit={submitUpdateEvent} eventId={params.eventId} title="Edit Event" />;
 }
