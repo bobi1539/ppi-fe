@@ -21,6 +21,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
   const [user, setUser] = useState<UserResponse>();
   const [photoUrl, setPhotoUrl] = useState<string>("");
   const router = useRouter();
+  const [isDropdownProfileOpen, setIsDropdownProfileOpen] = useState<boolean>(false);
 
   useEffect(() => {
     fetchUserByHeader();
@@ -39,6 +40,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
   };
 
   const handleLogout = async () => {
+    setIsDropdownProfileOpen(false);
     const result = await showConfirmDialog("Are you sure to logout ?");
     if (result.isConfirmed) {
       await logout();
@@ -77,7 +79,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
               <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
             </svg>
           </button>
-          <DropdownMenu>
+          <DropdownMenu open={isDropdownProfileOpen} onOpenChange={() => setIsDropdownProfileOpen(!isDropdownProfileOpen)}>
             <DropdownMenuTrigger type="button" className="outline-none hover:bg-gray-100 px-2 py-1 rounded-lg">
               <span className="sr-only">Open user menu</span>
               <Image className="w-8 h-8 rounded-full border border-gray-200" src={user?.photo && user.photo !== null ? photoUrl : DEFAULT_IMAGE_URL} alt="profile" width={100} height={100} priority />
