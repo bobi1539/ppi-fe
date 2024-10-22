@@ -91,7 +91,7 @@ export default function Newsletter() {
                   <Image key={newsletter.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={imageDownload(DIRECTORY_NEWSLETTER, newsletter.cover)} alt={`${newsletter.title}`} width={1024} height={1024} priority />
                 </div>
                 <div className="col-span-3">
-                  <h3 className="text-xl font-bold text-gray-900">{newsletter.title}</h3>
+                  <h3 className={`${newsletter.deleted ? "text-red-500 line-through" : "text-gray-900"} text-xl font-bold`}>{newsletter.title}</h3>
                   <p className="text-justify text-sm text-gray-800">{limitText(newsletter.description, 100)}</p>
                 </div>
               </div>

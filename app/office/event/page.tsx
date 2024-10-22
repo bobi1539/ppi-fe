@@ -93,7 +93,7 @@ export default function Event() {
                   <Image key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={imageDownload(DIRECTORY_EVENT, event.cover)} alt={`${event.title}`} width={1024} height={1024} priority />
                 </div>
                 <div className="col-span-3">
-                  <h3 className="text-xl font-bold text-gray-900">{event.title}</h3>
+                  <h3 className={`${event.deleted ? "text-red-500 line-through" : "text-gray-900"} text-xl font-bold`}>{event.title}</h3>
                   <p className="text-xs text-gray-500">{formatDate(event.startDate)}</p>
                   <p className="text-xs mb-2.5 text-gray-500">{`${event.startTime} - ${event.endTime} (${event.duration})`}</p>
                   <p className="text-justify text-sm text-gray-800">{limitText(event.description, 100)}</p>
