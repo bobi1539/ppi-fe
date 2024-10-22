@@ -16,7 +16,7 @@ export default function CustomTable(props: Readonly<CustomTableProps>) {
             ))}
           </tr>
         </thead>
-        <tbody>{props.children}</tbody>
+        <tbody className="relative">{props.children}</tbody>
       </table>
     </div>
   );
