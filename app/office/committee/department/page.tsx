@@ -118,8 +118,8 @@ export default function CommitteeDepartment() {
           ))}
         </CustomTable>
         <FooterTable numberOfElements={divisionPages?.numberOfElements ?? 0} totalElements={divisionPages?.totalElements ?? 0} totalPages={divisionPages?.totalPages ?? 10} handlePageChange={handlePageChange} />
-        {isModalCreateOpen && <CommitteeDepartmentModalCreate periods={periods} closeModal={() => setIsModalCreateOpen(false)} fetchDivision={fetchDivision} />}
-        {isModalUpdateOpen && <CommitteeDepartmentModalUpdate id={divisionIdUpdate} periods={periods} closeModal={() => setIsModalUpdateOpen(false)} fetchDivision={fetchDivision} />}
+        {isModalCreateOpen && <CommitteeDepartmentModalCreate closeModal={() => setIsModalCreateOpen(false)} fetchDivision={fetchDivision} />}
+        {isModalUpdateOpen && <CommitteeDepartmentModalUpdate id={divisionIdUpdate} closeModal={() => setIsModalUpdateOpen(false)} fetchDivision={fetchDivision} />}
       </section>
     </div>
   );
