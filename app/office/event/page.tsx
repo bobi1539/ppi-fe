@@ -10,16 +10,15 @@ import ContentSearch from "../components/content-search";
 import InputSearch from "../components/input-search";
 import ButtonIcon from "@/app/components/button/button-icon";
 import { imageDownload } from "@/app/backend-api/file";
-import { DIRECTORY_EVENT, ICON_DELETE, ICON_EDIT, ICON_RESTORE, TEXT_COLOR_DELETE, TEXT_COLOR_RESTORE, TEXT_DELETE, TEXT_EDIT, TEXT_RESTORE } from "@/app/constants/constant";
+import { DIRECTORY_EVENT } from "@/app/constants/constant";
 import { formatDate } from "@/app/utils/date-helper";
 import { limitText } from "@/app/utils/helper";
 import FooterTable from "@/app/components/table/footer-table";
 import { FE_EVENT, FE_EVENT_CREATE } from "@/app/constants/endpoint-fe";
-import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import ButtonDropdown from "@/app/components/button/button-dropdown";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
 import Image from "next/image";
+import ActionCard from "../components/action-card";
 
 export default function Event() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
@@ -100,16 +99,7 @@ export default function Event() {
                   <p className="text-justify text-sm text-gray-800">{limitText(event.description, 100)}</p>
                 </div>
               </div>
-              <AnimatePresence>
-                {popUpItemId === event.id && (
-                  <motion.div initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -50, opacity: 0 }} transition={{ duration: 0.5 }} className="absolute w-full top-1/4 md:top-[40%] left-1/4">
-                    <div className="w-1/2 py-1 bg-white shadow rounded divide-y divide-gray-200 text-sm" onClick={(e) => e.stopPropagation()}>
-                      {event.deleted ? <ButtonDropdown onClick={() => handleRestoreEvent(event.id)} icon={ICON_RESTORE} text={TEXT_RESTORE} textColor={TEXT_COLOR_RESTORE} /> : <ButtonDropdown onClick={() => handleEditEvent(event.id)} icon={ICON_EDIT} text={TEXT_EDIT} />}
-                      <ButtonDropdown onClick={() => handleDeleteEvent(event.id)} icon={ICON_DELETE} text={TEXT_DELETE} textColor={TEXT_COLOR_DELETE} />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {popUpItemId === event.id && <ActionCard deleted={event.deleted ?? false} handleEdit={() => handleEditEvent(event.id)} handleDelete={() => handleDeleteEvent(event.id)} handleRestore={() => handleRestoreEvent(event.id)} />}
             </div>
           ))}
         </div>

@@ -14,4 +14,5 @@ export const TEXT_DELETE: string = "Delete";
 export const TEXT_RESTORE: string = "Restore";
 export const DIRECTORY_USER: string = "user";
 export const DIRECTORY_EVENT: string = "event";
+export const DIRECTORY_NEWSLETTER: string = "newsletter";
 export const DEFAULT_IMAGE_URL: string = "/images/default-image.jpg";

@@ -1,0 +1,55 @@
+import { SearchDto } from "./../dto/search/search-dto";
+import { BE_NEWSLETTER } from "../constants/endpoint-be";
+import { PageResponse } from "../dto/response/page-response";
+import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
+import { NewsletterResponse } from "../dto/response/newsletter-response";
+import { NewsletterRequest } from "../dto/request/newsletter-request";
+
+export const newsletterFindAllPagination = async (search: SearchDto): Promise<PageResponse<NewsletterResponse>> => {
+  const headers = await createHeaders();
+  const response = await makeGetRequest(buildUrlFindAll(BE_NEWSLETTER, search), headers);
+  const result = await handleResponse(response);
+  return buildPageResponse(result);
+};
+
+export const newsletterFindAll = async (search: SearchDto): Promise<NewsletterResponse[]> => {
+  const headers = await createHeaders();
+  const response = await makeGetRequest(buildUrlFindAll(BE_NEWSLETTER + "/all", search), headers);
+  return await handleResponse(response);
+};
+
+export const newsletterFindById = async (id: number): Promise<NewsletterResponse> => {
+  const headers = await createHeaders();
+  const response = await makeGetRequest(BE_NEWSLETTER + "/" + id, headers);
+  return await handleResponse(response);
+};
+
+export const newsletterFindBySlug = async (slug: string): Promise<NewsletterResponse> => {
+  const headers = await createHeaders();
+  const response = await makeGetRequest(BE_NEWSLETTER + "/slug/" + slug, headers);
+  return await handleResponse(response);
+};
+
+export const newsletterCreate = async (request: NewsletterRequest): Promise<NewsletterResponse> => {
+  const headers = await createHeaders();
+  const response = await makePostRequest(BE_NEWSLETTER, headers, request);
+  return await handleResponse(response);
+};
+
+export const newsletterUpdate = async (id: number, request: NewsletterRequest): Promise<NewsletterResponse> => {
+  const headers = await createHeaders();
+  const response = await makePutRequest(id, BE_NEWSLETTER, headers, request);
+  return await handleResponse(response);
+};
+
+export const newsletterDelete = async (id: number): Promise<NewsletterResponse> => {
+  const headers = await createHeaders();
+  const response = await makeDeleteRequest(id, BE_NEWSLETTER, headers);
+  return await handleResponse(response);
+};
+
+export const newsletterRestore = async (id: number): Promise<NewsletterResponse> => {
+  const headers = await createHeaders();
+  const response = await makePutRequest(id, BE_NEWSLETTER + "/restore", headers, null);
+  return await handleResponse(response);
+};
