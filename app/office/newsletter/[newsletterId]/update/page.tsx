@@ -1,6 +1,6 @@
 "use client";
 
-import { FE_EVENT } from "@/app/constants/endpoint-fe";
+import { FE_NEWSLETTER } from "@/app/constants/endpoint-fe";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -28,7 +28,7 @@ export default function NewsletterUpdate({ params }: Readonly<{ params: { newsle
     const request = await buildUpdateNewsletterRequest(formData, newsletter?.cover ?? "", newsletter?.content ?? "");
     await newsletterUpdate(params.newsletterId, request);
     await showSuccessDialog();
-    router.push(FE_EVENT);
+    router.push(FE_NEWSLETTER);
   };
 
   return <NewsletterCreateOrUpdate submit={submitUpdateNewsletter} newsletter={newsletter} title="Edit Newsletter" />;

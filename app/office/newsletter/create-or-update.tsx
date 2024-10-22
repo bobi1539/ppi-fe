@@ -1,7 +1,7 @@
 "use client";
 
 import InputImage from "@/app/components/input/input-image";
-import { DIRECTORY_EVENT, DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
+import { DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
 import InputLabel from "@/app/components/input/input-label";
 import { FE_NEWSLETTER } from "@/app/constants/endpoint-fe";
 import Link from "next/link";
@@ -48,7 +48,7 @@ export default function NewsletterCreateOrUpdate(props: Readonly<EventCreateOrUp
               <div className="col-span-3 flex flex-col gap-4">
                 <InputLabel label="Title" value={title} onChange={(e) => setTitle(e.target.value)} name={TITLE} type="text" placeHolder="Type title" isRequired={true} />
                 <TextArea label="Description" currentValue={description} onChange={(e) => setDescription(e.target.value)} name={DESCRIPTION} rows={10} isRequired />
-                <InputFile name={CONTENT} label="File Content" isRequired={true} accept="image/*,video/*,audio/*,application/pdf" />
+                <InputFile name={CONTENT} label="File Content" isRequired={content === ""} accept="image/*,video/*,audio/*,application/pdf" />
                 {content !== "" ? (
                   <Link href={imageDownload(DIRECTORY_NEWSLETTER, content)} target="_blank" className="text-secondary-700 underline text-sm -mt-3">
                     {content}
