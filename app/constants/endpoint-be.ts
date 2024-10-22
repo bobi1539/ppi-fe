@@ -13,3 +13,4 @@ export const BE_SYSTEM_PARAMETER_LIST: string = BE_BASE + "/system-parameter-lis
 export const BE_FILE: string = BE_BASE + "/files";
 export const BE_EVENT: string = BE_BASE + "/events";
 export const BE_NEWSLETTER: string = BE_BASE + "/newsletters";
+export const BE_GALLERY: string = BE_BASE + "/galleries";
