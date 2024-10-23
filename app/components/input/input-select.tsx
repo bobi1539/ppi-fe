@@ -25,6 +25,7 @@ export default function InputSelect(props: Readonly<InputSelectProps>) {
 
   return (
     <Select
+      inputId={props.name}
       placeholder={props.placeholder ?? "--Select--"}
       name={props.name}
       value={selectedOption}
