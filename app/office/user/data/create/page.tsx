@@ -5,7 +5,7 @@ import ButtonIcon from "@/app/components/button/button-icon";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { userCreate } from "@/app/backend-api/user";
 import { buildUserCreateRequest, DESCRIPTION, EMAIL, getUserRoleOptions, IS_ACTIVE, NAME, PASSWORD, PASSWORD_CONFIRM, PHOTO, USER_ROLE_ID, USERNAME } from "./../helper";
-import InputSelect from "@/app/components/input/input-select";
+import InputSelectLabel from "@/app/components/input/input-select-label";
 import { statusOptions } from "../../../committee/data/helper";
 import { useEffect, useState } from "react";
 import { UserRoleResponse } from "@/app/dto/response/user-role-response";
@@ -52,10 +52,10 @@ export default function UserDataCreate() {
                 <InputLabel label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
                 <InputLabel label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
                 <InputLabel label="Email" name={EMAIL} type="email" placeHolder="Type email" isRequired={true} />
-                <InputSelect label="Role" name={USER_ROLE_ID} options={getUserRoleOptions(userRoles)} />
+                <InputSelectLabel label="Role" name={USER_ROLE_ID} options={getUserRoleOptions(userRoles)} />
                 <InputLabel label="Password" name={PASSWORD} type="password" placeHolder="Type Password" isRequired={true} />
                 <InputLabel label="Password Confirm" name={PASSWORD_CONFIRM} type="password" placeHolder="Type Password Confirm" isRequired={true} />
-                <InputSelect label="Status" name={IS_ACTIVE} options={statusOptions} />
+                <InputSelectLabel label="Status" name={IS_ACTIVE} options={statusOptions} />
                 <InputLabel label="Description" name={DESCRIPTION} type="text" placeHolder="Type Description" isRequired={false} />
               </div>
               <InputImage directoryName={DIRECTORY_USER} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />

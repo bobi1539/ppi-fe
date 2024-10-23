@@ -16,9 +16,9 @@ import CommitteeDepartmentModalCreate from "./create";
 import { periodFindAll } from "@/app/backend-api/period";
 import { PeriodResponse } from "@/app/dto/response/period-response";
 import CommitteeDepartmentModalUpdate from "./update";
-import { getPeriodOptions, PERIOD_ID } from "./helper";
+import { getPeriodOption, getPeriodOptions, PERIOD_ID } from "./helper";
 import ContentSearch from "../../components/content-search";
-import InputSelectSearch from "@/app/components/input/input-select-search";
+import InputSelect from "@/app/components/input/input-select";
 import CustomDropdown from "@/app/components/dropdown/custom-dropdown";
 import CustomDropdownItem from "@/app/components/dropdown/custom-dropdown-item";
 
@@ -31,6 +31,7 @@ export default function CommitteeDepartment() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [periodId, setPeriodId] = useState<number | undefined>();
   const [periods, setPeriods] = useState<PeriodResponse[]>([]);
+  const [period, setPeriod] = useState<PeriodResponse | null>(null);
 
   useEffect(() => {
     fetchDivision();
@@ -47,7 +48,7 @@ export default function CommitteeDepartment() {
       search: searchValue,
       page: currentPage,
       size: CONSTANT_PAGE_SIZE_VALUE,
-      periodId: periodId,
+      periodId: period?.id
     };
   };
 
@@ -91,7 +92,7 @@ export default function CommitteeDepartment() {
       <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden pb-5">
         <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
-          <InputSelectSearch title="--Commitee--" name={PERIOD_ID} options={getPeriodOptions(periods)} currentValue={periodId?.toString() ?? ""} onChange={(e) => setPeriodId(Number(e.target.value))} />
+          <InputSelect placeholder="--Committee--" name={PERIOD_ID} options={getPeriodOptions(periods)} />
         </ContentSearch>
         <div className="p-4 pt-0 flex justify-end items-center">
           <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add Department" className="w-full md:w-auto" />

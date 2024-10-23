@@ -1,44 +1,61 @@
 "use client";
 
+import Select from "react-select";
+import { Option } from "./input-select-label";
 import { useEffect, useState } from "react";
 
-export interface Option {
-  value: string;
-  label: string;
-}
-
 interface InputSelectProps {
-  label: string;
+  placeholder?: string;
   name: string;
   options: Option[];
-  currentValue?: string;
+  option?: Option;
+  padding?: string;
 }
 
 export default function InputSelect(props: Readonly<InputSelectProps>) {
-  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [selectedOption, setSelectedOption] = useState<Option | null>();
 
   useEffect(() => {
-    setSelectedValue(props.currentValue ?? "");
-  }, [props.currentValue]);
+    setSelectedOption(props.option);
+  }, [props.option]);
+
+  const handleChange = (option: Option | null) => {
+    setSelectedOption(option);
+  };
 
   return (
-    <div className="relative">
-      <label htmlFor={props.name} className="block mb-1 text-sm font-medium text-gray-900">
-        {props.label}
-      </label>
-      <select value={selectedValue} onChange={(e) => setSelectedValue(e.target.value)} name={props.name} id={props.name} required className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-inset focus:ring-2 focus:ring-secondary-700 block w-full p-2.5 appearance-none outline-none">
-        <option value="" disabled>
-          --Select--
-        </option>
-        {props.options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <div className="absolute inset-y-0 right-0 flex items-center pr-3 pt-5 pointer-events-none text-gray-900">
-        <i className="fas fa-chevron-down" />
-      </div>
-    </div>
+    <Select
+      placeholder={props.placeholder ?? "--Select--"}
+      name={props.name}
+      value={selectedOption}
+      onChange={handleChange}
+      options={props.options}
+      styles={{
+        control: (baseStyles, state) => ({
+          ...baseStyles,
+          borderColor: "#d1d5db",
+          borderRadius: "0.5rem",
+          backgroundColor: "#f9fafb",
+          fontSize: "0.875rem",
+          boxShadow: state.isFocused ? "inset 0 0 0 2px #6d28d9" : "none",
+          "&:hover": {
+            borderColor: "#d1d5db",
+          },
+        }),
+        option: (baseStyles, state) => ({
+          ...baseStyles,
+          fontSize: "0.875rem",
+          backgroundColor: state.isSelected ? "#6d28d9" : "#fff",
+          color: state.isSelected ? "#fff" : "#333",
+          "&:hover": {
+            backgroundColor: state.isSelected ? "#6d28d9" : "#eee",
+          },
+        }),
+        input: (baseStyles) => ({
+          ...baseStyles,
+          padding: props.padding,
+        }),
+      }}
+    />
   );
 }

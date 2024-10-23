@@ -4,9 +4,9 @@ import InputLabel from "@/app/components/input/input-label";
 import ButtonIcon from "@/app/components/button/button-icon";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { userFindById, userUpdate } from "@/app/backend-api/user";
-import { buildUserUpdateRequest, DESCRIPTION, EMAIL, getUserRoleOptions, IS_ACTIVE, NAME, PHOTO, USER_ROLE_ID, USERNAME } from "./../../helper";
-import InputSelect from "@/app/components/input/input-select";
-import { statusOptions } from "../../../../committee/data/helper";
+import { buildUserUpdateRequest, DESCRIPTION, EMAIL, getUserRoleOption, getUserRoleOptions, IS_ACTIVE, NAME, PHOTO, USER_ROLE_ID, USERNAME } from "./../../helper";
+import InputSelectLabel, { Option } from "@/app/components/input/input-select-label";
+import { getStatusOption, statusOptions } from "../../../../committee/data/helper";
 import { useEffect, useState } from "react";
 import { UserRoleResponse } from "@/app/dto/response/user-role-response";
 import { userRoleFindAll } from "@/app/backend-api/user-role";
@@ -23,8 +23,8 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
   const [username, setUsername] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [userRole, setUserRole] = useState<UserRoleResponse>();
-  const [isActive, setIsActive] = useState<string>("");
+  const [userRoleOption, setUserRoleOption] = useState<Option>();
+  const [isActiveOption, setIsActiveOption] = useState<Option>();
   const [description, setDescription] = useState<string>("");
   const [photo, setPhoto] = useState<string>("");
 
@@ -45,8 +45,8 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
     setUsername(response.username);
     setName(response.name);
     setEmail(response.email);
-    setUserRole(response.userRole);
-    setIsActive(response.isActive ? "active" : "inactive");
+    setUserRoleOption(getUserRoleOption(response.userRole));
+    setIsActiveOption(getStatusOption(response.isActive));
     setDescription(response.description);
     setPhoto(response.photo);
   };
@@ -74,8 +74,8 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
                   <InputLabel value={username} onChange={(e) => setUsername(e.target.value)} label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
                   <InputLabel value={name} onChange={(e) => setName(e.target.value)} label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
                   <InputLabel value={email} onChange={(e) => setEmail(e.target.value)} label="Email" name={EMAIL} type="email" placeHolder="Type email" isRequired={true} />
-                  <InputSelect currentValue={userRole?.deleted ? "" : userRole?.id.toString()} label="Role" name={USER_ROLE_ID} options={getUserRoleOptions(userRoles)} />
-                  <InputSelect currentValue={isActive} label="Status" name={IS_ACTIVE} options={statusOptions} />
+                  <InputSelectLabel label="Role" name={USER_ROLE_ID} option={userRoleOption} options={getUserRoleOptions(userRoles)} />
+                  <InputSelectLabel label="Status" name={IS_ACTIVE} option={isActiveOption} options={statusOptions} />
                   <InputLabel value={description} onChange={(e) => setDescription(e.target.value)} label="Description" name={DESCRIPTION} type="text" placeHolder="Type Description" isRequired={false} />
                 </div>
                 <InputImage directoryName={DIRECTORY_USER} currentImage={photo} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />
@@ -88,6 +88,7 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
               <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
             </div>
           </form>
+          <div className="bg-white h-48"></div>
         </section>
       </div>
     </div>

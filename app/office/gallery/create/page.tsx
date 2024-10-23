@@ -7,8 +7,10 @@ import ButtonIcon from "@/app/components/button/button-icon";
 import { useEffect, useState } from "react";
 import { EventResponse } from "@/app/dto/response/event-response";
 import { eventFindAll } from "@/app/backend-api/event";
-import InputSearch from "../../components/input-search";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuPortal, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import Select from "react-select";
+import { getEventOptions } from "../helper";
+import { EVENT_ID } from "@/app/backend-api/gallery";
+import InputSelectLabel from "@/app/components/input/input-select-label";
 
 export default function GalleryCreate() {
   const [events, setEvents] = useState<EventResponse[]>([]);
@@ -24,8 +26,6 @@ export default function GalleryCreate() {
     setEvents(response);
   };
 
-  const [isDropdownSelectOpen, setIsDropdownSelectOpen] = useState<boolean>(false);
-
   return (
     <div className="flex justify-center">
       <div className="w-full md:max-w-lg">
@@ -33,28 +33,8 @@ export default function GalleryCreate() {
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form>
             <div className="grid grid-cols-1 gap-4 mb-4 justify-center">
-              <DropdownMenu open={isDropdownSelectOpen} onOpenChange={() => setIsDropdownSelectOpen(!isDropdownSelectOpen)}>
-                <DropdownMenuTrigger type="button" className="outline-none flex justify-between items-center text-sm p-2.5 bg-gray-50 text-gray-900 border border-gray-300 rounded-lg cursor-default">
-                  <span>Select Event</span>
-                  <i className="fa-solid fa-chevron-down" />
-                </DropdownMenuTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuContent className="mt-2 w-96 bg-gray-700 border border-gray-300 rounded-lg text-sm text-gray-900 p-2.5">
-                    <div className="w-full">
-                      <InputSearch onChange={(e) => setSearchEvent(e.target.value)} />
-                      <ul className="flex flex-col gap-2 pt-4 text-white max-h-36 overflow-y-scroll">
-                        {events.map((event) => (
-                          <li key={event.id} className="hover:bg-gray-50 hover:text-gray-900 p-2 rounded-lg">
-                            <button onClick={() => setIsDropdownSelectOpen(false)} className="">
-                              {event.title}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenuPortal>
-              </DropdownMenu>
+              <InputSelectLabel currentValue={""} label="Committee" name={EVENT_ID} options={getEventOptions(events)} />
+              <Select options={getEventOptions(events)} />
               <div className="w-full h-32"></div>
             </div>
             <div className="flex justify-between">

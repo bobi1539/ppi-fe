@@ -1,4 +1,4 @@
-import { Option } from "@/app/components/input/input-select";
+import { Option } from "@/app/components/input/input-select-label";
 import { UserCreateRequest } from "@/app/dto/request/user-create-request";
 import { UserUpdateRequest } from "@/app/dto/request/user-update-request";
 import { UserRoleResponse } from "@/app/dto/response/user-role-response";
@@ -49,4 +49,11 @@ export const getUserRoleOptions = (userRoles: UserRoleResponse[]): Option[] => {
     value: String(userRole.id),
     label: userRole.name,
   }));
+};
+
+export const getUserRoleOption = (userRole: UserRoleResponse): Option => {
+  return {
+    value: String(userRole.id),
+    label: userRole.name,
+  };
 };

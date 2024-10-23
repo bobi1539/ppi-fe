@@ -1,4 +1,4 @@
-import { Option } from "@/app/components/input/input-select";
+import { Option } from "@/app/components/input/input-select-label";
 import { DivisionRequest } from "@/app/dto/request/division-request";
 import { PeriodResponse } from "@/app/dto/response/period-response";
 
@@ -17,4 +17,11 @@ export const getPeriodOptions = (periods: PeriodResponse[]): Option[] => {
     value: String(period.id),
     label: period.name,
   }));
+};
+
+export const getPeriodOption = (period: PeriodResponse): Option => {
+  return {
+    value: period.id.toString(),
+    label: period.name,
+  };
 };

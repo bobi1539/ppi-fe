@@ -13,6 +13,7 @@ export default function CommitteeDepartmentModalCreate(props: Readonly<Committee
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const request = buildDivisionRequest(formData);
+    console.log(request);
     await divisionCreate(request);
     await showSuccessDialog();
     await props.fetchDivision();
