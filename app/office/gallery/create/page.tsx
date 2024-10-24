@@ -43,7 +43,7 @@ export default function GalleryCreate() {
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form onSubmit={submit}>
             <div className="grid grid-cols-1 gap-3 mb-4 justify-center">
-              <InputSelectLabel label="Committee" name={EVENT_ID} options={getEventOptions(events)} required />
+              <InputSelectLabel label="Event" name={EVENT_ID} options={getEventOptions(events)} required />
               <InputFile name={GALLERY_FILES} label="Gallery File" isRequired multiple accept="image/*" />
             </div>
             <div className="flex justify-between">
