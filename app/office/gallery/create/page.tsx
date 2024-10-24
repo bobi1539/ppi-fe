@@ -7,13 +7,16 @@ import ButtonIcon from "@/app/components/button/button-icon";
 import { useEffect, useState } from "react";
 import { EventResponse } from "@/app/dto/response/event-response";
 import { eventFindAll } from "@/app/backend-api/event";
-import { getEventOptions } from "../helper";
-import { EVENT_ID } from "@/app/backend-api/gallery";
+import { buildGalleryRequest, EVENT_ID, GALLERY_FILES, getEventOptions } from "../helper";
 import InputSelectLabel from "@/app/components/input/input-select-label";
 import InputFile from "@/app/components/input/input-file";
+import { galleryCreate } from "@/app/backend-api/gallery";
+import { showSuccessDialog } from "@/app/utils/sweet-alert";
+import { useRouter } from "next/navigation";
 
 export default function GalleryCreate() {
   const [events, setEvents] = useState<EventResponse[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     fetchEvent();
@@ -27,8 +30,10 @@ export default function GalleryCreate() {
   const submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const files = formData.getAll("files-gallery");
-    console.log(files);
+    const request = await buildGalleryRequest(formData);
+    await galleryCreate(request);
+    await showSuccessDialog();
+    router.push(FE_GALLERY);
   };
 
   return (
@@ -39,7 +44,7 @@ export default function GalleryCreate() {
           <form onSubmit={submit}>
             <div className="grid grid-cols-1 gap-3 mb-4 justify-center">
               <InputSelectLabel label="Committee" name={EVENT_ID} options={getEventOptions(events)} required />
-              <InputFile name={"gallery-files"} label="File Gallery" isRequired multiple accept="image/*,video/*,audio/*,application/pdf" />
+              <InputFile name={GALLERY_FILES} label="Gallery File" isRequired multiple accept="image/*" />
             </div>
             <div className="flex justify-between">
               <Link href={FE_GALLERY}>

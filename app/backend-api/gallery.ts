@@ -27,15 +27,9 @@ export const galleryFindById = async (id: number): Promise<GalleryResponse> => {
   return await handleResponse(response);
 };
 
-export const galleryCreate = async (request: GalleryRequest): Promise<GalleryResponse> => {
+export const galleryCreate = async (request: GalleryRequest): Promise<GalleryResponse[]> => {
   const headers = await createHeaders();
   const response = await makePostRequest(BE_GALLERY, headers, request);
-  return await handleResponse(response);
-};
-
-export const galleryUpdate = async (id: number, request: GalleryRequest): Promise<GalleryResponse> => {
-  const headers = await createHeaders();
-  const response = await makePutRequest(id, BE_GALLERY, headers, request);
   return await handleResponse(response);
 };
 

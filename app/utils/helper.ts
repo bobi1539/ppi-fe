@@ -41,6 +41,10 @@ export const convertFileToBase64 = async (file: File): Promise<string> => {
 
 export const getFileFormData = async (formData: FormData, key: string): Promise<FileUploadRequest> => {
   const file = formData.get(key) as File;
+  return fileToFileUploadRequest(file);
+};
+
+export const fileToFileUploadRequest = async (file: File): Promise<FileUploadRequest> => {
   if (file && file.name !== "") {
     const base64 = await convertFileToBase64(file);
     return { fileBase64: base64, fileName: file.name };
