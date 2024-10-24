@@ -1,9 +1,6 @@
+import { FileUploadRequest } from "./file-upload-request";
+
 export interface GalleryRequest {
   eventId: number;
-  files: GalleryFileRequest[];
-}
-
-export interface GalleryFileRequest {
-  fileBase64: string;
-  fileName: string;
+  fileUploads: FileUploadRequest[];
 }

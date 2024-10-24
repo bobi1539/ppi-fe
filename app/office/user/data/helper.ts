@@ -15,14 +15,13 @@ export const PASSWORD: string = "password";
 export const PASSWORD_CONFIRM: string = "password-confirm";
 
 export const buildUserCreateRequest = async (formData: FormData): Promise<UserCreateRequest> => {
-  const fileDto = await getFileFormData(formData, PHOTO);
+  const photo = await getFileFormData(formData, PHOTO);
   return {
     username: String(formData.get(USERNAME)),
     name: String(formData.get(NAME)),
     email: String(formData.get(EMAIL)),
     isActive: String(formData.get(IS_ACTIVE)) === "active",
-    photoBase64: fileDto.base64,
-    photoFileName: fileDto.fileName,
+    photo: photo,
     description: String(formData.get(DESCRIPTION)).length === 0 ? null : String(formData.get(DESCRIPTION)),
     userRoleId: Number(formData.get(USER_ROLE_ID)),
     password: String(formData.get(PASSWORD)),
@@ -31,14 +30,13 @@ export const buildUserCreateRequest = async (formData: FormData): Promise<UserCr
 };
 
 export const buildUserUpdateRequest = async (formData: FormData): Promise<UserUpdateRequest> => {
-  const fileDto = await getFileFormData(formData, PHOTO);
+  const photo = await getFileFormData(formData, PHOTO);
   return {
     username: String(formData.get(USERNAME)),
     name: String(formData.get(NAME)),
     email: String(formData.get(EMAIL)),
     isActive: String(formData.get(IS_ACTIVE)) === "active",
-    photoBase64: fileDto.base64,
-    photoFileName: fileDto.fileName,
+    photo: photo,
     description: String(formData.get(DESCRIPTION)).length === 0 ? null : String(formData.get(DESCRIPTION)),
     userRoleId: Number(formData.get(USER_ROLE_ID)),
   };

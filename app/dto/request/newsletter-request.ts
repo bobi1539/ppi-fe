@@ -1,8 +1,8 @@
+import { FileUploadRequest } from "./file-upload-request";
+
 export interface NewsletterRequest {
   title: string;
   description: string;
-  coverBase64: string | null;
-  coverFileName: string | null;
-  contentBase64: string | null;
-  contentFileName: string | null;
+  cover: FileUploadRequest;
+  content: FileUploadRequest;
 }

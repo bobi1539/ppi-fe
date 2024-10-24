@@ -10,7 +10,7 @@ export const END_TIME: string = "end-time";
 export const COVER: string = "cover";
 
 export const buildCreateEventRequest = async (formData: FormData): Promise<EventRequest> => {
-  const fileDto = await getFileFormData(formData, COVER);
+  const cover = await getFileFormData(formData, COVER);
   return {
     title: String(formData.get(TITLE)),
     description: String(formData.get(DESCRIPTION)),
@@ -18,16 +18,15 @@ export const buildCreateEventRequest = async (formData: FormData): Promise<Event
     endDate: String(formData.get(END_DATE)),
     startTime: String(formData.get(START_TIME)),
     endTime: String(formData.get(END_TIME)),
-    coverBase64: fileDto.base64,
-    coverFileName: fileDto.fileName,
+    cover: cover,
   };
 };
 
 export const buildUpdateEventRequest = async (formData: FormData, coverFileNameExisting: string): Promise<EventRequest> => {
-  const fileDto = await getFileFormData(formData, COVER);
-  if (fileDto.fileName === null) {
-    fileDto.base64 = "string";
-    fileDto.fileName = coverFileNameExisting;
+  const cover = await getFileFormData(formData, COVER);
+  if (cover.fileName === null) {
+    cover.fileBase64 = "string";
+    cover.fileName = coverFileNameExisting;
   }
   return {
     title: String(formData.get(TITLE)),
@@ -36,7 +35,6 @@ export const buildUpdateEventRequest = async (formData: FormData, coverFileNameE
     endDate: String(formData.get(END_DATE)),
     startTime: String(formData.get(START_TIME)),
     endTime: String(formData.get(END_TIME)),
-    coverBase64: fileDto.base64,
-    coverFileName: fileDto.fileName,
+    cover: cover,
   };
 };

@@ -1,8 +1,9 @@
+import { FileUploadRequest } from "./file-upload-request";
+
 export interface EventRequest {
   title: string;
   description: string;
-  coverBase64: string | null;
-  coverFileName: string | null;
+  cover: FileUploadRequest;
   startDate: string;
   endDate: string;
   startTime: string;

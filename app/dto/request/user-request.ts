@@ -1,10 +1,11 @@
+import { FileUploadRequest } from "./file-upload-request";
+
 export interface UserRequest {
   username: string;
   name: string;
   email: string;
   isActive: boolean;
-  photoBase64: string | null;
-  photoFileName: string | null;
+  photo: FileUploadRequest;
   description: string | null;
   userRoleId: number;
 }
