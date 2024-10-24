@@ -41,11 +41,11 @@ export default function NewsletterCreateOrUpdate(props: Readonly<EventCreateOrUp
         <ContentTitle title={props.title} />
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form onSubmit={props.submit}>
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4 justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mb-4 justify-center">
               <div className="col-span-2">
                 <InputImage label="Upload Cover" currentImage={cover} directoryName={DIRECTORY_NEWSLETTER} inputName={"cover"} classNameImagePreview="border border-gray-200 rounded-lg" />
               </div>
-              <div className="col-span-3 flex flex-col gap-4">
+              <div className="col-span-3 flex flex-col gap-3">
                 <InputLabel label="Title" value={title} onChange={(e) => setTitle(e.target.value)} name={TITLE} type="text" placeHolder="Type title" isRequired={true} />
                 <TextArea label="Description" currentValue={description} onChange={(e) => setDescription(e.target.value)} name={DESCRIPTION} rows={10} isRequired />
                 <InputFile name={CONTENT} label="File Content" isRequired={content === ""} accept="image/*,video/*,audio/*,application/pdf" />

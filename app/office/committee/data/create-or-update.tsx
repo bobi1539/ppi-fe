@@ -33,13 +33,11 @@ export default function CommitteeDataModal(props: Readonly<CommitteeDataModalPro
   return (
     <Modal title={props.title} closeModal={props.closeModal} className="max-w-2xl">
       <form onSubmit={props.submit}>
-        <div className="my-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <InputLabel value={committeeName} onChange={(e) => setCommitteeName(e.target.value)} label="Committee Name" name={COMMITTEE_NAME} type="text" placeHolder="Type committee name" isRequired={true} />
-            <InputSelectLabel placeholder="--Select--" label="Status" name={STATUS} option={statusOption} options={statusOptions} required />
-            <InputLabel value={startDate} onChange={(e) => setStartDate(e.target.value)} label="Start" name={START_DATE} type="date" isRequired={true} />
-            <InputLabel value={endDate} onChange={(e) => setEndDate(e.target.value)} label="End" name={END_DATE} type="date" isRequired={true} />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 my-4">
+          <InputLabel value={committeeName} onChange={(e) => setCommitteeName(e.target.value)} label="Committee Name" name={COMMITTEE_NAME} type="text" placeHolder="Type committee name" isRequired={true} />
+          <InputSelectLabel placeholder="--Select--" label="Status" name={STATUS} option={statusOption} options={statusOptions} required />
+          <InputLabel value={startDate} onChange={(e) => setStartDate(e.target.value)} label="Start" name={START_DATE} type="date" isRequired={true} />
+          <InputLabel value={endDate} onChange={(e) => setEndDate(e.target.value)} label="End" name={END_DATE} type="date" isRequired={true} />
         </div>
         <div className="flex justify-end">
           <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />

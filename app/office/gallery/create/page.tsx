@@ -37,7 +37,7 @@ export default function GalleryCreate() {
         <ContentTitle title={"Add Gallery"} />
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form onSubmit={submit}>
-            <div className="grid grid-cols-1 gap-4 mb-4 justify-center">
+            <div className="grid grid-cols-1 gap-3 mb-4 justify-center">
               <InputSelectLabel label="Committee" name={EVENT_ID} options={getEventOptions(events)} required />
               <InputFile name={"gallery-files"} label="File Gallery" isRequired multiple accept="image/*,video/*,audio/*,application/pdf" />
             </div>

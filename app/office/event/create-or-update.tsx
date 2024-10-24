@@ -45,17 +45,17 @@ export default function EventCreateOrUpdate(props: Readonly<EventCreateOrUpdateP
         <ContentTitle title={props.title} />
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form onSubmit={props.submit}>
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4 justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mb-4 justify-center">
               <div className="col-span-2">
                 <InputImage label="Upload Cover" currentImage={cover} directoryName={DIRECTORY_EVENT} inputName={"cover"} classNameImagePreview="border border-gray-200 rounded-lg" />
               </div>
-              <div className="col-span-3 flex flex-col gap-4">
+              <div className="col-span-3 flex flex-col gap-3">
                 <InputLabel label="Title" value={title} onChange={(e) => setTitle(e.target.value)} name={TITLE} type="text" placeHolder="Type title" isRequired={true} />
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <InputLabel label="Start Date" value={startDate} onChange={(e) => setStartDate(e.target.value)} name={START_DATE} type="date" placeHolder="Type start date" isRequired={true} />
                   <InputLabel label="End Date" value={endDate} onChange={(e) => setEndDate(e.target.value)} name={END_DATE} type="date" placeHolder="Type start date" isRequired={true} />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <InputLabel label="Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} name={START_TIME} type="time" placeHolder="Type start time" isRequired={true} />
                   <InputLabel label="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} name={END_TIME} type="time" placeHolder="Type start time" isRequired={true} />
                 </div>

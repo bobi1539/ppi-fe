@@ -38,11 +38,9 @@ export default function CommitteeDepartmentModal(props: Readonly<CommitteeDepart
   return (
     <Modal title={props.title} closeModal={props.closeModal} className="max-w-lg">
       <form onSubmit={props.submit}>
-        <div className="my-4">
-          <div className="grid grid-cols-1 gap-3">
-            <InputSelectLabel option={option} label="Committee" name={PERIOD_ID} options={getPeriodOptions(periods)} required />
-            <InputLabel value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} label="Department Name" name={DEPARTMENT_NAME} type="text" placeHolder="Type department name" isRequired={true} />
-          </div>
+        <div className="grid grid-cols-1 gap-3 my-4">
+          <InputSelectLabel option={option} label="Committee" name={PERIOD_ID} options={getPeriodOptions(periods)} required />
+          <InputLabel value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} label="Department Name" name={DEPARTMENT_NAME} type="text" placeHolder="Type department name" isRequired={true} />
         </div>
         <div className="flex justify-end">
           <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
