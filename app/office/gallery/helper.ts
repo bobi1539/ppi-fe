@@ -14,6 +14,17 @@ export const getEventOptions = (events: EventResponse[]): Option[] => {
   }));
 };
 
+export const getEventOptionsForSearch = (events: EventResponse[]): Option[] => {
+  const options: Option[] = [
+    {
+      value: "",
+      label: "--All--",
+    },
+  ];
+
+  return options.concat(getEventOptions(events));
+};
+
 export const buildGalleryRequest = async (formData: FormData): Promise<GalleryRequest> => {
   const galleryFiles = formData.getAll(GALLERY_FILES);
   const fileUploads: FileUploadRequest[] = await Promise.all(

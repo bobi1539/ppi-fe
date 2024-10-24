@@ -62,7 +62,6 @@ export default function CommitteeDepartment() {
   };
 
   const hanldeSearchByCommittee = (option: Option | null) => {
-    console.log(option);
     setPeriodOption(option);
   };
 
