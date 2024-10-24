@@ -88,7 +88,6 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
               <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
             </div>
           </form>
-          <div className="bg-white h-48"></div>
         </section>
       </div>
     </div>

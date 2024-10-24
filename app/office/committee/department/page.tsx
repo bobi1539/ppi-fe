@@ -16,11 +16,12 @@ import CommitteeDepartmentModalCreate from "./create";
 import { periodFindAll } from "@/app/backend-api/period";
 import { PeriodResponse } from "@/app/dto/response/period-response";
 import CommitteeDepartmentModalUpdate from "./update";
-import { getPeriodOption, getPeriodOptions, PERIOD_ID } from "./helper";
+import { getPeriodOptionsForSearch, PERIOD_ID } from "./helper";
 import ContentSearch from "../../components/content-search";
 import InputSelect from "@/app/components/input/input-select";
 import CustomDropdown from "@/app/components/dropdown/custom-dropdown";
 import CustomDropdownItem from "@/app/components/dropdown/custom-dropdown-item";
+import { Option } from "@/app/components/input/input-select-label";
 
 export default function CommitteeDepartment() {
   const [divisionPages, setDivisionPages] = useState<PageResponse<DivisionResponse>>();
@@ -29,14 +30,13 @@ export default function CommitteeDepartment() {
   const [divisionIdUpdate, setDivisionIdUpdate] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [periodId, setPeriodId] = useState<number | undefined>();
   const [periods, setPeriods] = useState<PeriodResponse[]>([]);
-  const [period, setPeriod] = useState<PeriodResponse | null>(null);
+  const [periodOption, setPeriodOption] = useState<Option | null>(null);
 
   useEffect(() => {
     fetchDivision();
     fetchPeriod();
-  }, [currentPage, searchValue, periodId]);
+  }, [currentPage, searchValue, periodOption]);
 
   const fetchDivision = async (): Promise<void> => {
     const response = await divisionFindAllPagination(buildSearchDto());
@@ -48,7 +48,7 @@ export default function CommitteeDepartment() {
       search: searchValue,
       page: currentPage,
       size: CONSTANT_PAGE_SIZE_VALUE,
-      periodId: period?.id
+      periodId: Number(periodOption?.value),
     };
   };
 
@@ -59,6 +59,11 @@ export default function CommitteeDepartment() {
 
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);
+  };
+
+  const hanldeSearchByCommittee = (option: Option | null) => {
+    console.log(option);
+    setPeriodOption(option);
   };
 
   const handleEditDivision = (id: number): void => {
@@ -92,7 +97,7 @@ export default function CommitteeDepartment() {
       <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden pb-5">
         <ContentSearch>
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
-          <InputSelect placeholder="--Committee--" name={PERIOD_ID} options={getPeriodOptions(periods)} />
+          <InputSelect placeholder="--Committee--" name={PERIOD_ID} options={getPeriodOptionsForSearch(periods)} onChange={hanldeSearchByCommittee} />
         </ContentSearch>
         <div className="p-4 pt-0 flex justify-end items-center">
           <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add Department" className="w-full md:w-auto" />

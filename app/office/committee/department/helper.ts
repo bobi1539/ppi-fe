@@ -25,3 +25,14 @@ export const getPeriodOption = (period: PeriodResponse): Option => {
     label: period.name,
   };
 };
+
+export const getPeriodOptionsForSearch = (periods: PeriodResponse[]): Option[] => {
+  const options: Option[] = [
+    {
+      value: "",
+      label: "--All--",
+    },
+  ];
+
+  return options.concat(getPeriodOptions(periods));
+};

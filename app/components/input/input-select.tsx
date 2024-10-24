@@ -10,6 +10,7 @@ interface InputSelectProps {
   options: Option[];
   option?: Option;
   padding?: string;
+  onChange?: (option: Option | null) => void;
 }
 
 export default function InputSelect(props: Readonly<InputSelectProps>) {
@@ -21,6 +22,9 @@ export default function InputSelect(props: Readonly<InputSelectProps>) {
 
   const handleChange = (option: Option | null) => {
     setSelectedOption(option);
+    if (props.onChange) {
+      props.onChange(option);
+    }
   };
 
   return (
@@ -31,6 +35,7 @@ export default function InputSelect(props: Readonly<InputSelectProps>) {
       value={selectedOption}
       onChange={handleChange}
       options={props.options}
+      menuPortalTarget={document.body}
       styles={{
         control: (baseStyles, state) => ({
           ...baseStyles,
@@ -55,6 +60,10 @@ export default function InputSelect(props: Readonly<InputSelectProps>) {
         input: (baseStyles) => ({
           ...baseStyles,
           padding: props.padding,
+        }),
+        menuPortal: (baseStyles) => ({
+          ...baseStyles,
+          zIndex: 1060,
         }),
       }}
     />

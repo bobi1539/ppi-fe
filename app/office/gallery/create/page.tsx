@@ -33,7 +33,7 @@ export default function GalleryCreate() {
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form>
             <div className="grid grid-cols-1 gap-4 mb-4 justify-center">
-              <InputSelectLabel currentValue={""} label="Committee" name={EVENT_ID} options={getEventOptions(events)} />
+              <InputSelectLabel label="Committee" name={EVENT_ID} options={getEventOptions(events)} />
               <Select options={getEventOptions(events)} />
               <div className="w-full h-32"></div>
             </div>
