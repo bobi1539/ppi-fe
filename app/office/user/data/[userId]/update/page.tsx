@@ -74,8 +74,8 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
                   <InputLabel value={username} onChange={(e) => setUsername(e.target.value)} label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
                   <InputLabel value={name} onChange={(e) => setName(e.target.value)} label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
                   <InputLabel value={email} onChange={(e) => setEmail(e.target.value)} label="Email" name={EMAIL} type="email" placeHolder="Type email" isRequired={true} />
-                  <InputSelectLabel label="Role" name={USER_ROLE_ID} option={userRoleOption} options={getUserRoleOptions(userRoles)} />
-                  <InputSelectLabel label="Status" name={IS_ACTIVE} option={isActiveOption} options={statusOptions} />
+                  <InputSelectLabel label="Role" name={USER_ROLE_ID} option={userRoleOption} options={getUserRoleOptions(userRoles)} required />
+                  <InputSelectLabel label="Status" name={IS_ACTIVE} option={isActiveOption} options={statusOptions} required />
                   <InputLabel value={description} onChange={(e) => setDescription(e.target.value)} label="Description" name={DESCRIPTION} type="text" placeHolder="Type Description" isRequired={false} />
                 </div>
                 <InputImage directoryName={DIRECTORY_USER} currentImage={photo} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />

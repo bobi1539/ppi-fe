@@ -10,6 +10,7 @@ interface InputSelectProps {
   options: Option[];
   option?: Option;
   padding?: string;
+  required?: boolean;
   onChange?: (option: Option | null) => void;
 }
 
@@ -36,6 +37,7 @@ export default function InputSelect(props: Readonly<InputSelectProps>) {
       onChange={handleChange}
       options={props.options}
       menuPortalTarget={document.body}
+      required={props.required}
       styles={{
         control: (baseStyles, state) => ({
           ...baseStyles,

@@ -11,6 +11,7 @@ interface InputSelectLabelProps {
   name: string;
   options: Option[];
   option?: Option;
+  required?: boolean;
 }
 
 export default function InputSelectLabel(props: Readonly<InputSelectLabelProps>) {
@@ -19,7 +20,7 @@ export default function InputSelectLabel(props: Readonly<InputSelectLabelProps>)
       <label htmlFor={props.name} className="block mb-1 text-sm font-medium text-gray-900">
         {props.label}
       </label>
-      <InputSelect placeholder={props.placeholder} name={props.name} options={props.options} option={props.option} padding="5.5px" />
+      <InputSelect placeholder={props.placeholder} name={props.name} options={props.options} option={props.option} padding="5.5px" required={props.required} />
     </div>
   );
 }

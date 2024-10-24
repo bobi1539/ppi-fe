@@ -36,7 +36,7 @@ export default function CommitteeDataModal(props: Readonly<CommitteeDataModalPro
         <div className="my-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <InputLabel value={committeeName} onChange={(e) => setCommitteeName(e.target.value)} label="Committee Name" name={COMMITTEE_NAME} type="text" placeHolder="Type committee name" isRequired={true} />
-            <InputSelectLabel placeholder="--Select--" label="Status" name={STATUS} option={statusOption} options={statusOptions} />
+            <InputSelectLabel placeholder="--Select--" label="Status" name={STATUS} option={statusOption} options={statusOptions} required />
             <InputLabel value={startDate} onChange={(e) => setStartDate(e.target.value)} label="Start" name={START_DATE} type="date" isRequired={true} />
             <InputLabel value={endDate} onChange={(e) => setEndDate(e.target.value)} label="End" name={END_DATE} type="date" isRequired={true} />
           </div>

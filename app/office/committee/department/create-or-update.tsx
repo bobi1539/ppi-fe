@@ -40,7 +40,7 @@ export default function CommitteeDepartmentModal(props: Readonly<CommitteeDepart
       <form onSubmit={props.submit}>
         <div className="my-4">
           <div className="grid grid-cols-1 gap-3">
-            <InputSelectLabel option={option} label="Committee" name={PERIOD_ID} options={getPeriodOptions(periods)} />
+            <InputSelectLabel option={option} label="Committee" name={PERIOD_ID} options={getPeriodOptions(periods)} required />
             <InputLabel value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} label="Department Name" name={DEPARTMENT_NAME} type="text" placeHolder="Type department name" isRequired={true} />
           </div>
         </div>

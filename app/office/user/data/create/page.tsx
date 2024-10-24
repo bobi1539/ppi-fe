@@ -52,10 +52,10 @@ export default function UserDataCreate() {
                 <InputLabel label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
                 <InputLabel label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
                 <InputLabel label="Email" name={EMAIL} type="email" placeHolder="Type email" isRequired={true} />
-                <InputSelectLabel label="Role" name={USER_ROLE_ID} options={getUserRoleOptions(userRoles)} />
+                <InputSelectLabel label="Role" name={USER_ROLE_ID} options={getUserRoleOptions(userRoles)} required />
                 <InputLabel label="Password" name={PASSWORD} type="password" placeHolder="Type Password" isRequired={true} />
                 <InputLabel label="Password Confirm" name={PASSWORD_CONFIRM} type="password" placeHolder="Type Password Confirm" isRequired={true} />
-                <InputSelectLabel label="Status" name={IS_ACTIVE} options={statusOptions} />
+                <InputSelectLabel label="Status" name={IS_ACTIVE} options={statusOptions} required />
                 <InputLabel label="Description" name={DESCRIPTION} type="text" placeHolder="Type Description" isRequired={false} />
               </div>
               <InputImage directoryName={DIRECTORY_USER} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />

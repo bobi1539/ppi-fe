@@ -7,23 +7,28 @@ import ButtonIcon from "@/app/components/button/button-icon";
 import { useEffect, useState } from "react";
 import { EventResponse } from "@/app/dto/response/event-response";
 import { eventFindAll } from "@/app/backend-api/event";
-import Select from "react-select";
 import { getEventOptions } from "../helper";
 import { EVENT_ID } from "@/app/backend-api/gallery";
 import InputSelectLabel from "@/app/components/input/input-select-label";
+import InputFile from "@/app/components/input/input-file";
 
 export default function GalleryCreate() {
   const [events, setEvents] = useState<EventResponse[]>([]);
-  const [searchEvent, setSearchEvent] = useState<string>("");
 
   useEffect(() => {
     fetchEvent();
-  }, [searchEvent]);
+  }, []);
 
   const fetchEvent = async (): Promise<void> => {
-    const response = await eventFindAll({ search: searchEvent, isDeleted: false });
-    console.log(response);
+    const response = await eventFindAll({ search: "", isDeleted: false });
     setEvents(response);
+  };
+
+  const submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const files = formData.getAll("files-gallery");
+    console.log(files);
   };
 
   return (
@@ -31,11 +36,10 @@ export default function GalleryCreate() {
       <div className="w-full md:max-w-lg">
         <ContentTitle title={"Add Gallery"} />
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
-          <form>
+          <form onSubmit={submit}>
             <div className="grid grid-cols-1 gap-4 mb-4 justify-center">
-              <InputSelectLabel label="Committee" name={EVENT_ID} options={getEventOptions(events)} />
-              <Select options={getEventOptions(events)} />
-              <div className="w-full h-32"></div>
+              <InputSelectLabel label="Committee" name={EVENT_ID} options={getEventOptions(events)} required />
+              <InputFile name={"gallery-files"} label="File Gallery" isRequired multiple accept="image/*,video/*,audio/*,application/pdf" />
             </div>
             <div className="flex justify-between">
               <Link href={FE_GALLERY}>
