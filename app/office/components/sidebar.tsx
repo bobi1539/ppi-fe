@@ -54,17 +54,19 @@ export default function Sidebar(props: Readonly<SidebarProps>) {
                       </span>
                       <span className="whitespace-nowrap">{menu.name}</span>
                     </span>
-                    <i className={`fa-solid fa-chevron-${isSubMenuOpen[menu.id] ? "up" : "down"} mr-2`} />
+                    <i className={`fa-solid fa-chevron-down ${isSubMenuOpen[menu.id] ? "rotate-180" : ""} mr-2 transition-transform duration-500`} />
                   </button>
-                  <ul className={`${isSubMenuOpen[menu.id] ? "" : "hidden"} py-2 space-y-2`}>
-                    {menu.subMenus.map((subMenu) => (
-                      <li key={subMenu.id}>
-                        <Link onClick={props.setIsSidebarOpen} href={subMenu.route} className={`${pathName.startsWith(subMenu.route) ? "text-white bg-secondary-700" : "text-secondary-700"} flex items-center p-2 pl-12 w-full text-base rounded-lg font-medium transition duration-200 hover:text-white hover:bg-secondary-700`}>
-                          {subMenu.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  {isSubMenuOpen[menu.id] && (
+                    <ul className="py-2 space-y-2">
+                      {menu.subMenus.map((subMenu) => (
+                        <li key={subMenu.id}>
+                          <Link onClick={props.setIsSidebarOpen} href={subMenu.route} className={`${pathName.startsWith(subMenu.route) ? "text-white bg-secondary-700" : "text-secondary-700"} flex items-center p-2 pl-12 w-full text-base rounded-lg font-medium transition duration-200 hover:text-white hover:bg-secondary-700`}>
+                            {subMenu.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               )}
             </li>
