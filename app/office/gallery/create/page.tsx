@@ -57,7 +57,7 @@ export default function GalleryCreate() {
                 galleryFiles.map((file, index) => (
                   <div key={index + 1} className="flex items-center gap-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 p-2 rounded">
                     <i className="fa-solid fa-file-lines fa-lg text-gray-500" />
-                    <h1>{file.name}</h1>
+                    <h1 className="truncate">{file.name}</h1>
                   </div>
                 ))}
             </div>
