@@ -1,8 +1,11 @@
-import { CONSTANT_IS_DELETED, CONSTANT_PAGE, CONSTANT_SEARCH, CONSTANT_SIZE } from "../constants/constant";
+import { CONSTANT_IS_DELETED, CONSTANT_PAGE, CONSTANT_SEARCH, CONSTANT_SIZE, HTTP_CODE_UNAUTHORIZED } from "../constants/constant";
 import { PageResponse } from "../dto/response/page-response";
 import { SearchDto } from "../dto/search/search-dto";
-import { getSessionForClient } from "../login/helper";
+import { getSessionForClient, logout, saveSessionLogin } from "../login/helper";
 import { showErrorDialog } from "../utils/sweet-alert";
+import { loginWithRefreshToken } from "./auth";
+import { FE_LOGIN } from "../constants/endpoint-fe";
+import { redirectTo } from "../utils/helper";
 
 export const createHeadersWithoutSession = async (): Promise<Headers> => {
   const headers: Record<string, string> = {
@@ -53,8 +56,12 @@ export const makeDeleteRequest = async (id: number, url: string, headers: Header
 export const handleResponse = async (response: Response): Promise<any> => {
   const result = await response.json();
   if (!response.ok) {
-    showErrorDialog(result.message);
-    throw new Error(`Error : ${result.message}`);
+    if (result.code === HTTP_CODE_UNAUTHORIZED) {
+      await handleTokenExpired();
+    } else {
+      showErrorDialog(result.message);
+      throw new Error(`Error : ${result.message}`);
+    }
   }
   return result.data;
 };
@@ -89,4 +96,15 @@ export const buildUrlFindAll = (url: string, search: SearchDto): string => {
     urlWithParam.searchParams.append(CONSTANT_SIZE, search.size.toString());
   }
   return urlWithParam.toString();
+};
+
+export const handleTokenExpired = async (): Promise<void> => {
+  try {
+    const loginResponse = await loginWithRefreshToken();
+    await saveSessionLogin(loginResponse);
+  } catch (error) {
+    console.error(error);
+    await logout();
+    redirectTo(FE_LOGIN);
+  }
 };

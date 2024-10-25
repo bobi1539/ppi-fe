@@ -60,3 +60,9 @@ export const buildUpdateFileUploadRequest = (fileNameExisting?: string): FileUpl
       }
     : null;
 };
+
+export const redirectTo = (url: string): void => {
+  if (typeof window !== "undefined") {
+    window.location.href = url;
+  }
+};
