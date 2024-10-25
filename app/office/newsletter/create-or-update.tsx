@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
 import InputFile from "@/app/components/input/input-file";
 import { imageDownload } from "@/app/backend-api/file";
+import ButtonBack from "@/app/components/button/button-back";
 
 interface EventCreateOrUpdateProps {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -59,9 +60,7 @@ export default function NewsletterCreateOrUpdate(props: Readonly<EventCreateOrUp
               </div>
             </div>
             <div className="flex justify-between">
-              <Link href={FE_NEWSLETTER}>
-                <ButtonIcon type="button" icon="fa-solid fa-arrow-left" text="Back" className="w-auto px-5 py-2.5" color="bg-gray-500 hover:bg-gray-400" />
-              </Link>
+              <ButtonBack href={FE_NEWSLETTER} />
               <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
             </div>
           </form>

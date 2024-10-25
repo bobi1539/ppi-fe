@@ -4,13 +4,13 @@ import InputImage from "@/app/components/input/input-image";
 import { DIRECTORY_EVENT } from "@/app/constants/constant";
 import InputLabel from "@/app/components/input/input-label";
 import { FE_EVENT } from "@/app/constants/endpoint-fe";
-import Link from "next/link";
 import ButtonIcon from "@/app/components/button/button-icon";
 import TextArea from "@/app/components/input/text-area";
 import { DESCRIPTION, END_DATE, END_TIME, START_DATE, START_TIME, TITLE } from "./helper";
 import ContentTitle from "../components/content-title";
 import { useEffect, useState } from "react";
 import { EventResponse } from "@/app/dto/response/event-response";
+import ButtonBack from "@/app/components/button/button-back";
 
 interface EventCreateOrUpdateProps {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -63,9 +63,7 @@ export default function EventCreateOrUpdate(props: Readonly<EventCreateOrUpdateP
               </div>
             </div>
             <div className="flex justify-between">
-              <Link href={FE_EVENT}>
-                <ButtonIcon type="button" icon="fa-solid fa-arrow-left" text="Back" className="w-auto px-5 py-2.5" color="bg-gray-500 hover:bg-gray-400" />
-              </Link>
+              <ButtonBack href={FE_EVENT} />
               <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
             </div>
           </form>

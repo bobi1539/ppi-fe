@@ -11,11 +11,11 @@ import { useEffect, useState } from "react";
 import { UserRoleResponse } from "@/app/dto/response/user-role-response";
 import { userRoleFindAll } from "@/app/backend-api/user-role";
 import ContentTitle from "@/app/office/components/content-title";
-import Link from "next/link";
 import { FE_USER_DATA } from "@/app/constants/endpoint-fe";
 import { useRouter } from "next/navigation";
 import InputImage from "@/app/components/input/input-image";
 import { DIRECTORY_USER } from "@/app/constants/constant";
+import ButtonBack from "@/app/components/button/button-back";
 
 export default function UserDataUpdate({ params }: Readonly<{ params: { userId: number } }>) {
   const router = useRouter();
@@ -82,9 +82,7 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
               </div>
             </div>
             <div className="flex justify-between">
-              <Link href={FE_USER_DATA}>
-                <ButtonIcon type="button" icon="fa-solid fa-arrow-left" text="Back" className="w-auto px-5 py-2.5" color="bg-gray-500 hover:bg-gray-400" />
-              </Link>
+              <ButtonBack href={FE_USER_DATA} />
               <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
             </div>
           </form>
