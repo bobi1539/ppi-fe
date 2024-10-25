@@ -39,15 +39,22 @@ export const convertFileToBase64 = async (file: File): Promise<string> => {
   });
 };
 
-export const getFileFormData = async (formData: FormData, key: string): Promise<FileUploadRequest> => {
+export const getFileFormData = async (formData: FormData, key: string): Promise<FileUploadRequest | null> => {
   const file = formData.get(key) as File;
   return fileToFileUploadRequest(file);
 };
 
-export const fileToFileUploadRequest = async (file: File): Promise<FileUploadRequest> => {
+export const fileToFileUploadRequest = async (file: File): Promise<FileUploadRequest | null> => {
   if (file && file.name !== "") {
     const base64 = await convertFileToBase64(file);
     return { fileBase64: base64, fileName: file.name };
   }
-  return { fileBase64: null, fileName: null };
+  return null;
+};
+
+export const buildUpdateFileUploadRequest = (fileNameExisting: string): FileUploadRequest => {
+  return {
+    fileBase64: null,
+    fileName: fileNameExisting,
+  };
 };

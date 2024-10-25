@@ -27,11 +27,14 @@ export const getEventOptionsForSearch = (events: EventResponse[]): Option[] => {
 
 export const buildGalleryRequest = async (formData: FormData): Promise<GalleryRequest> => {
   const galleryFiles = formData.getAll(GALLERY_FILES);
-  const fileUploads: FileUploadRequest[] = await Promise.all(
-    galleryFiles.map(async (file) => {
-      return await fileToFileUploadRequest(file as File);
-    })
-  );
+  const fileUploads: FileUploadRequest[] = (
+    await Promise.all(
+      galleryFiles.map(async (file) => {
+        return await fileToFileUploadRequest(file as File);
+      })
+    )
+  ).filter((fileUpload): fileUpload is FileUploadRequest => fileUpload !== null);
+
   return {
     eventId: Number(formData.get(EVENT_ID)),
     fileUploads: fileUploads,

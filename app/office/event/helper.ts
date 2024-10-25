@@ -1,5 +1,5 @@
 import { EventRequest } from "@/app/dto/request/event-request";
-import { getFileFormData } from "@/app/utils/helper";
+import { buildUpdateFileUploadRequest, getFileFormData } from "@/app/utils/helper";
 
 export const TITLE: string = "title";
 export const DESCRIPTION: string = "description";
@@ -24,10 +24,6 @@ export const buildCreateEventRequest = async (formData: FormData): Promise<Event
 
 export const buildUpdateEventRequest = async (formData: FormData, coverFileNameExisting: string): Promise<EventRequest> => {
   const cover = await getFileFormData(formData, COVER);
-  if (cover.fileName === null) {
-    cover.fileBase64 = "string";
-    cover.fileName = coverFileNameExisting;
-  }
   return {
     title: String(formData.get(TITLE)),
     description: String(formData.get(DESCRIPTION)),
@@ -35,6 +31,6 @@ export const buildUpdateEventRequest = async (formData: FormData, coverFileNameE
     endDate: String(formData.get(END_DATE)),
     startTime: String(formData.get(START_TIME)),
     endTime: String(formData.get(END_TIME)),
-    cover: cover,
+    cover: cover ?? buildUpdateFileUploadRequest(coverFileNameExisting),
   };
 };

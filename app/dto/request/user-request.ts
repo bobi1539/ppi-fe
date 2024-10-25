@@ -5,7 +5,7 @@ export interface UserRequest {
   name: string;
   email: string;
   isActive: boolean;
-  photo: FileUploadRequest;
+  photo: FileUploadRequest | null;
   description: string | null;
   userRoleId: number;
 }
