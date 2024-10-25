@@ -26,6 +26,7 @@ export default function Gallery() {
   const [events, setEvents] = useState<EventResponse[]>([]);
   const [eventOption, setEventOption] = useState<Option | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [galleryIdHover, setGalleryIdHover] = useState<number>(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -65,12 +66,14 @@ export default function Gallery() {
   };
 
   const handleDeleteGallery = async (id: number): Promise<void> => {
+    setGalleryIdHover(id);
     const result = await showConfirmDialog("Are you sure to delete?");
     if (result.isConfirmed) {
       await galleryDelete(id);
       showSuccessDialog();
       fetchGallery();
     }
+    setGalleryIdHover(0);
   };
 
   return (
@@ -85,7 +88,7 @@ export default function Gallery() {
         </ContentSearch>
         <div className="columns-1 md:columns-2 lg:columns-3 2xl:columns-4 p-4 pt-0">
           {galleryPages?.content.map((gallery) => (
-            <div key={gallery.id} onClick={() => handleDeleteGallery(gallery.id)} className="p-2 mb-4 rounded-lg hover:shadow-2xl transform transition-transform duration-300 hover:scale-110">
+            <div key={gallery.id} onClick={() => handleDeleteGallery(gallery.id)} className={`${galleryIdHover === gallery.id ? "scale-110 shadow-2xl" : ""} p-2 mb-4 rounded-lg transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl`}>
               <Image className="rounded-lg" src={imageDownload(DIRECTORY_GALLERY, gallery.fileName)} alt={`${gallery.event.title}-gallery`} width={1024} height={1024} priority />
             </div>
           ))}
