@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
 import Image from "next/image";
 import ActionCard from "../components/action-card";
+import CardHover from "@/app/components/card/card-hover";
 
 export default function Event() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
@@ -102,7 +103,7 @@ export default function Event() {
         </ContentSearch>
         <div className="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4 md:p-8 pt-0 md:pt-2">
           {eventPages?.content.map((event) => (
-            <div key={event.id} onClick={() => handleClickEvent(event.id)} className={`${eventIdHover === event.id ? "scale-110 shadow-2xl" : ""} relative p-2 transform transition-transform duration-300 rounded-lg hover:scale-110 hover:shadow-2xl`}>
+            <CardHover key={event.id} isScale={eventIdHover === event.id} onClick={() => handleClickEvent(event.id)}>
               {(event.deleted || popUpItemId === event.id) && <div className="bg-gray-400/50 w-full h-full absolute rounded-lg cursor-pointer -m-2" />}
               <div className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
                 <div className="col-span-2 flex justify-center">
@@ -116,7 +117,7 @@ export default function Event() {
                 </div>
               </div>
               {popUpItemId === event.id && <ActionCard deleted={event.deleted ?? false} handleEdit={() => handleEditEvent(event.id)} handleDelete={() => handleDeleteEvent(event.id)} handleRestore={() => handleRestoreEvent(event.id)} />}
-            </div>
+            </CardHover>
           ))}
         </div>
         <FooterTable numberOfElements={eventPages?.numberOfElements ?? 0} totalElements={eventPages?.totalElements ?? 0} totalPages={eventPages?.totalPages ?? 10} handlePageChange={handlePageChange} />

@@ -18,12 +18,14 @@ import { DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
 import { limitText } from "@/app/utils/helper";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
 import ActionCard from "../components/action-card";
+import CardHover from "@/app/components/card/card-hover";
 
 export default function Newsletter() {
   const [newsletterPages, setNewsletterPages] = useState<PageResponse<NewsletterResponse>>();
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [popUpItemId, setPopUpItemId] = useState<number>(0);
+  const [newsletterIdHover, setNewsletterIdHover] = useState<number>(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -47,6 +49,11 @@ export default function Newsletter() {
     setCurrentPage(page - 1);
   };
 
+  const handleClickNewsletter = (id: number): void => {
+    setPopUpItemId(popUpItemId === id ? 0 : id);
+    setNewsletterIdHover(newsletterIdHover === id ? 0 : id);
+  };
+
   const handleCreateNewsletter = (): void => {
     router.push(FE_NEWSLETTER_CREATE);
   };
@@ -56,22 +63,29 @@ export default function Newsletter() {
   };
 
   const handleDeleteNewsletter = async (id: number): Promise<void> => {
+    setNewsletterIdHover(id);
     const result = await showConfirmDialog("Are you sure to delete?");
     if (result.isConfirmed) {
       await newsletterDelete(id);
       showSuccessDialog();
       fetchNewsletter();
     }
+    setPopUpItemId(0);
+    setNewsletterIdHover(0);
   };
 
   const handleRestoreNewsletter = async (id: number): Promise<void> => {
+    setNewsletterIdHover(id);
     const result = await showConfirmDialog("Are you sure to restore?");
     if (result.isConfirmed) {
       await newsletterRestore(id);
       showSuccessDialog();
       fetchNewsletter();
     }
+    setPopUpItemId(0);
+    setNewsletterIdHover(0);
   };
+
   return (
     <div>
       <ContentTitle title="Newsletter" />
@@ -84,7 +98,7 @@ export default function Newsletter() {
         </ContentSearch>
         <div className="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4 md:p-8 pt-0 md:pt-2">
           {newsletterPages?.content.map((newsletter) => (
-            <div key={newsletter.id} onClick={() => setPopUpItemId(popUpItemId === newsletter.id ? 0 : newsletter.id)} className="relative p-2">
+            <CardHover key={newsletter.id} isScale={newsletterIdHover === newsletter.id} onClick={() => handleClickNewsletter(newsletter.id)}>
               {(newsletter.deleted || popUpItemId === newsletter.id) && <div className="bg-gray-400/50 w-full h-full absolute rounded-lg cursor-pointer -m-2" />}
               <div className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
                 <div className="col-span-2 flex justify-center">
@@ -96,7 +110,7 @@ export default function Newsletter() {
                 </div>
               </div>
               {popUpItemId === newsletter.id && <ActionCard deleted={newsletter.deleted ?? false} handleEdit={() => handleEditNewsletter(newsletter.id)} handleDelete={() => handleDeleteNewsletter(newsletter.id)} handleRestore={() => handleRestoreNewsletter(newsletter.id)} />}
-            </div>
+            </CardHover>
           ))}
         </div>
         <FooterTable numberOfElements={newsletterPages?.numberOfElements ?? 0} totalElements={newsletterPages?.totalElements ?? 0} totalPages={newsletterPages?.totalPages ?? 10} handlePageChange={handlePageChange} />
