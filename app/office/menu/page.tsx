@@ -12,6 +12,7 @@ import SubMenuModalUpdate from "./sub-menu-update";
 import CustomDropdown from "@/app/components/dropdown/custom-dropdown";
 import CustomDropdownItem from "@/app/components/dropdown/custom-dropdown-item";
 import { ICON_EDIT, TEXT_COLOR_EDIT, TEXT_EDIT } from "@/app/constants/constant";
+import LoadingTable from "@/app/components/loading/loading-table";
 
 export default function Menu() {
   const [menus, setMenus] = useState<MenuResponse[]>([]);
@@ -21,14 +22,17 @@ export default function Menu() {
   const [subMenuIdUpdate, setSubMenuIdUpdate] = useState<number>(0);
   const [menuName, setMenuName] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     fetchMenu();
   }, [searchValue]);
 
   const fetchMenu = async (): Promise<void> => {
+    setIsLoading(true);
     const response = await menuFindAll({ search: searchValue });
     setMenus(response);
+    setIsLoading(false);
   };
 
   const handleEditMenu = (id: number): void => {
@@ -68,57 +72,61 @@ export default function Menu() {
           <InputSearch onChange={(e) => setSearchValue(e.target.value)} />
         </ContentSearch>
         <CustomTable heads={headsTable}>
-          {(() => {
-            let numbering = 1;
-            return menus.map((menu) => (
-              <React.Fragment key={menu.id}>
-                <tr className="border-b text-center">
-                  <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
-                    {numbering++}
-                  </td>
-                  <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
-                    {menu.name}
-                  </td>
-                  <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
-                    {menu.route}
-                  </td>
-                  <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap">
-                    <i className={`${menu.icon} fa-lg`} />
-                  </td>
-                  <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap">
-                    {menu.sequence}
-                  </td>
-                  <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap" />
-                  <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
-                    {viewDropDownMenu(menu.id)}
-                  </td>
-                </tr>
-                {menu.subMenus &&
-                  menu.subMenus.length > 0 &&
-                  menu.subMenus.map((subMenu) => (
-                    <tr key={subMenu.id} className="border-b text-center">
-                      <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
-                        {numbering++}
-                      </td>
-                      <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
-                        -- {subMenu.name}
-                      </td>
-                      <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
-                        {subMenu.route}
-                      </td>
-                      <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap" />
-                      <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap" />
-                      <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap">
-                        {subMenu.sequence}
-                      </td>
-                      <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
-                        {viewDropDownSubMenu(subMenu.id, menu.name)}
-                      </td>
-                    </tr>
-                  ))}
-              </React.Fragment>
-            ));
-          })()}
+          {isLoading ? (
+            <LoadingTable colSpan={headsTable.length} />
+          ) : (
+            (() => {
+              let numbering = 1;
+              return menus.map((menu) => (
+                <React.Fragment key={menu.id}>
+                  <tr className="border-b text-center">
+                    <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
+                      {numbering++}
+                    </td>
+                    <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
+                      {menu.name}
+                    </td>
+                    <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
+                      {menu.route}
+                    </td>
+                    <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap">
+                      <i className={`${menu.icon} fa-lg`} />
+                    </td>
+                    <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap">
+                      {menu.sequence}
+                    </td>
+                    <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap" />
+                    <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
+                      {viewDropDownMenu(menu.id)}
+                    </td>
+                  </tr>
+                  {menu.subMenus &&
+                    menu.subMenus.length > 0 &&
+                    menu.subMenus.map((subMenu) => (
+                      <tr key={subMenu.id} className="border-b text-center">
+                        <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
+                          {numbering++}
+                        </td>
+                        <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
+                          -- {subMenu.name}
+                        </td>
+                        <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
+                          {subMenu.route}
+                        </td>
+                        <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap" />
+                        <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap" />
+                        <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap">
+                          {subMenu.sequence}
+                        </td>
+                        <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
+                          {viewDropDownSubMenu(subMenu.id, menu.name)}
+                        </td>
+                      </tr>
+                    ))}
+                </React.Fragment>
+              ));
+            })()
+          )}
         </CustomTable>
         <div className="mb-10" />
         {isModalUpdateMenuOpen && <MenuModalUpdate id={menuIdUpdate} closeModal={() => setIsModalUpdateMenuOpen(false)} fetchMenu={fetchMenu} />}
