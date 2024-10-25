@@ -20,6 +20,7 @@ import InputSelect from "@/app/components/input/input-select";
 import { EVENT_ID, getEventOptionsForSearch } from "./helper";
 import { Option } from "@/app/components/input/input-select-label";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
+import LoadingOffice from "../loading";
 
 export default function Gallery() {
   const [galleryPages, setGalleryPages] = useState<PageResponse<GalleryResponse>>();
@@ -27,6 +28,7 @@ export default function Gallery() {
   const [eventOption, setEventOption] = useState<Option | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [galleryIdHover, setGalleryIdHover] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,8 +37,10 @@ export default function Gallery() {
   }, [currentPage, eventOption]);
 
   const fetchGallery = async (): Promise<void> => {
+    setIsLoading(true);
     const response = await galleryFindAllPagination(buildSearchDto());
     setGalleryPages(response);
+    setIsLoading(false);
   };
 
   const buildSearchDto = (): GallerySearchDto => {
@@ -86,13 +90,17 @@ export default function Gallery() {
             <ButtonIcon onClick={() => handleCreateGallery()} type="button" icon="fa-solid fa-plus" text="Add Gallery" className="w-full md:w-auto" />
           </div>
         </ContentSearch>
-        <div className="columns-1 md:columns-2 lg:columns-3 2xl:columns-4 p-4 pt-0">
-          {galleryPages?.content.map((gallery) => (
-            <div key={gallery.id} onClick={() => handleDeleteGallery(gallery.id)} className={`${galleryIdHover === gallery.id ? "scale-110 shadow-2xl" : ""} p-2 mb-4 rounded-lg transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl`}>
-              <Image className="rounded-lg" src={imageDownload(DIRECTORY_GALLERY, gallery.fileName)} alt={`${gallery.event.title}-gallery`} width={1024} height={1024} priority />
-            </div>
-          ))}
-        </div>
+        {isLoading ? (
+          <LoadingOffice />
+        ) : (
+          <div className="columns-1 md:columns-2 lg:columns-3 2xl:columns-4 p-4 pt-0">
+            {galleryPages?.content.map((gallery) => (
+              <div key={gallery.id} onClick={() => handleDeleteGallery(gallery.id)} className={`${galleryIdHover === gallery.id ? "scale-110 shadow-2xl" : ""} p-2 mb-4 rounded-lg transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl`}>
+                <Image className="rounded-lg" src={imageDownload(DIRECTORY_GALLERY, gallery.fileName)} alt={`${gallery.event.title}-gallery`} width={1024} height={1024} priority />
+              </div>
+            ))}
+          </div>
+        )}
         <FooterTable numberOfElements={galleryPages?.numberOfElements ?? 0} totalElements={galleryPages?.totalElements ?? 0} totalPages={galleryPages?.totalPages ?? 10} handlePageChange={handlePageChange} />
       </section>
     </div>
