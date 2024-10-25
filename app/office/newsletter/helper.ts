@@ -6,17 +6,6 @@ export const DESCRIPTION: string = "description";
 export const COVER: string = "cover";
 export const CONTENT: string = "content";
 
-export const buildCreateNewsletterRequest = async (formData: FormData): Promise<NewsletterRequest> => {
-  const cover = await getFileFormData(formData, COVER);
-  const content = await getFileFormData(formData, CONTENT);
-  return {
-    title: String(formData.get(TITLE)),
-    description: String(formData.get(DESCRIPTION)),
-    cover: cover,
-    content: content,
-  };
-};
-
 export const buildNewsletterRequest = async (formData: FormData, coverFileNameExisting?: string, contentFileNameExisting?: string): Promise<NewsletterRequest> => {
   const cover = await getFileFormData(formData, COVER);
   const content = await getFileFormData(formData, CONTENT);
