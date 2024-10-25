@@ -17,7 +17,7 @@ export const buildCreateNewsletterRequest = async (formData: FormData): Promise<
   };
 };
 
-export const buildUpdateNewsletterRequest = async (formData: FormData, coverFileNameExisting: string, contentFileNameExisting: string): Promise<NewsletterRequest> => {
+export const buildNewsletterRequest = async (formData: FormData, coverFileNameExisting?: string, contentFileNameExisting?: string): Promise<NewsletterRequest> => {
   const cover = await getFileFormData(formData, COVER);
   const content = await getFileFormData(formData, CONTENT);
 

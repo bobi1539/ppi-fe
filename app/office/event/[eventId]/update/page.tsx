@@ -1,7 +1,7 @@
 "use client";
 
 import { FE_EVENT } from "@/app/constants/endpoint-fe";
-import { buildUpdateEventRequest } from "../../helper";
+import { buildEventRequest } from "../../helper";
 import { eventFindById, eventUpdate } from "@/app/backend-api/event";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { useRouter } from "next/navigation";
@@ -25,7 +25,7 @@ export default function EventUpdate({ params }: Readonly<{ params: { eventId: nu
   const submitUpdateEvent = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const request = await buildUpdateEventRequest(formData, event?.cover ?? "");
+    const request = await buildEventRequest(formData, event?.cover);
     await eventUpdate(params.eventId, request);
     await showSuccessDialog();
     router.push(FE_EVENT);

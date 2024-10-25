@@ -52,9 +52,11 @@ export const fileToFileUploadRequest = async (file: File): Promise<FileUploadReq
   return null;
 };
 
-export const buildUpdateFileUploadRequest = (fileNameExisting: string): FileUploadRequest => {
-  return {
-    fileBase64: null,
-    fileName: fileNameExisting,
-  };
+export const buildUpdateFileUploadRequest = (fileNameExisting?: string): FileUploadRequest | null => {
+  return fileNameExisting
+    ? {
+        fileBase64: null,
+        fileName: fileNameExisting,
+      }
+    : null;
 };

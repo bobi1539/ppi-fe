@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
 import { newsletterFindById, newsletterUpdate } from "@/app/backend-api/newsletter";
-import { buildUpdateNewsletterRequest } from "../../helper";
+import { buildNewsletterRequest } from "../../helper";
 import NewsletterCreateOrUpdate from "../../create-or-update";
 
 export default function NewsletterUpdate({ params }: Readonly<{ params: { newsletterId: number } }>) {
@@ -25,7 +25,7 @@ export default function NewsletterUpdate({ params }: Readonly<{ params: { newsle
   const submitUpdateNewsletter = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const request = await buildUpdateNewsletterRequest(formData, newsletter?.cover ?? "", newsletter?.content ?? "");
+    const request = await buildNewsletterRequest(formData, newsletter?.cover, newsletter?.content);
     await newsletterUpdate(params.newsletterId, request);
     await showSuccessDialog();
     router.push(FE_NEWSLETTER);
