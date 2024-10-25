@@ -25,6 +25,7 @@ export default function Event() {
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [popUpItemId, setPopUpItemId] = useState<number>(0);
+  const [eventIdHover, setEventIdHover] = useState<number>(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -48,6 +49,11 @@ export default function Event() {
     setCurrentPage(page - 1);
   };
 
+  const handleClickEvent = (id: number): void => {
+    setPopUpItemId(popUpItemId === id ? 0 : id);
+    setEventIdHover(eventIdHover === id ? 0 : id);
+  };
+
   const handleCreateEvent = (): void => {
     router.push(FE_EVENT_CREATE);
   };
@@ -57,21 +63,31 @@ export default function Event() {
   };
 
   const handleDeleteEvent = async (id: number): Promise<void> => {
-    const result = await showConfirmDialog("Are you sure to delete?");
-    if (result.isConfirmed) {
-      await eventDelete(id);
-      showSuccessDialog();
-      fetchEvent();
+    setEventIdHover(id);
+    try {
+      const result = await showConfirmDialog("Are you sure to delete?");
+      if (result.isConfirmed) {
+        await eventDelete(id);
+        showSuccessDialog();
+        fetchEvent();
+      }
+    } catch (error) {
+      console.log(error);
     }
+    setPopUpItemId(0);
+    setEventIdHover(0);
   };
 
   const handleRestoreEvent = async (id: number): Promise<void> => {
+    setEventIdHover(id);
     const result = await showConfirmDialog("Are you sure to restore?");
     if (result.isConfirmed) {
       await eventRestore(id);
       showSuccessDialog();
       fetchEvent();
     }
+    setPopUpItemId(0);
+    setEventIdHover(0);
   };
 
   return (
@@ -86,7 +102,7 @@ export default function Event() {
         </ContentSearch>
         <div className="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4 md:p-8 pt-0 md:pt-2">
           {eventPages?.content.map((event) => (
-            <div key={event.id} onClick={() => setPopUpItemId(popUpItemId === event.id ? 0 : event.id)} className="relative p-2">
+            <div key={event.id} onClick={() => handleClickEvent(event.id)} className={`${eventIdHover === event.id ? "scale-110 shadow-2xl" : ""} relative p-2 transform transition-transform duration-300 rounded-lg hover:scale-110 hover:shadow-2xl`}>
               {(event.deleted || popUpItemId === event.id) && <div className="bg-gray-400/50 w-full h-full absolute rounded-lg cursor-pointer -m-2" />}
               <div className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
                 <div className="col-span-2 flex justify-center">
