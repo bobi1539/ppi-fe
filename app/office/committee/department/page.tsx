@@ -23,6 +23,8 @@ import CustomDropdown from "@/app/components/dropdown/custom-dropdown";
 import CustomDropdownItem from "@/app/components/dropdown/custom-dropdown-item";
 import { Option } from "@/app/components/input/input-select-label";
 import LoadingTable from "@/app/components/loading/loading-table";
+import { useRouter } from "next/navigation";
+import { FE_DEPARTMENT } from "@/app/constants/endpoint-fe";
 
 export default function CommitteeDepartment() {
   const [divisionPages, setDivisionPages] = useState<PageResponse<DivisionResponse>>();
@@ -34,6 +36,7 @@ export default function CommitteeDepartment() {
   const [periods, setPeriods] = useState<PeriodResponse[]>([]);
   const [periodOption, setPeriodOption] = useState<Option | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     fetchDivision();
@@ -67,6 +70,10 @@ export default function CommitteeDepartment() {
 
   const hanldeSearchByCommittee = (option: Option | null) => {
     setPeriodOption(option);
+  };
+
+  const handleViewStaff = (id: number): void => {
+    router.push(FE_DEPARTMENT + "/" + id + "/staff");
   };
 
   const handleEditDivision = (id: number): void => {
@@ -124,6 +131,7 @@ export default function CommitteeDepartment() {
                 </td>
                 <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
                   <CustomDropdown>
+                    <CustomDropdownItem onClick={() => handleViewStaff(division.id)} className={TEXT_COLOR_EDIT} icon="fa-solid fa-user-tie" text="Staff" />
                     {division.deleted ? <CustomDropdownItem onClick={() => handleRestoreDivision(division.id)} className={TEXT_COLOR_RESTORE} icon={ICON_RESTORE} text={TEXT_RESTORE} /> : <CustomDropdownItem onClick={() => handleEditDivision(division.id)} className={TEXT_COLOR_EDIT} icon={ICON_EDIT} text={TEXT_EDIT} />}
                     <CustomDropdownItem onClick={() => handleDeleteDivision(division.id)} className={TEXT_COLOR_DELETE} icon={ICON_DELETE} text={TEXT_DELETE} />
                   </CustomDropdown>
