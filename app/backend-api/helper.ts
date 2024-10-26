@@ -24,44 +24,60 @@ export const createHeaders = async (): Promise<Headers> => {
 };
 
 export const makeGetRequest = async (url: string, headers: Headers): Promise<Response> => {
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "GET",
     headers: headers,
   });
+  if (response.status === HTTP_CODE_UNAUTHORIZED) {
+    await handleTokenExpired();
+    return makeGetRequest(url, await createHeaders());
+  }
+  return response;
 };
 
 export const makePostRequest = async (url: string, headers: Headers, body: any): Promise<Response> => {
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "POST",
     headers: headers,
     body: createRequestBody(body),
   });
+  if (response.status === HTTP_CODE_UNAUTHORIZED) {
+    await handleTokenExpired();
+    return makePostRequest(url, await createHeaders(), body);
+  }
+  return response;
 };
 
 export const makePutRequest = async (id: number, url: string, headers: Headers, body: any): Promise<Response> => {
-  return fetch(url + "/" + id, {
+  const response = await fetch(url + "/" + id, {
     method: "PUT",
     headers: headers,
     body: createRequestBody(body),
   });
+  if (response.status === HTTP_CODE_UNAUTHORIZED) {
+    await handleTokenExpired();
+    return makePutRequest(id, url, await createHeaders(), body);
+  }
+  return response;
 };
 
 export const makeDeleteRequest = async (id: number, url: string, headers: Headers): Promise<Response> => {
-  return fetch(url + "/" + id, {
+  const response = await fetch(url + "/" + id, {
     method: "DELETE",
     headers: headers,
   });
+  if (response.status === HTTP_CODE_UNAUTHORIZED) {
+    await handleTokenExpired();
+    return makeDeleteRequest(id, url, await createHeaders());
+  }
+  return response;
 };
 
 export const handleResponse = async (response: Response): Promise<any> => {
   const result = await response.json();
   if (!response.ok) {
-    if (result.code === HTTP_CODE_UNAUTHORIZED) {
-      await handleTokenExpired();
-    } else {
-      showErrorDialog(result.message);
-      throw new Error(`Error : ${result.message}`);
-    }
+    showErrorDialog(result.message);
+    throw new Error(`Error : ${result.message}`);
   }
   return result.data;
 };
@@ -105,6 +121,7 @@ export const handleTokenExpired = async (): Promise<void> => {
   } catch (error) {
     console.error(error);
     await logout();
+    await showErrorDialog("Your session is expired.");
     redirectTo(FE_LOGIN);
   }
 };
