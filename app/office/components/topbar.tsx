@@ -82,7 +82,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
           <DropdownMenu open={isDropdownProfileOpen} onOpenChange={() => setIsDropdownProfileOpen(!isDropdownProfileOpen)}>
             <DropdownMenuTrigger type="button" className="outline-none hover:bg-gray-100 px-2 py-1 rounded-lg">
               <span className="sr-only">Open user menu</span>
-              <Image className="w-8 h-8 rounded-full border border-gray-200" src={user?.photo && user.photo !== null ? photoUrl : DEFAULT_IMAGE_URL} alt="profile" width={100} height={100} priority />
+              <Image className="w-8 h-8 rounded-full border border-gray-200 object-cover" src={user?.photo && user.photo !== null ? photoUrl : DEFAULT_IMAGE_URL} alt="profile" width={100} height={100} priority />
             </DropdownMenuTrigger>
             <DropdownMenuPortal>
               <DropdownMenuContent className="mt-5 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-lg">

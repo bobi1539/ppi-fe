@@ -70,6 +70,7 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
           <form onSubmit={submitUpdateUser}>
             <div className="my-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <InputImage directoryName={DIRECTORY_USER} currentImage={photo} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
                 <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                   <InputLabel value={username} onChange={(e) => setUsername(e.target.value)} label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
                   <InputLabel value={name} onChange={(e) => setName(e.target.value)} label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
@@ -78,7 +79,6 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
                   <InputSelectLabel label="Status" name={IS_ACTIVE} option={isActiveOption} options={statusOptions} required />
                   <InputLabel value={description} onChange={(e) => setDescription(e.target.value)} label="Description" name={DESCRIPTION} type="text" placeHolder="Type Description" isRequired={false} />
                 </div>
-                <InputImage directoryName={DIRECTORY_USER} currentImage={photo} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />
               </div>
             </div>
             <div className="flex justify-between">

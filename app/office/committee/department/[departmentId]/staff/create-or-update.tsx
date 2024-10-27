@@ -8,7 +8,6 @@ import InputSelectLabel, { Option } from "@/app/components/input/input-select-la
 import { StaffResponse } from "@/app/dto/response/staff-response";
 import InputImage from "@/app/components/input/input-image";
 import { DIRECTORY_STAFF } from "@/app/constants/constant";
-import ContentTitle from "@/app/office/components/content-title";
 import TextArea from "@/app/components/input/text-area";
 import Modal from "@/app/components/modal/modal";
 

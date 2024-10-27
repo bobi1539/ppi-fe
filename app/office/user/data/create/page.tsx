@@ -48,6 +48,7 @@ export default function UserDataCreate() {
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form onSubmit={submitSaveUser}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+              <InputImage directoryName={DIRECTORY_USER} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
               <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                 <InputLabel label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
                 <InputLabel label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
@@ -58,7 +59,6 @@ export default function UserDataCreate() {
                 <InputSelectLabel label="Status" name={IS_ACTIVE} options={statusOptions} required />
                 <InputLabel label="Description" name={DESCRIPTION} type="text" placeHolder="Type Description" isRequired={false} />
               </div>
-              <InputImage directoryName={DIRECTORY_USER} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />
             </div>
             <div className="flex justify-between">
               <ButtonBack href={FE_USER_DATA} />

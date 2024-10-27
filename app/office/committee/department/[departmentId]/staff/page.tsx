@@ -114,8 +114,10 @@ export default function DepartmentStaff(props: Readonly<DepartmentStaffProps>) {
             </div>
           )}
           {staffTeams && staffTeams.length > 0 && (
-            <div className="flex items-center flex-col mt-4">
-              <h1 className="text-2xl font-bold">The Teams</h1>
+            <div className="mt-4">
+              <div className="flex justify-center">
+                <h1 className="text-2xl font-bold">The Teams</h1>
+              </div>
               <div className="p-4 flex flex-col md:flex-row md:flex-wrap justify-center gap-4">
                 {staffTeams.map((team) => (
                   <CardStaffOffice key={team.id} onClick={() => handleClickStaff(team.id)} staff={team} isShowBgGray={team.deleted || popUpItemId === team.id} isShowAction={popUpItemId === team.id} isScale={staffIdHover === team.id} handleEditStaff={() => handleEditStaff(team.id)} handleDeleteStaff={() => handleDeleteStaff(team.id)} handleRestoreStaff={() => handleRestoreStaff(team.id)} />
