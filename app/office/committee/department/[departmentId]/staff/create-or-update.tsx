@@ -10,6 +10,7 @@ import InputImage from "@/app/components/input/input-image";
 import { DIRECTORY_STAFF } from "@/app/constants/constant";
 import ContentTitle from "@/app/office/components/content-title";
 import TextArea from "@/app/components/input/text-area";
+import Modal from "@/app/components/modal/modal";
 
 interface DepartmentStaffModalProps {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -42,33 +43,28 @@ export default function DepartmentStaffModal(props: Readonly<DepartmentStaffModa
   }, [props.staff]);
 
   return (
-    <div className="flex justify-center">
-      <div className="w-full md:max-w-5xl">
-        <ContentTitle title={props.title} />
-        <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
-          <form onSubmit={props.submit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 my-4">
-              <div className="grid grid-cols-1 gap-3">
-                <div className=" mt-3">
-                  <InputImage label="Upload Photo" currentImage={photo} directoryName={DIRECTORY_STAFF} inputName={STAFF_PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />
-                </div>
-                <InputLabel value={staffName} onChange={(e) => setStaffName(e.target.value)} label="Staff Name" name={STAFF_NAME} type="text" placeHolder="Type staff name" isRequired={true} />
-                <InputLabel value={position} onChange={(e) => setPosition(e.target.value)} label="Position" name={POSITION} type="text" placeHolder="Type position" isRequired={true} />
-                <TextArea label="Description" currentValue={description} onChange={(e) => setDescription(e.target.value)} name={DESCRIPTION} rows={4} />
-              </div>
-              <div className="flex flex-col gap-3">
-                <InputSelectLabel option={isHeadOption} label="Head Of Department" name={IS_HEAD} options={isHeadOptions} required />
-                <InputLabel value={quote} onChange={(e) => setQuote(e.target.value)} label="Quote" name={QUOTE} type="text" placeHolder="Type quote" isRequired={false} />
-                <InputLabel value={funFact} onChange={(e) => setFunFact(e.target.value)} label="Fun Fact" name={FUN_FACT} type="text" placeHolder="Type fun fact" isRequired={false} />
-                <TextArea label="Job Description" currentValue={jobDescription} onChange={(e) => setJobDescription(e.target.value)} name={JOB_DESCRIPTION} rows={12} />
-              </div>
+    <Modal title={props.title} closeModal={props.closeModal} className="max-w-5xl">
+      <form onSubmit={props.submit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 my-4">
+          <div className="grid grid-cols-1 gap-3">
+            <div className=" mt-3">
+              <InputImage label="Upload Photo" currentImage={photo} directoryName={DIRECTORY_STAFF} inputName={STAFF_PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />
             </div>
-            <div className="flex justify-end">
-              <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
-            </div>
-          </form>
-        </section>
-      </div>
-    </div>
+            <InputLabel value={staffName} onChange={(e) => setStaffName(e.target.value)} label="Staff Name" name={STAFF_NAME} type="text" placeHolder="Type staff name" isRequired={true} />
+            <InputLabel value={position} onChange={(e) => setPosition(e.target.value)} label="Position" name={POSITION} type="text" placeHolder="Type position" isRequired={true} />
+            <TextArea label="Description" currentValue={description} onChange={(e) => setDescription(e.target.value)} name={DESCRIPTION} rows={4} />
+          </div>
+          <div className="flex flex-col gap-3">
+            <InputSelectLabel option={isHeadOption} label="Head Of Department" name={IS_HEAD} options={isHeadOptions} required />
+            <InputLabel value={quote} onChange={(e) => setQuote(e.target.value)} label="Quote" name={QUOTE} type="text" placeHolder="Type quote" isRequired={false} />
+            <InputLabel value={funFact} onChange={(e) => setFunFact(e.target.value)} label="Fun Fact" name={FUN_FACT} type="text" placeHolder="Type fun fact" isRequired={false} />
+            <TextArea label="Job Description" currentValue={jobDescription} onChange={(e) => setJobDescription(e.target.value)} name={JOB_DESCRIPTION} rows={12} />
+          </div>
+        </div>
+        <div className="flex justify-end">
+          <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+        </div>
+      </form>
+    </Modal>
   );
 }

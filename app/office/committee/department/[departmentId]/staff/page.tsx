@@ -9,13 +9,10 @@ import ContentTitle from "@/app/office/components/content-title";
 import { useEffect, useState } from "react";
 import DepartmentStaffModalCreate from "./create";
 import { StaffResponse } from "@/app/dto/response/staff-response";
-import { staffFindAll } from "@/app/backend-api/staff";
+import { staffDelete, staffFindAll, staffRestore } from "@/app/backend-api/staff";
 import { StaffSearchDto } from "@/app/dto/search/staff-search-dto";
-import Image from "next/image";
-import { imageDownload } from "@/app/backend-api/file";
-import { DIRECTORY_STAFF, ICON_DELETE, ICON_EDIT, TEXT_DELETE, TEXT_EDIT } from "@/app/constants/constant";
-import Nl2Br from "@/app/components/paragraph/nl2br";
-import ActionCard from "@/app/office/components/action-card";
+import CardStaffOffice from "@/app/components/card/card-staff-office";
+import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
 
 interface DepartmentStaffProps {
   params: {
@@ -28,7 +25,7 @@ export default function DepartmentStaff(props: Readonly<DepartmentStaffProps>) {
   const [staffTeams, setStaffTeams] = useState<StaffResponse[]>([]);
   const [division, setDivision] = useState<DivisionResponse>();
   const [popUpItemId, setPopUpItemId] = useState<number>(0);
-  const [eventIdHover, setEventIdHover] = useState<number>(0);
+  const [staffIdHover, setStaffIdHover] = useState<number>(0);
   const [isModalCreateOpen, setIsModalCreateOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -61,41 +58,43 @@ export default function DepartmentStaff(props: Readonly<DepartmentStaffProps>) {
     };
   };
 
-  const handleClickEvent = (id: number): void => {
+  const handleClickStaff = (id: number): void => {
     setPopUpItemId(popUpItemId === id ? 0 : id);
-    setEventIdHover(eventIdHover === id ? 0 : id);
+    setStaffIdHover(staffIdHover === id ? 0 : id);
   };
 
-  const handleEditEvent = (id: number): void => {
+  const handleEditStaff = (id: number): void => {
     // router.push(FE_EVENT + "/" + id + "/update");
   };
 
-  const handleDeleteEvent = async (id: number): Promise<void> => {
-    setEventIdHover(id);
-    // try {
-    //   const result = await showConfirmDialog("Are you sure to delete?");
-    //   if (result.isConfirmed) {
-    //     await eventDelete(id);
-    //     showSuccessDialog();
-    //     fetchEvent();
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+  const handleDeleteStaff = async (id: number): Promise<void> => {
+    setStaffIdHover(id);
+    try {
+      const result = await showConfirmDialog("Are you sure to delete?");
+      if (result.isConfirmed) {
+        await staffDelete(id);
+        await showSuccessDialog();
+        await fetchStaffHead();
+        await fetchStaffTeam();
+      }
+    } catch (error) {
+      console.log(error);
+    }
     setPopUpItemId(0);
-    setEventIdHover(0);
+    setStaffIdHover(0);
   };
 
-  const handleRestoreEvent = async (id: number): Promise<void> => {
-    setEventIdHover(id);
-    // const result = await showConfirmDialog("Are you sure to restore?");
-    // if (result.isConfirmed) {
-    //   await eventRestore(id);
-    //   showSuccessDialog();
-    //   fetchEvent();
-    // }
+  const handleRestoreStaff = async (id: number): Promise<void> => {
+    setStaffIdHover(id);
+    const result = await showConfirmDialog("Are you sure to restore?");
+    if (result.isConfirmed) {
+      await staffRestore(id);
+      await showSuccessDialog();
+      await fetchStaffHead();
+      await fetchStaffTeam();
+    }
     setPopUpItemId(0);
-    setEventIdHover(0);
+    setStaffIdHover(0);
   };
 
   return (
@@ -107,18 +106,23 @@ export default function DepartmentStaff(props: Readonly<DepartmentStaffProps>) {
             <ButtonBack href={FE_DEPARTMENT} />
             <ButtonIcon onClick={() => setIsModalCreateOpen(!isModalCreateOpen)} type="button" icon="fa-solid fa-plus" text="Add Staff" className="w-auto" />
           </div>
-          <div className="p-4 flex flex-col md:flex-row md:flex-wrap justify-center gap-4">
-            {staffHeads.map((head) => (
-              <div key={head.id} onClick={() => handleClickEvent(head.id)} className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1rem)] flex flex-col items-center p-6 border border-gray-200 shadow rounded-lg relative cursor-pointer">
-                {(head.deleted || popUpItemId === head.id) && <div className="bg-gray-400/50 w-full h-full absolute rounded-lg cursor-pointer top-0 left-0" />}
-                <Image src={imageDownload(DIRECTORY_STAFF, head.photo)} alt={head.name} width={500} height={500} priority className="w-40 h-40 rounded-full border-4 border-gray-200" />
-                <h1 className="text-lg font-bold mt-2">{head.name}</h1>
-                <h1 className="text-sm">{head.position}</h1>
-                <Nl2Br text={head.description} className="text-center text-sm font-medium mt-2" />
-                {popUpItemId === head.id && <ActionCard deleted={head.deleted ?? false} handleEdit={() => handleEditEvent(head.id)} handleDelete={() => handleDeleteEvent(head.id)} handleRestore={() => handleRestoreEvent(head.id)} />}
+          {staffHeads && staffHeads.length > 0 && (
+            <div className="p-4 flex flex-col md:flex-row md:flex-wrap justify-center gap-4">
+              {staffHeads.map((head) => (
+                <CardStaffOffice key={head.id} onClick={() => handleClickStaff(head.id)} staff={head} isShowBgGray={head.deleted || popUpItemId === head.id} isShowAction={popUpItemId === head.id} isScale={staffIdHover === head.id} handleEditStaff={() => handleEditStaff(head.id)} handleDeleteStaff={() => handleDeleteStaff(head.id)} handleRestoreStaff={() => handleRestoreStaff(head.id)} />
+              ))}
+            </div>
+          )}
+          {staffTeams && staffTeams.length > 0 && (
+            <div className="flex items-center flex-col mt-4">
+              <h1 className="text-2xl font-bold">The Teams</h1>
+              <div className="p-4 flex flex-col md:flex-row md:flex-wrap justify-center gap-4">
+                {staffTeams.map((team) => (
+                  <CardStaffOffice key={team.id} onClick={() => handleClickStaff(team.id)} staff={team} isShowBgGray={team.deleted || popUpItemId === team.id} isShowAction={popUpItemId === team.id} isScale={staffIdHover === team.id} handleEditStaff={() => handleEditStaff(team.id)} handleDeleteStaff={() => handleDeleteStaff(team.id)} handleRestoreStaff={() => handleRestoreStaff(team.id)} />
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
           {isModalCreateOpen && <DepartmentStaffModalCreate closeModal={() => setIsModalCreateOpen(false)} fetchStaffHead={fetchStaffHead} fetchStaffTeam={fetchStaffTeam} divisionId={props.params.departmentId} />}
         </section>
       </div>
