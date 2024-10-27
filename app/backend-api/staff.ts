@@ -6,6 +6,7 @@ import { StaffSearchDto } from "../dto/search/staff-search-dto";
 import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
 
 export const DIVISION_ID = "divisionId";
+export const IS_HEAD = "isHead";
 
 export const staffFindAllPagination = async (search: StaffSearchDto): Promise<PageResponse<StaffResponse>> => {
   const headers = await createHeaders();
@@ -54,6 +55,9 @@ export const getUrlFindAll = (url: string, search: StaffSearchDto): string => {
   const urlWithParam = new URL(buildUrlFindAll(url, search));
   if (search.divisionId) {
     urlWithParam.searchParams.append(DIVISION_ID, search.divisionId.toString());
+  }
+  if (search.isHead !== undefined) {
+    urlWithParam.searchParams.append(IS_HEAD, search.isHead.toString());
   }
   return urlWithParam.toString();
 };

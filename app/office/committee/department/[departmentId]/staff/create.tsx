@@ -5,7 +5,8 @@ import { staffCreate } from "@/app/backend-api/staff";
 
 interface DepartmentStaffModalCreateProps {
   closeModal: () => void;
-  fetchStaffByDivision: () => Promise<void>;
+  fetchStaffHead: () => Promise<void>;
+  fetchStaffTeam: () => Promise<void>;
   divisionId: number;
 }
 
@@ -16,7 +17,8 @@ export default function DepartmentStaffModalCreate(props: Readonly<DepartmentSta
     const request = await buildStaffRequest(formData, props.divisionId);
     await staffCreate(request);
     await showSuccessDialog();
-    await props.fetchStaffByDivision();
+    await props.fetchStaffHead();
+    await props.fetchStaffTeam();
     props.closeModal();
   };
 

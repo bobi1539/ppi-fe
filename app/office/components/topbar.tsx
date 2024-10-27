@@ -62,7 +62,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
             <span className="sr-only">Toggle sidebar</span>
           </button>
           <Link href={FE_DASHBOARD} className="flex items-center">
-            <img src="https://ppiwarwick.org/logo.png" className="mr-3 h-6 sm:h-9" alt="PPIW Logo" />
+            <img src="https://ppiwarwick.org/logo.png" className="mr-3 h-9" alt="PPIW Logo" />
             <span className="hidden md:block self-center text-secondary-800 text-xl font-semibold whitespace-nowrap">PPI Warwick</span>
           </Link>
         </div>
