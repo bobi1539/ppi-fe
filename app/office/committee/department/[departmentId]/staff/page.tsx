@@ -13,6 +13,7 @@ import { staffDelete, staffFindAll, staffRestore } from "@/app/backend-api/staff
 import { StaffSearchDto } from "@/app/dto/search/staff-search-dto";
 import CardStaffOffice from "@/app/components/card/card-staff-office";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
+import DepartmentStaffModalUpdate from "./update";
 
 interface DepartmentStaffProps {
   params: {
@@ -27,6 +28,8 @@ export default function DepartmentStaff(props: Readonly<DepartmentStaffProps>) {
   const [popUpItemId, setPopUpItemId] = useState<number>(0);
   const [staffIdHover, setStaffIdHover] = useState<number>(0);
   const [isModalCreateOpen, setIsModalCreateOpen] = useState<boolean>(false);
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState<boolean>(false);
+  const [staffIdUpdate, setStaffIdUpdate] = useState<number>(0);
 
   useEffect(() => {
     fetchDivisionById();
@@ -64,7 +67,10 @@ export default function DepartmentStaff(props: Readonly<DepartmentStaffProps>) {
   };
 
   const handleEditStaff = (id: number): void => {
-    // router.push(FE_EVENT + "/" + id + "/update");
+    setIsModalUpdateOpen(!isModalUpdateOpen);
+    setStaffIdUpdate(id);
+    setPopUpItemId(0);
+    setStaffIdHover(0);
   };
 
   const handleDeleteStaff = async (id: number): Promise<void> => {
@@ -118,7 +124,7 @@ export default function DepartmentStaff(props: Readonly<DepartmentStaffProps>) {
               <div className="flex justify-center">
                 <h1 className="text-2xl font-bold">The Teams</h1>
               </div>
-              <div className="p-4 flex flex-col md:flex-row md:flex-wrap justify-center gap-4">
+              <div className="p-4 pt-3 flex flex-col md:flex-row md:flex-wrap justify-center gap-4">
                 {staffTeams.map((team) => (
                   <CardStaffOffice key={team.id} onClick={() => handleClickStaff(team.id)} staff={team} isShowBgGray={team.deleted || popUpItemId === team.id} isShowAction={popUpItemId === team.id} isScale={staffIdHover === team.id} handleEditStaff={() => handleEditStaff(team.id)} handleDeleteStaff={() => handleDeleteStaff(team.id)} handleRestoreStaff={() => handleRestoreStaff(team.id)} />
                 ))}
@@ -126,6 +132,7 @@ export default function DepartmentStaff(props: Readonly<DepartmentStaffProps>) {
             </div>
           )}
           {isModalCreateOpen && <DepartmentStaffModalCreate closeModal={() => setIsModalCreateOpen(false)} fetchStaffHead={fetchStaffHead} fetchStaffTeam={fetchStaffTeam} divisionId={props.params.departmentId} />}
+          {isModalUpdateOpen && <DepartmentStaffModalUpdate id={staffIdUpdate} closeModal={() => setIsModalUpdateOpen(false)} fetchStaffHead={fetchStaffHead} fetchStaffTeam={fetchStaffTeam} />}
         </section>
       </div>
     </div>
