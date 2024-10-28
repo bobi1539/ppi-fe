@@ -4,6 +4,7 @@ import Image from "next/image";
 import { imageDownload } from "@/app/backend-api/file";
 import { DIRECTORY_STAFF } from "@/app/constants/constant";
 import ActionCard from "@/app/office/components/action-card";
+import { limitText } from "@/app/utils/helper";
 
 interface CardStaffOfficeProps {
   onClick: () => void;
@@ -23,7 +24,7 @@ export default function CardStaffOffice(props: Readonly<CardStaffOfficeProps>) {
       <Image src={imageDownload(DIRECTORY_STAFF, props.staff.photo)} alt={props.staff.name} width={500} height={500} priority className="w-40 h-40 rounded-full border-4 border-gray-200 object-cover" />
       <h1 className={`text-lg font-bold mt-2 ${props.staff.deleted ? "line-through text-red-500" : ""}`}>{props.staff.name}</h1>
       <h1 className="text-sm">{props.staff.position}</h1>
-      <Nl2Br text={props.staff.description} className="text-center text-sm font-medium mt-2" />
+      <Nl2Br text={limitText(props.staff.description, 222)} className="text-center text-sm font-medium mt-2" />
       {props.isShowAction && <ActionCard deleted={props.staff.deleted ?? false} handleEdit={props.handleEditStaff} handleDelete={props.handleDeleteStaff} handleRestore={props.handleRestoreStaff} />}
     </div>
   );
