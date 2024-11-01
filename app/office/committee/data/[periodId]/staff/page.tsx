@@ -7,8 +7,10 @@ import CardStaffPeriod from "@/app/components/card/card-staff-period";
 import { FE_COMMITTEE_DATA } from "@/app/constants/endpoint-fe";
 import { PeriodResponse } from "@/app/dto/response/period-response";
 import { StaffDivisionResponse } from "@/app/dto/response/staff-division-response";
+import { StaffResponse } from "@/app/dto/response/staff-response";
 import ContentTitle from "@/app/office/components/content-title";
 import React, { useEffect, useState } from "react";
+import StaffDetailModal from "./detail";
 
 interface CommitteeStaffProps {
   params: {
@@ -19,6 +21,8 @@ interface CommitteeStaffProps {
 export default function CommitteeStaff(props: Readonly<CommitteeStaffProps>) {
   const [period, setPeriod] = useState<PeriodResponse>();
   const [staffs, setStaffs] = useState<StaffDivisionResponse[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [staffClick, setStaffClick] = useState<StaffResponse>();
 
   useEffect(() => {
     fetchPeriodById();
@@ -35,6 +39,11 @@ export default function CommitteeStaff(props: Readonly<CommitteeStaffProps>) {
     setStaffs(response);
   };
 
+  const handleClickCardStaff = (staff: StaffResponse): void => {
+    setIsModalOpen(!isModalOpen);
+    setStaffClick(staff);
+  };
+
   return (
     <div className="flex justify-center">
       <div className="w-full md:max-w-5xl">
@@ -48,7 +57,7 @@ export default function CommitteeStaff(props: Readonly<CommitteeStaffProps>) {
               <div key={staff.id}>
                 <div className="flex flex-col md:flex-row md:flex-wrap justify-center gap-4 p-4">
                   {staff.heads.map((head) => (
-                    <CardStaffPeriod key={head.id} staff={head} />
+                    <CardStaffPeriod onClick={() => handleClickCardStaff(head)} key={head.id} staff={head} />
                   ))}
                 </div>
                 {staff.teams.length > 0 && (
@@ -58,7 +67,7 @@ export default function CommitteeStaff(props: Readonly<CommitteeStaffProps>) {
                     </div>
                     <div className="flex flex-col md:flex-row md:flex-wrap justify-center gap-4 p-4">
                       {staff.teams.map((team) => (
-                        <CardStaffPeriod key={team.id} staff={team} />
+                        <CardStaffPeriod onClick={() => handleClickCardStaff(team)} key={team.id} staff={team} />
                       ))}
                     </div>
                   </>
@@ -67,6 +76,7 @@ export default function CommitteeStaff(props: Readonly<CommitteeStaffProps>) {
             ))}
           </div>
         </section>
+        {isModalOpen && <StaffDetailModal staff={staffClick} closeModal={() => setIsModalOpen(false)} />}
       </div>
     </div>
   );
