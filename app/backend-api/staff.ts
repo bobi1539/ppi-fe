@@ -1,10 +1,12 @@
 import { BE_STAFF } from "../constants/endpoint-be";
 import { StaffRequest } from "../dto/request/staff-request";
 import { PageResponse } from "../dto/response/page-response";
+import { StaffDivisionResponse } from "../dto/response/staff-division-response";
 import { StaffResponse } from "../dto/response/staff-response";
 import { StaffSearchDto } from "../dto/search/staff-search-dto";
 import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
 
+export const PERIOD_ID = "periodId";
 export const DIVISION_ID = "divisionId";
 export const IS_HEAD = "isHead";
 
@@ -51,9 +53,18 @@ export const staffRestore = async (id: number): Promise<StaffResponse> => {
   return await handleResponse(response);
 };
 
+export const staffFindByPeriodId = async (periodId: number): Promise<StaffDivisionResponse[]> => {
+  const headers = await createHeaders();
+  const response = await makeGetRequest(BE_STAFF + "/period/" + periodId, headers);
+  return await handleResponse(response);
+};
+
 export const getUrlFindAll = (url: string, search: StaffSearchDto): string => {
   const urlWithParam = new URL(buildUrlFindAll(url, search));
-  if (search.divisionId) {
+  if (search.periodId !== undefined) {
+    urlWithParam.searchParams.append(PERIOD_ID, search.periodId.toString());
+  }
+  if (search.divisionId !== undefined) {
     urlWithParam.searchParams.append(DIVISION_ID, search.divisionId.toString());
   }
   if (search.isHead !== undefined) {
