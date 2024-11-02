@@ -1,7 +1,7 @@
 import { SearchDto } from "./../dto/search/search-dto";
-import { BE_EVENT } from "../constants/endpoint-be";
+import { BE_EVENT, BE_WEB_EVENT } from "../constants/endpoint-be";
 import { PageResponse } from "../dto/response/page-response";
-import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
+import { buildPageResponse, buildUrlFindAll, createHeaders, createHeadersWithoutSession, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
 import { EventResponse } from "../dto/response/event-response";
 import { EventRequest } from "../dto/request/event-request";
 
@@ -51,5 +51,18 @@ export const eventDelete = async (id: number): Promise<EventResponse> => {
 export const eventRestore = async (id: number): Promise<EventResponse> => {
   const headers = await createHeaders();
   const response = await makePutRequest(id, BE_EVENT + "/restore", headers, null);
+  return await handleResponse(response);
+};
+
+export const webEventFindAllPagination = async (search: SearchDto): Promise<PageResponse<EventResponse>> => {
+  const headers = await createHeadersWithoutSession();
+  const response = await makeGetRequest(buildUrlFindAll(BE_WEB_EVENT, search), headers);
+  const result = await handleResponse(response);
+  return buildPageResponse(result);
+};
+
+export const webEventFindBySlug = async (slug: string): Promise<EventResponse> => {
+  const headers = await createHeadersWithoutSession();
+  const response = await makeGetRequest(BE_WEB_EVENT + "/slug/" + slug, headers);
   return await handleResponse(response);
 };

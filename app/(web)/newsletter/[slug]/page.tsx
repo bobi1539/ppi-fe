@@ -1,7 +1,7 @@
 "use client";
 
 import { fileDownload } from "@/app/backend-api/file";
-import { webNewsletterFindBySlug } from "@/app/backend-api/web-newsletter";
+import { webNewsletterFindBySlug } from "@/app/backend-api/newsletter";
 import { DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
 import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
 import Image from "next/image";

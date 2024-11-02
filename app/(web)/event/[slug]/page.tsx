@@ -1,10 +1,12 @@
 "use client";
 
+import { webEventFindBySlug } from "@/app/backend-api/event";
 import { fileDownload } from "@/app/backend-api/file";
-import { webEventFindBySlug } from "@/app/backend-api/web-event";
+import { webGalleryFindAll } from "@/app/backend-api/gallery";
 import Nl2Br from "@/app/components/paragraph/nl2br";
-import { DIRECTORY_EVENT } from "@/app/constants/constant";
+import { DIRECTORY_EVENT, DIRECTORY_GALLERY } from "@/app/constants/constant";
 import { EventResponse } from "@/app/dto/response/event-response";
+import { GalleryResponse } from "@/app/dto/response/gallery-response";
 import { formatDate } from "@/app/utils/date-helper";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -17,6 +19,7 @@ interface EventDetailProps {
 
 export default function EventDetail(props: Readonly<EventDetailProps>) {
   const [event, setEvent] = useState<EventResponse>();
+  const [galleries, setGalleries] = useState<GalleryResponse[]>([]);
 
   useEffect(() => {
     fetchEvent();
@@ -25,6 +28,12 @@ export default function EventDetail(props: Readonly<EventDetailProps>) {
   const fetchEvent = async (): Promise<void> => {
     const response = await webEventFindBySlug(props.params.slug);
     setEvent(response);
+    fetchGallery(response.id);
+  };
+
+  const fetchGallery = async (eventId: number): Promise<void> => {
+    const response = await webGalleryFindAll({ search: "", eventId: eventId });
+    setGalleries(response);
   };
 
   return (
@@ -40,6 +49,13 @@ export default function EventDetail(props: Readonly<EventDetailProps>) {
           <h2 className="sr-only">Description</h2>
           <Nl2Br text={event?.description ?? ""} className="mt-2" />
         </div>
+      </div>
+      <div className="columns-1 md:columns-2 lg:columns-3 2xl:columns-4 p-4 md:p-8 bg-secondary-100">
+        {galleries.map((gallery) => (
+          <div key={gallery.id} className="p-2 mb-4 rounded-lg transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl">
+            <Image className="rounded-lg" src={fileDownload(DIRECTORY_GALLERY, gallery.fileName)} alt={`${gallery.event.title}-gallery`} width={1024} height={1024} priority />
+          </div>
+        ))}
       </div>
     </section>
   );

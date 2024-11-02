@@ -5,7 +5,6 @@ import { limitText, scrollToTop } from "../../utils/helper";
 import { useEffect, useState } from "react";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
-import { webNewsletterFindAllPagination } from "@/app/backend-api/web-newsletter";
 import { SearchDto } from "@/app/dto/search/search-dto";
 import { FE_WEB_NEWSLETTER } from "@/app/constants/endpoint-fe";
 import CardHover from "@/app/components/card/card-hover";
@@ -13,6 +12,7 @@ import Image from "next/image";
 import { fileDownload } from "@/app/backend-api/file";
 import { DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
 import PaginationTable from "@/app/components/table/pagination-table";
+import { webNewsletterFindAllPagination } from "@/app/backend-api/newsletter";
 
 export default function Newsletter() {
   const [newsletterPages, setNewsletterPages] = useState<PageResponse<NewsletterResponse>>();

@@ -6,12 +6,12 @@ import Input from "../../components/input/input";
 import { showSuccessDialog, showConfirmDialog } from "../../utils/sweet-alert";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
-import { webNewsletterFindAllPagination } from "@/app/backend-api/web-newsletter";
 import Link from "next/link";
 import { FE_WEB_NEWSLETTER } from "@/app/constants/endpoint-fe";
 import Image from "next/image";
 import { fileDownload } from "@/app/backend-api/file";
 import { DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
+import { webNewsletterFindAllPagination } from "@/app/backend-api/newsletter";
 
 export default function NewsLetter() {
   const [newsletters, setNewsletters] = useState<PageResponse<NewsletterResponse>>();

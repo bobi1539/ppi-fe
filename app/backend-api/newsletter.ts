@@ -1,7 +1,7 @@
 import { SearchDto } from "./../dto/search/search-dto";
-import { BE_NEWSLETTER } from "../constants/endpoint-be";
+import { BE_NEWSLETTER, BE_WEB_NEWSLETTER } from "../constants/endpoint-be";
 import { PageResponse } from "../dto/response/page-response";
-import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
+import { buildPageResponse, buildUrlFindAll, createHeaders, createHeadersWithoutSession, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
 import { NewsletterResponse } from "../dto/response/newsletter-response";
 import { NewsletterRequest } from "../dto/request/newsletter-request";
 
@@ -51,5 +51,18 @@ export const newsletterDelete = async (id: number): Promise<NewsletterResponse> 
 export const newsletterRestore = async (id: number): Promise<NewsletterResponse> => {
   const headers = await createHeaders();
   const response = await makePutRequest(id, BE_NEWSLETTER + "/restore", headers, null);
+  return await handleResponse(response);
+};
+
+export const webNewsletterFindAllPagination = async (search: SearchDto): Promise<PageResponse<NewsletterResponse>> => {
+  const headers = await createHeadersWithoutSession();
+  const response = await makeGetRequest(buildUrlFindAll(BE_WEB_NEWSLETTER, search), headers);
+  const result = await handleResponse(response);
+  return buildPageResponse(result);
+};
+
+export const webNewsletterFindBySlug = async (slug: string): Promise<NewsletterResponse> => {
+  const headers = await createHeadersWithoutSession();
+  const response = await makeGetRequest(BE_WEB_NEWSLETTER + "/slug/" + slug, headers);
   return await handleResponse(response);
 };

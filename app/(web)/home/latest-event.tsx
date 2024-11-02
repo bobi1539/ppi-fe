@@ -1,7 +1,7 @@
 "use client";
 
+import { webEventFindAllPagination } from "@/app/backend-api/event";
 import { fileDownload } from "@/app/backend-api/file";
-import { webEventFindAllPagination } from "@/app/backend-api/web-event";
 import { DIRECTORY_EVENT } from "@/app/constants/constant";
 import { FE_WEB_EVENT } from "@/app/constants/endpoint-fe";
 import { EventResponse } from "@/app/dto/response/event-response";

@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { EventResponse } from "@/app/dto/response/event-response";
-import { webEventFindAllPagination } from "@/app/backend-api/web-event";
 import { SearchDto } from "@/app/dto/search/search-dto";
 import CardEvent from "@/app/components/card/card-event";
 import CardHover from "@/app/components/card/card-hover";
 import PaginationTable from "@/app/components/table/pagination-table";
 import { scrollToTop } from "@/app/utils/helper";
 import { FE_WEB_EVENT } from "@/app/constants/endpoint-fe";
+import { webEventFindAllPagination } from "@/app/backend-api/event";
 
 export default function Event() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
