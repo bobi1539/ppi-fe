@@ -9,7 +9,7 @@ import { showConfirmDialog } from "@/app/utils/sweet-alert";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuPortal, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { userFindByHeader } from "@/app/backend-api/user";
 import { UserResponse } from "@/app/dto/response/user-response";
-import { imageDownload } from "@/app/backend-api/file";
+import { fileDownload } from "@/app/backend-api/file";
 import { DEFAULT_IMAGE_URL, DIRECTORY_USER } from "@/app/constants/constant";
 import Image from "next/image";
 
@@ -35,7 +35,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
 
   const setPhotoUrlFromResponse = (response: UserResponse): void => {
     if (response.photo && response.photo !== null) {
-      setPhotoUrl(imageDownload(DIRECTORY_USER, response.photo));
+      setPhotoUrl(fileDownload(DIRECTORY_USER, response.photo));
     }
   };
 

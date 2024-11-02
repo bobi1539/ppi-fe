@@ -14,7 +14,7 @@ import { GalleryResponse } from "@/app/dto/response/gallery-response";
 import { galleryDelete, galleryFindAllPagination } from "@/app/backend-api/gallery";
 import FooterTable from "@/app/components/table/footer-table";
 import Image from "next/image";
-import { imageDownload } from "@/app/backend-api/file";
+import { fileDownload } from "@/app/backend-api/file";
 import { DIRECTORY_GALLERY } from "@/app/constants/constant";
 import InputSelect from "@/app/components/input/input-select";
 import { EVENT_ID, getEventOptionsForSearch } from "./helper";
@@ -96,7 +96,7 @@ export default function Gallery() {
           <div className="columns-1 md:columns-2 lg:columns-3 2xl:columns-4 p-4 pt-0">
             {galleryPages?.content.map((gallery) => (
               <div key={gallery.id} onClick={() => handleDeleteGallery(gallery.id)} className={`${galleryIdHover === gallery.id ? "scale-110 shadow-2xl" : ""} p-2 mb-4 rounded-lg transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl`}>
-                <Image className="rounded-lg" src={imageDownload(DIRECTORY_GALLERY, gallery.fileName)} alt={`${gallery.event.title}-gallery`} width={1024} height={1024} priority />
+                <Image className="rounded-lg" src={fileDownload(DIRECTORY_GALLERY, gallery.fileName)} alt={`${gallery.event.title}-gallery`} width={1024} height={1024} priority />
               </div>
             ))}
           </div>

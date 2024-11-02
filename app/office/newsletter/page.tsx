@@ -13,7 +13,7 @@ import { FE_NEWSLETTER, FE_NEWSLETTER_CREATE } from "@/app/constants/endpoint-fe
 import FooterTable from "@/app/components/table/footer-table";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { imageDownload } from "@/app/backend-api/file";
+import { fileDownload } from "@/app/backend-api/file";
 import { DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
 import { limitText } from "@/app/utils/helper";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
@@ -109,7 +109,7 @@ export default function Newsletter() {
                 {(newsletter.deleted || popUpItemId === newsletter.id) && <div className="bg-gray-400/50 w-full h-full absolute rounded-lg cursor-pointer -m-2" />}
                 <div className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
                   <div className="col-span-2 flex justify-center">
-                    <Image key={newsletter.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={imageDownload(DIRECTORY_NEWSLETTER, newsletter.cover)} alt={`${newsletter.title}`} width={1024} height={1024} priority />
+                    <Image key={newsletter.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={fileDownload(DIRECTORY_NEWSLETTER, newsletter.cover)} alt={`${newsletter.title}`} width={1024} height={1024} priority />
                   </div>
                   <div className="col-span-3">
                     <h3 className={`${newsletter.deleted ? "text-red-500 line-through" : "text-gray-900"} text-xl font-bold`}>{newsletter.title}</h3>

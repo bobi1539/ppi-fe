@@ -9,7 +9,7 @@ import { SearchDto } from "@/app/dto/search/search-dto";
 import ContentSearch from "../components/content-search";
 import InputSearch from "../components/input-search";
 import ButtonIcon from "@/app/components/button/button-icon";
-import { imageDownload } from "@/app/backend-api/file";
+import { fileDownload } from "@/app/backend-api/file";
 import { DIRECTORY_EVENT } from "@/app/constants/constant";
 import { formatDate } from "@/app/utils/date-helper";
 import { limitText } from "@/app/utils/helper";
@@ -114,7 +114,7 @@ export default function Event() {
                 {(event.deleted || popUpItemId === event.id) && <div className="bg-gray-400/50 w-full h-full absolute rounded-lg cursor-pointer -m-2" />}
                 <div className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
                   <div className="col-span-2 flex justify-center">
-                    <Image key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={imageDownload(DIRECTORY_EVENT, event.cover)} alt={`${event.title}`} width={1024} height={1024} priority />
+                    <Image key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={fileDownload(DIRECTORY_EVENT, event.cover)} alt={`${event.title}`} width={1024} height={1024} priority />
                   </div>
                   <div className="col-span-3">
                     <h3 className={`${event.deleted ? "text-red-500 line-through" : "text-gray-900"} text-xl font-bold`}>{event.title}</h3>

@@ -12,7 +12,7 @@ import ContentTitle from "../components/content-title";
 import { useEffect, useState } from "react";
 import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
 import InputFile from "@/app/components/input/input-file";
-import { imageDownload } from "@/app/backend-api/file";
+import { fileDownload } from "@/app/backend-api/file";
 import ButtonBack from "@/app/components/button/button-back";
 
 interface EventCreateOrUpdateProps {
@@ -51,7 +51,7 @@ export default function NewsletterCreateOrUpdate(props: Readonly<EventCreateOrUp
                 <TextArea label="Description" currentValue={description} onChange={(e) => setDescription(e.target.value)} name={DESCRIPTION} rows={10} isRequired />
                 <InputFile name={CONTENT} label="File Content" isRequired={content === ""} accept="image/*,video/*,audio/*,application/pdf" />
                 {content !== "" ? (
-                  <Link href={imageDownload(DIRECTORY_NEWSLETTER, content)} target="_blank" className="text-secondary-700 underline text-sm -mt-3">
+                  <Link href={fileDownload(DIRECTORY_NEWSLETTER, content)} target="_blank" className="text-secondary-700 underline text-sm -mt-3">
                     {content}
                   </Link>
                 ) : (

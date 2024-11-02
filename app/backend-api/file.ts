@@ -1,6 +1,6 @@
 import { BE_FILE } from "../constants/endpoint-be";
 
-export const imageDownload = (directory: string, fileName: string): string => {
+export const fileDownload = (directory: string, fileName: string): string => {
   const url = new URL(BE_FILE + "/download");
   url.searchParams.append("directoryName", directory);
   url.searchParams.append("fileName", fileName);

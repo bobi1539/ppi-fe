@@ -1,6 +1,6 @@
 "use client";
 
-import { imageDownload } from "@/app/backend-api/file";
+import { fileDownload } from "@/app/backend-api/file";
 import { DEFAULT_IMAGE_URL } from "@/app/constants/constant";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -22,7 +22,7 @@ export default function InputImage(props: Readonly<InputImageProps>) {
 
   const setCurrentImagePreview = async (): Promise<void> => {
     if (props.currentImage && props.currentImage !== null) {
-      setImagePreview(imageDownload(props.directoryName, props.currentImage));
+      setImagePreview(fileDownload(props.directoryName, props.currentImage));
     }
   };
 
