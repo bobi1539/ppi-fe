@@ -10,6 +10,7 @@ import CardEvent from "@/app/components/card/card-event";
 import CardHover from "@/app/components/card/card-hover";
 import PaginationTable from "@/app/components/table/pagination-table";
 import { scrollToTop } from "@/app/utils/helper";
+import { FE_WEB_EVENT } from "@/app/constants/endpoint-fe";
 
 export default function Event() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
@@ -45,7 +46,7 @@ export default function Event() {
         </div>
         <div className="grid gap-6 mt-12 md:mt-14 md:gap-4 md:grid-cols-3 lg:grid-cols-4">
           {eventPages?.content.map((event) => (
-            <Link key={event.id} href={""}>
+            <Link key={event.id} href={`${FE_WEB_EVENT}/${event.slug}`}>
               <CardHover isScale={false}>
                 <CardEvent event={event} />
               </CardHover>

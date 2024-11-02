@@ -1,5 +1,6 @@
 "use client";
 
+import { FE_WEB_EVENT, FE_WEB_NEWSLETTER } from "@/app/constants/endpoint-fe";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -19,12 +20,12 @@ export default function Navbar() {
     },
     {
       id: 2,
-      url: "/event",
+      url: FE_WEB_EVENT,
       name: "Event",
     },
     {
       id: 3,
-      url: "/newsletter",
+      url: FE_WEB_NEWSLETTER,
       name: "Newsletter",
     },
   ];

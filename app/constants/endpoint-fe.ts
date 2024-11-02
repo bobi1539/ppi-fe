@@ -10,3 +10,5 @@ export const FE_GALLERY: string = "/office/gallery";
 export const FE_GALLERY_CREATE: string = FE_GALLERY + "/create";
 export const FE_DEPARTMENT: string = "/office/committee/department";
 export const FE_COMMITTEE_DATA: string = "/office/committee/data";
+export const FE_WEB_EVENT: string = "/event";
+export const FE_WEB_NEWSLETTER: string = "/newsletter";
