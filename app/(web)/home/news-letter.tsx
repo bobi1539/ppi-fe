@@ -1,10 +1,30 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Button from "../../components/button/button";
 import Input from "../../components/input/input";
 import { showSuccessDialog, showConfirmDialog } from "../../utils/sweet-alert";
+import { PageResponse } from "@/app/dto/response/page-response";
+import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
+import { webNewsletterFindAllPagination } from "@/app/backend-api/web-newsletter";
+import Link from "next/link";
+import { FE_WEB_NEWSLETTER } from "@/app/constants/endpoint-fe";
+import Image from "next/image";
+import { fileDownload } from "@/app/backend-api/file";
+import { DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
 
 export default function NewsLetter() {
+  const [newsletters, setNewsletters] = useState<PageResponse<NewsletterResponse>>();
+
+  useEffect(() => {
+    fetchNewsletter();
+  }, []);
+
+  const fetchNewsletter = async (): Promise<void> => {
+    const response = await webNewsletterFindAllPagination({ search: "", page: 0, size: 2 });
+    setNewsletters(response);
+  };
+
   const subscribeNewsletter = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = await showConfirmDialog("Are you sure to subscribe?");
@@ -30,12 +50,11 @@ export default function NewsLetter() {
             </form>
           </div>
           <div className="grid md:grid-cols-2 grid-cols-1 gap-8 place-items-center">
-            <a href="https://ppiwarwick.org/newsletter/Bimonthly-Newsletter-HOPE-2">
-              <img className="aspect-auto" src="https://ppiwarwick.org/file/newsletter/Bimonthly-Newsletter-HOPE-2-cover.png" alt="..." />
-            </a>
-            <a href="https://ppiwarwick.org/newsletter/Bimonthly-Newsletter-HOPE-1">
-              <img className="aspect-auto" src="https://ppiwarwick.org/file/newsletter/Bimonthly-Newsletter-HOPE-1-cover.png" alt="..." />
-            </a>
+            {newsletters?.content.map((newsletter) => (
+              <Link key={newsletter.id} href={`${FE_WEB_NEWSLETTER}/${newsletter.slug}`}>
+                <Image key={newsletter.id} className="aspect-auto" src={fileDownload(DIRECTORY_NEWSLETTER, newsletter.cover)} alt={`${newsletter.title}`} width={1024} height={1024} priority />
+              </Link>
+            ))}
           </div>
         </div>
       </div>
