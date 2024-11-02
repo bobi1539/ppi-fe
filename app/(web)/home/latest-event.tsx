@@ -1,15 +1,45 @@
+"use client";
+
+import { fileDownload } from "@/app/backend-api/file";
+import { webEventFindAllPagination } from "@/app/backend-api/web-event";
+import { DIRECTORY_EVENT } from "@/app/constants/constant";
+import { EventResponse } from "@/app/dto/response/event-response";
+import { PageResponse } from "@/app/dto/response/page-response";
+import { SearchDto } from "@/app/dto/search/search-dto";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
 export default function LatestEvent() {
+  const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
+
+  useEffect(() => {
+    fetchEvent();
+  }, []);
+
+  const fetchEvent = async (): Promise<void> => {
+    const response = await webEventFindAllPagination(buildSearchDto());
+    setEventPages(response);
+  };
+
+  const buildSearchDto = (): SearchDto => {
+    return {
+      search: "",
+      page: 0,
+      size: 2,
+    };
+  };
+
   return (
     <section>
       <div className=" bg-white px-0 py-8">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-2 px-6 md:grid-cols-5 md:gap-8 md:px-8 md:divide-x-4 md:divide-secondary-700">
           <div className="grid grid-cols-2 md:col-span-3 gap-4">
-            <a className="flex-wrap flex-1" href="https://ppiwarwick.org/event/2nd-Pre-Departure-Session-2425">
-              <img className="aspect-auto" src="https://ppiwarwick.org/file/event/2nd-Pre-Departure-Session-2425-cover.png" alt="..." />
-            </a>
-            <a className="flex-wrap flex-1" href="https://ppiwarwick.org/event/Pre-Departure-Session-2425">
-              <img className="aspect-auto" src="https://ppiwarwick.org/file/event/Pre-Departure-Session-2425-cover.png" alt="..." />
-            </a>
+            {eventPages?.content.map((event) => (
+              <Link key={event.id} href={""} className="flex-wrap flex-1">
+                <Image key={event.id} className="aspect-[3/4]" src={fileDownload(DIRECTORY_EVENT, event.cover)} alt={`${event.title}`} width={1024} height={1024} priority />
+              </Link>
+            ))}
           </div>
           <div className="flex flex-row gap-2 text-center justify-between md:text-left md:flex-col text-black md:col-span-2 md:pl-8">
             <p className="inline text-3xl sm:block md:inline xl:block text-black font-extrabold text-right md:text-left w-full">Latest</p>
