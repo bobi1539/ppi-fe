@@ -8,13 +8,16 @@ import { webEventFindAllPagination } from "@/app/backend-api/web-event";
 import { SearchDto } from "@/app/dto/search/search-dto";
 import CardEvent from "@/app/components/card/card-event";
 import CardHover from "@/app/components/card/card-hover";
+import PaginationTable from "@/app/components/table/pagination-table";
+import { scrollToTop } from "@/app/utils/helper";
 
 export default function Event() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
   useEffect(() => {
     fetchEvent();
-  }, []);
+  }, [currentPage]);
 
   const fetchEvent = async (): Promise<void> => {
     const response = await webEventFindAllPagination(buildSearchDto());
@@ -24,9 +27,14 @@ export default function Event() {
   const buildSearchDto = (): SearchDto => {
     return {
       search: "",
-      page: 0,
+      page: currentPage,
       size: 16,
     };
+  };
+
+  const handlePageChange = (page: number): void => {
+    setCurrentPage(page - 1);
+    scrollToTop();
   };
 
   return (
@@ -44,6 +52,7 @@ export default function Event() {
             </Link>
           ))}
         </div>
+        <div className="flex justify-end py-4">{eventPages?.totalElements && eventPages.totalElements > 0 && <PaginationTable total={eventPages?.totalPages ?? 0} handlePageChange={handlePageChange} />}</div>
       </div>
     </section>
   );

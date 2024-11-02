@@ -66,3 +66,10 @@ export const redirectTo = (url: string): void => {
     window.location.href = url;
   }
 };
+
+export const scrollToTop = (): void => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
