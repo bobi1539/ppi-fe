@@ -9,18 +9,14 @@ import { SearchDto } from "@/app/dto/search/search-dto";
 import ContentSearch from "../components/content-search";
 import InputSearch from "../components/input-search";
 import ButtonIcon from "@/app/components/button/button-icon";
-import { fileDownload } from "@/app/backend-api/file";
-import { DIRECTORY_EVENT } from "@/app/constants/constant";
-import { formatDate } from "@/app/utils/date-helper";
-import { limitText } from "@/app/utils/helper";
 import FooterTable from "@/app/components/table/footer-table";
 import { FE_EVENT, FE_EVENT_CREATE } from "@/app/constants/endpoint-fe";
 import { useRouter } from "next/navigation";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
-import Image from "next/image";
 import ActionCard from "../components/action-card";
 import CardHover from "@/app/components/card/card-hover";
 import LoadingOffice from "../loading";
+import CardEvent from "@/app/components/card/card-event";
 
 export default function Event() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
@@ -112,17 +108,7 @@ export default function Event() {
             {eventPages?.content.map((event) => (
               <CardHover key={event.id} isScale={eventIdHover === event.id} onClick={() => handleClickEvent(event.id)}>
                 {(event.deleted || popUpItemId === event.id) && <div className="bg-gray-400/50 w-full h-full absolute rounded-lg cursor-pointer -m-2" />}
-                <div className="grid grid-cols-5 gap-2 md:flex md:flex-col cursor-pointer">
-                  <div className="col-span-2 flex justify-center">
-                    <Image key={event.id} className="w-auto md:w-full h-40 md:h-64 xl:h-96 rounded-lg " src={fileDownload(DIRECTORY_EVENT, event.cover)} alt={`${event.title}`} width={1024} height={1024} priority />
-                  </div>
-                  <div className="col-span-3">
-                    <h3 className={`${event.deleted ? "text-red-500 line-through" : "text-gray-900"} text-xl font-bold`}>{event.title}</h3>
-                    <p className="text-xs text-gray-500">{formatDate(event.startDate)}</p>
-                    <p className="text-xs mb-2.5 text-gray-500">{`${event.startTime} - ${event.endTime} (${event.duration})`}</p>
-                    <p className="text-justify text-sm text-gray-800">{limitText(event.description, 100)}</p>
-                  </div>
-                </div>
+                <CardEvent event={event} />
                 {popUpItemId === event.id && <ActionCard deleted={event.deleted ?? false} handleEdit={() => handleEditEvent(event.id)} handleDelete={() => handleDeleteEvent(event.id)} handleRestore={() => handleRestoreEvent(event.id)} />}
               </CardHover>
             ))}
