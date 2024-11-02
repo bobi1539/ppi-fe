@@ -1,16 +1,34 @@
 "use client";
 
-import { useEffect } from "react";
+import { fileDownload } from "@/app/backend-api/file";
+import { webNewsletterFindBySlug } from "@/app/backend-api/web-newsletter";
+import { DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
+import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
-export default function NewsletterDetail({ params }: Readonly<{ params: { slug: string } }>) {
+interface NewsletterDetailProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default function NewsletterDetail(props: Readonly<NewsletterDetailProps>) {
+  const [newsletter, setNewsletter] = useState<NewsletterResponse>();
+
   useEffect(() => {
-    console.log("slug : ", params.slug);
+    fetchNewsletter();
   }, []);
+
+  const fetchNewsletter = async (): Promise<void> => {
+    const response = await webNewsletterFindBySlug(props.params.slug);
+    setNewsletter(response);
+  };
 
   return (
     <section className="bg-white">
-      <div className="py-8 px-4 md:py-16 md:px-6 mx-auto max-w-screen-xl ">
-        <img src="https://ppiwarwick.org/file/newsletter/Bimonthly-Newsletter-HOPE-2-file.png" alt="..." />
+      <div className="py-8 px-4 md:py-16 md:px-6 mx-auto max-w-screen-xl flex justify-center">
+        <Image key={newsletter?.id} src={fileDownload(DIRECTORY_NEWSLETTER, newsletter?.content ?? "")} alt={`${newsletter?.title}`} width={1024} height={1024} priority />
       </div>
     </section>
   );

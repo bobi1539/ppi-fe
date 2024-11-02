@@ -17,3 +17,4 @@ export const BE_GALLERY: string = BE_BASE + "/galleries";
 export const BE_STAFF: string = BE_BASE + "/staffs";
 export const BE_WEB: string = BE_BASE + "/web";
 export const BE_WEB_EVENT: string = BE_WEB + "/events";
+export const BE_WEB_NEWSLETTER: string = BE_WEB + "/newsletters";
