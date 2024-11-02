@@ -3,6 +3,7 @@
 import { fileDownload } from "@/app/backend-api/file";
 import { webEventFindAllPagination } from "@/app/backend-api/web-event";
 import { DIRECTORY_EVENT } from "@/app/constants/constant";
+import { FE_WEB_EVENT } from "@/app/constants/endpoint-fe";
 import { EventResponse } from "@/app/dto/response/event-response";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { SearchDto } from "@/app/dto/search/search-dto";
@@ -36,7 +37,7 @@ export default function LatestEvent() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-2 px-6 md:grid-cols-5 md:gap-8 md:px-8 md:divide-x-4 md:divide-secondary-700">
           <div className="grid grid-cols-2 md:col-span-3 gap-4">
             {eventPages?.content.map((event) => (
-              <Link key={event.id} href={""} className="flex-wrap flex-1">
+              <Link key={event.id} href={`${FE_WEB_EVENT}/${event.slug}`} className="flex-wrap flex-1">
                 <Image key={event.id} className="aspect-[3/4]" src={fileDownload(DIRECTORY_EVENT, event.cover)} alt={`${event.title}`} width={1024} height={1024} priority />
               </Link>
             ))}
