@@ -1,10 +1,10 @@
-import { BE_STAFF } from "../constants/endpoint-be";
+import { BE_STAFF, BE_WEB_STAFF } from "../constants/endpoint-be";
 import { StaffRequest } from "../dto/request/staff-request";
 import { PageResponse } from "../dto/response/page-response";
 import { StaffDivisionResponse } from "../dto/response/staff-division-response";
 import { StaffResponse } from "../dto/response/staff-response";
 import { StaffSearchDto } from "../dto/search/staff-search-dto";
-import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
+import { buildPageResponse, buildUrlFindAll, createHeaders, createHeadersWithoutSession, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
 
 export const PERIOD_ID = "periodId";
 export const DIVISION_ID = "divisionId";
@@ -71,4 +71,10 @@ export const getUrlFindAll = (url: string, search: StaffSearchDto): string => {
     urlWithParam.searchParams.append(IS_HEAD, search.isHead.toString());
   }
   return urlWithParam.toString();
+};
+
+export const webStaffFindAll = async (search: StaffSearchDto): Promise<StaffResponse[]> => {
+  const headers = await createHeadersWithoutSession();
+  const response = await makeGetRequest(getUrlFindAll(BE_WEB_STAFF + "/all", search), headers);
+  return await handleResponse(response);
 };

@@ -1,6 +1,6 @@
 import Footer from "../layouts/footer";
 import Navbar from "../layouts/navbar";
-import Face from "./face";
+import Staff from "./staff";
 import ImageCabinet from "./image-cabinet";
 import LatestEvent from "./latest-event";
 import NewsLetter from "./news-letter";
@@ -16,7 +16,7 @@ export default function HomePage() {
         <ImageCabinet />
         <LatestEvent />
         <NewsLetter />
-        <Face />
+        <Staff />
         <SocialMedia />
         <Support />
         <StudentCount />

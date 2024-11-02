@@ -12,3 +12,4 @@ export const FE_DEPARTMENT: string = "/office/committee/department";
 export const FE_COMMITTEE_DATA: string = "/office/committee/data";
 export const FE_WEB_EVENT: string = "/event";
 export const FE_WEB_NEWSLETTER: string = "/newsletter";
+export const FE_WEB_DEPARTMENT: string = "/department";
