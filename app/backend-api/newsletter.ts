@@ -66,3 +66,9 @@ export const webNewsletterFindBySlug = async (slug: string): Promise<NewsletterR
   const response = await makeGetRequest(BE_WEB_NEWSLETTER + "/slug/" + slug, headers);
   return await handleResponse(response);
 };
+
+export const webNewsletterCountAll = async (): Promise<number> => {
+  const headers = await createHeadersWithoutSession();
+  const response = await makeGetRequest(BE_WEB_NEWSLETTER + "/count", headers);
+  return await handleResponse(response);
+};

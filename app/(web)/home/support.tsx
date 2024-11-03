@@ -1,44 +1,26 @@
 "use client";
 
+import { fileDownload } from "@/app/backend-api/file";
+import { webGalleryFindAll } from "@/app/backend-api/gallery";
+import { DIRECTORY_GALLERY } from "@/app/constants/constant";
+import { GalleryResponse } from "@/app/dto/response/gallery-response";
 import useEmblaCarousel from "embla-carousel-react";
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Support() {
-  const images = [
-    {
-      id: 0,
-      url: "https://ppiwarwick.org/file/event/2y12klVoUdNMFl1OjwUEsBTGKd6LVOBSGRTUQIpal0TjRCQIpJRv26S.png",
-      isActive: false,
-      translate: "translate-x-full",
-    },
-    {
-      id: 1,
-      url: "https://ppiwarwick.org/file/event/2y12HiHXRYrl3uu3xiUGOOGPqOOL57oBBEOfRPWGUXDkH14caASdm.png",
-      isActive: true,
-      translate: "translate-x-full",
-    },
-    {
-      id: 2,
-      url: "https://ppiwarwick.org/file/event/2y12Go8CyTdPQenOW4z6KS6glOjpIa5RX9JpnJXvzxsolilnTZefDDd6.png",
-      isActive: false,
-      translate: "translate-x-full",
-    },
-    {
-      id: 3,
-      url: "https://ppiwarwick.org/file/event/2y127Hu1vWtp176Ez9bS8weqEOzJMd3Iylp4bVKz9yOJsLJpAZsw2YFW.png",
-      isActive: false,
-      translate: "translate-x-full",
-    },
-    {
-      id: 4,
-      url: "https://ppiwarwick.org/file/event/2y127RHatjDNri12RUguslRYUeXVtVnxLogPkMM1mCBVA7Faa2ONgbFy.png",
-      isActive: false,
-      translate: "translate-x-full",
-    },
-  ];
-
+  const [galleries, setGalleries] = useState<GalleryResponse[]>([]);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [currentImageId, setCurrentImageId] = useState<number>(0);
+
+  useEffect(() => {
+    fetchGallery();
+  }, []);
+
+  const fetchGallery = async (): Promise<void> => {
+    const response = await webGalleryFindAll({ search: "", eventId: 44 });
+    setGalleries(response);
+  };
 
   const prev = () => {
     emblaApi?.scrollPrev();
@@ -62,16 +44,16 @@ export default function Support() {
           <div className="relative">
             <div className="overflow-hidden relative rounded-lg" ref={emblaRef}>
               <div className="flex">
-                {images.map((image) => (
-                  <div key={image.id} className="min-w-0 flex-shrink-0 flex-grow-0 basis-full h-56 lg:h-96">
-                    <img src={image.url} className="w-full h-full object-cover object-center" alt="..." />
+                {galleries.map((gallery) => (
+                  <div key={gallery.id} className="min-w-0 flex-shrink-0 flex-grow-0 basis-full h-56 lg:h-96">
+                    <Image className="w-full h-full object-cover object-center" src={fileDownload(DIRECTORY_GALLERY, gallery.fileName)} alt={`${gallery.event.title}-gallery`} width={512} height={512} priority />
                   </div>
                 ))}
               </div>
             </div>
             <div className="flex absolute bottom-8 left-1/2 z-30 space-x-3 -translate-x-1/2">
-              {images.map((image, index) => (
-                <button onClick={() => scrollTo(index)} key={image.id} type="button" className={`${index === currentImageId ? "bg-white" : "bg-white/50"} w-3 h-3 rounded-full hover:bg-white`} />
+              {galleries.map((gallery, index) => (
+                <button onClick={() => scrollTo(index)} key={gallery.id} type="button" className={`${index === currentImageId ? "bg-white" : "bg-white/50"} w-3 h-3 rounded-full hover:bg-white`} />
               ))}
             </div>
             <button onClick={prev} type="button" className="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev="">

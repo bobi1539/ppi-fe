@@ -5,7 +5,7 @@ import ImageCabinet from "./image-cabinet";
 import LatestEvent from "./latest-event";
 import NewsLetter from "./news-letter";
 import SocialMedia from "./social-media";
-import StudentCount from "./student-count";
+import WebCount from "./web-count";
 import Support from "./support";
 
 export default function HomePage() {
@@ -19,7 +19,7 @@ export default function HomePage() {
         <Staff />
         <SocialMedia />
         <Support />
-        <StudentCount />
+        <WebCount />
       </main>
       <Footer />
     </div>

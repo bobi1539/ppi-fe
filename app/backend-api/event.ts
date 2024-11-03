@@ -66,3 +66,9 @@ export const webEventFindBySlug = async (slug: string): Promise<EventResponse> =
   const response = await makeGetRequest(BE_WEB_EVENT + "/slug/" + slug, headers);
   return await handleResponse(response);
 };
+
+export const webEventCountAll = async (): Promise<number> => {
+  const headers = await createHeadersWithoutSession();
+  const response = await makeGetRequest(BE_WEB_EVENT + "/count", headers);
+  return await handleResponse(response);
+};

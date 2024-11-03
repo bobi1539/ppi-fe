@@ -78,3 +78,13 @@ export const webStaffFindAll = async (search: StaffSearchDto): Promise<StaffResp
   const response = await makeGetRequest(getUrlFindAll(BE_WEB_STAFF + "/all", search), headers);
   return await handleResponse(response);
 };
+
+export const webStaffCountByPeriod = async (periodId: number): Promise<number> => {
+  const search: StaffSearchDto = {
+    search: "",
+    periodId: periodId,
+  };
+  const headers = await createHeadersWithoutSession();
+  const response = await makeGetRequest(getUrlFindAll(BE_WEB_STAFF + "/count", search), headers);
+  return await handleResponse(response);
+};
