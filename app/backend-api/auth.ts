@@ -13,16 +13,29 @@ export const login = async (request: LoginRequest): Promise<LoginResponse> => {
   return buildLoginResponse(result);
 };
 
+export const authLogout = async (): Promise<LoginResponse> => {
+  const LOGOUT = BE_AUTH + "/logout";
+  const headers = await createHeadersWithoutSession();
+  const request = await getRefreshTokenRequest();
+  const response = await makePostRequest(LOGOUT, headers, request);
+  const result = await response.json();
+  return buildLoginResponse(result.data);
+};
+
 export const loginWithRefreshToken = async (): Promise<LoginResponse> => {
   const REFRESH_TOKEN = BE_AUTH + "/refresh-token";
   const headers = await createHeadersWithoutSession();
-  const session = await getSessionForClient();
-  const refreshTokenRequest: RefreshTokenRequest = {
-    refreshToken: session.loginData.refreshToken,
-  };
-  const response = await makePostRequest(REFRESH_TOKEN, headers, refreshTokenRequest);
+  const request = await getRefreshTokenRequest();
+  const response = await makePostRequest(REFRESH_TOKEN, headers, request);
   const result = await response.json();
   return buildLoginResponse(result.data);
+};
+
+const getRefreshTokenRequest = async (): Promise<RefreshTokenRequest> => {
+  const session = await getSessionForClient();
+  return {
+    refreshToken: session.loginData.refreshToken,
+  };
 };
 
 export const buildLoginResponse = async (result: any): Promise<LoginResponse> => {

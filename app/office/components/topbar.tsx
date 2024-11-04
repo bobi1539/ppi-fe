@@ -12,6 +12,7 @@ import { UserResponse } from "@/app/dto/response/user-response";
 import { fileDownload } from "@/app/backend-api/file";
 import { DEFAULT_IMAGE_URL, DIRECTORY_USER } from "@/app/constants/constant";
 import Image from "next/image";
+import { authLogout } from "@/app/backend-api/auth";
 
 interface TopbarProps {
   setIsSidebarOpen: () => void;
@@ -43,8 +44,14 @@ export default function Topbar(props: Readonly<TopbarProps>) {
     setIsDropdownProfileOpen(false);
     const result = await showConfirmDialog("Are you sure to logout ?");
     if (result.isConfirmed) {
-      await logout();
-      router.push(FE_LOGIN);
+      try {
+        await authLogout();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        await logout();
+        router.push(FE_LOGIN);
+      }
     }
   };
 
