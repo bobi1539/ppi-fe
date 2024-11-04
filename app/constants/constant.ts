@@ -20,6 +20,7 @@ export const DIRECTORY_EVENT: string = "event";
 export const DIRECTORY_NEWSLETTER: string = "newsletter";
 export const DIRECTORY_GALLERY: string = "gallery";
 export const DIRECTORY_STAFF: string = "staff";
+export const DIRECTORY_STUDENT: string = "student";
 export const DEFAULT_IMAGE_URL: string = "/images/default-image.jpg";
 export const HTTP_CODE_UNAUTHORIZED: number = 401;
 export const HTTP_CODE_BAD_REQUEST: number = 400;
