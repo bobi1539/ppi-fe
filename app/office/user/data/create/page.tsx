@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import InputImage from "@/app/components/input/input-image";
 import { DIRECTORY_USER } from "@/app/constants/constant";
 import ButtonBack from "@/app/components/button/button-back";
+import TextArea from "@/app/components/input/text-area";
 
 export default function UserDataCreate() {
   const [userRoles, setUserRoles] = useState<UserRoleResponse[]>([]);
@@ -47,17 +48,19 @@ export default function UserDataCreate() {
         </div>
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form onSubmit={submitSaveUser}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-              <InputImage directoryName={DIRECTORY_USER} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
-              <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3">
-                <InputLabel label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+              <div className="grid grid-cols-1 gap-3">
+                <InputImage directoryName={DIRECTORY_USER} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
+                <InputLabel className="mt-3" label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
                 <InputLabel label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
                 <InputLabel label="Email" name={EMAIL} type="email" placeHolder="Type email" isRequired={true} />
+              </div>
+              <div className="grid grid-cols-1 gap-3">
                 <InputSelectLabel label="Role" name={USER_ROLE_ID} options={getUserRoleOptions(userRoles)} required />
                 <InputLabel label="Password" name={PASSWORD} type="password" placeHolder="Type Password" isRequired={true} />
                 <InputLabel label="Password Confirm" name={PASSWORD_CONFIRM} type="password" placeHolder="Type Password Confirm" isRequired={true} />
                 <InputSelectLabel label="Status" name={IS_ACTIVE} options={statusOptions} required />
-                <InputLabel label="Description" name={DESCRIPTION} type="text" placeHolder="Type Description" isRequired={false} />
+                <TextArea label="Description" name={DESCRIPTION} rows={5} isRequired={false} />
               </div>
             </div>
             <div className="flex justify-between">

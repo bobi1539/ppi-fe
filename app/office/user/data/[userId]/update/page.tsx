@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import InputImage from "@/app/components/input/input-image";
 import { DIRECTORY_USER } from "@/app/constants/constant";
 import ButtonBack from "@/app/components/button/button-back";
+import TextArea from "@/app/components/input/text-area";
 
 export default function UserDataUpdate({ params }: Readonly<{ params: { userId: number } }>) {
   const router = useRouter();
@@ -69,15 +70,17 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
         <section className="bg-white shadow-md sm:rounded-lg overflow-hidden p-5">
           <form onSubmit={submitUpdateUser}>
             <div className="my-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <InputImage directoryName={DIRECTORY_USER} currentImage={photo} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
-                <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <InputLabel value={username} onChange={(e) => setUsername(e.target.value)} label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3">
+                  <InputImage directoryName={DIRECTORY_USER} currentImage={photo} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
+                  <InputLabel className="mt-3" value={username} onChange={(e) => setUsername(e.target.value)} label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
                   <InputLabel value={name} onChange={(e) => setName(e.target.value)} label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
+                </div>
+                <div className="grid grid-cols-1 gap-3">
                   <InputLabel value={email} onChange={(e) => setEmail(e.target.value)} label="Email" name={EMAIL} type="email" placeHolder="Type email" isRequired={true} />
                   <InputSelectLabel label="Role" name={USER_ROLE_ID} option={userRoleOption} options={getUserRoleOptions(userRoles)} required />
                   <InputSelectLabel label="Status" name={IS_ACTIVE} option={isActiveOption} options={statusOptions} required />
-                  <InputLabel value={description} onChange={(e) => setDescription(e.target.value)} label="Description" name={DESCRIPTION} type="text" placeHolder="Type Description" isRequired={false} />
+                  <TextArea label="Description" currentValue={description} onChange={(e) => setDescription(e.target.value)} name={DESCRIPTION} rows={5} isRequired={false} />
                 </div>
               </div>
             </div>

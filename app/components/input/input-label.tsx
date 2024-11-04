@@ -6,11 +6,12 @@ interface InputLabelProps {
   placeHolder?: string;
   isRequired: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 }
 
 export default function InputLabel(props: Readonly<InputLabelProps>) {
   return (
-    <div className="">
+    <div className={props.className}>
       <label htmlFor={props.name} className="block mb-1 text-sm font-medium text-gray-900">
         {props.label}
       </label>

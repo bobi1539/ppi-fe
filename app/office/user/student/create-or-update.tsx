@@ -67,9 +67,7 @@ export default function StudentCreateOrUpdate(props: Readonly<StudentCreateOrUpd
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
               <div className="grid grid-cols-1 gap-3">
                 <InputImage currentImage={photo} directoryName={DIRECTORY_STUDENT} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
-                <div className="mt-3">
-                  <InputLabel value={name} onChange={(e) => setName(e.target.value)} label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
-                </div>
+                <InputLabel className="mt-3" value={name} onChange={(e) => setName(e.target.value)} label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
                 <InputLabel value={email} onChange={(e) => setEmail(e.target.value)} label="Email" name={EMAIL} type="email" placeHolder="Type email" isRequired={true} />
               </div>
               <div className="grid grid-cols-1 gap-3">
