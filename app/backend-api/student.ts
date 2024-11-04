@@ -1,4 +1,4 @@
-import { BE_STUDENT } from "../constants/endpoint-be";
+import { BE_STUDENT, BE_WEB_STUDENT } from "../constants/endpoint-be";
 import { StudentRequest } from "../dto/request/student-request";
 import { PageResponse } from "../dto/response/page-response";
 import { StudentResponse } from "../dto/response/student-response";
@@ -50,6 +50,6 @@ export const studentRestore = async (id: number): Promise<StudentResponse> => {
 
 export const webStudentCountAll = async (): Promise<number> => {
   const headers = await createHeadersWithoutSession();
-  const response = await makeGetRequest(BE_STUDENT + "/count", headers);
+  const response = await makeGetRequest(BE_WEB_STUDENT + "/count", headers);
   return await handleResponse(response);
 };

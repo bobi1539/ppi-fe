@@ -3,6 +3,7 @@
 import { webEventCountAll } from "@/app/backend-api/event";
 import { webNewsletterCountAll } from "@/app/backend-api/newsletter";
 import { webStaffCountByPeriod } from "@/app/backend-api/staff";
+import { webStudentCountAll } from "@/app/backend-api/student";
 import { useEffect, useState } from "react";
 
 interface WebCountData {
@@ -28,12 +29,14 @@ export default function WebCount() {
     const eventCount = await webEventCountAll();
     const newsletterCount = await webNewsletterCountAll();
     const staffCount = await webStaffCountByPeriod(1);
+    const studentCount = await webStudentCountAll();
 
     setWebCountData((prev) => ({
       ...prev,
       event: eventCount,
       newsletter: newsletterCount,
       staff: staffCount,
+      student: studentCount,
     }));
   };
 

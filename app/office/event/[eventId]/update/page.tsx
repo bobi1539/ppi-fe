@@ -9,7 +9,13 @@ import EventCreateOrUpdate from "../../create-or-update";
 import { useEffect, useState } from "react";
 import { EventResponse } from "@/app/dto/response/event-response";
 
-export default function EventUpdate({ params }: Readonly<{ params: { eventId: number } }>) {
+interface EventUpdateProps {
+  params: {
+    eventId: number;
+  };
+}
+
+export default function EventUpdate(props: Readonly<EventUpdateProps>) {
   const [event, setEvent] = useState<EventResponse>();
   const router = useRouter();
 
@@ -18,7 +24,7 @@ export default function EventUpdate({ params }: Readonly<{ params: { eventId: nu
   }, []);
 
   const fetchEventById = async (): Promise<void> => {
-    const response = await eventFindById(params.eventId);
+    const response = await eventFindById(props.params.eventId);
     setEvent(response);
   };
 
@@ -26,7 +32,7 @@ export default function EventUpdate({ params }: Readonly<{ params: { eventId: nu
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const request = await buildEventRequest(formData, event?.cover);
-    await eventUpdate(params.eventId, request);
+    await eventUpdate(props.params.eventId, request);
     await showSuccessDialog();
     router.push(FE_EVENT);
   };

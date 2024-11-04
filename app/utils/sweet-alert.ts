@@ -19,8 +19,8 @@ export const showSuccessDialog = async (text?: string): Promise<void> => {
     icon: "success",
     confirmButtonColor: "#6d28d9",
     customClass: {
-      popup: "custom-swal"
-    }
+      popup: "custom-swal",
+    },
   });
 };
 
@@ -31,4 +31,12 @@ export const showErrorDialog = async (text: string): Promise<void> => {
     icon: "error",
     confirmButtonColor: "#6d28d9",
   });
+};
+
+export const showConfirmDeleteDialog = async (): Promise<SweetAlertResult<null>> => {
+  return await showConfirmDialog("Are you sure to delete ?");
+};
+
+export const showConfirmRestoreDialog = async (): Promise<SweetAlertResult<null>> => {
+  return await showConfirmDialog("Are you sure to restore ?");
 };
