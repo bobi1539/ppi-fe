@@ -1,5 +1,3 @@
-import { fileDownload } from "@/app/backend-api/file";
-import { DIRECTORY_SETTING } from "@/app/constants/constant";
 import Image from "next/image";
 
 interface SocialMediaProps {
@@ -88,7 +86,7 @@ export default function SocialMedia(props: Readonly<SocialMediaProps>) {
             </div>
           </div>
           <div className="md:pl-8 flex justify-center items-center">
-            <Image key={"qrcode-ppi-warwick"} className="w-[240px]" src={fileDownload(DIRECTORY_SETTING, props.urlQrCode)} alt="PPI Warwick Qr Code" width={240} height={240} priority />
+            <Image key={"qrcode-ppi-warwick"} className="w-[240px]" src={props.urlQrCode} alt="PPI Warwick Qr Code" width={240} height={240} priority />
           </div>
         </div>
       </div>

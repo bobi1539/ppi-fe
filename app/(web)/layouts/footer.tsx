@@ -4,11 +4,9 @@ import Button from "../../components/button/button";
 import Input from "../../components/input/input";
 import { showConfirmDialog, showSuccessDialog } from "../../utils/sweet-alert";
 import Image from "next/image";
-import { fileDownload } from "@/app/backend-api/file";
-import { DIRECTORY_SETTING } from "@/app/constants/constant";
 
 interface FooterProps {
-  urlLogo: string;
+  logoUrl: string;
   contactEmail: string;
   contactPhoneNumber: string;
 }
@@ -26,7 +24,7 @@ export default function Footer(props: Readonly<FooterProps>) {
     <footer className="mb-12 md:mb-6 md:py-8 bg-white py-0">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-6 md:grid-cols-12 md:gap-8 md:px-8 place-items-center md:place-items-start">
         <div className="flex flex-col max-w-xl text-black md:col-span-7 items-center text-center md:items-start md:text-left">
-          <Image key={"PPI Warwick Logo"} className="w-48 h-auto" src={fileDownload(DIRECTORY_SETTING, props.urlLogo)} alt="PPI Warwick Logo" width={240} height={240} priority />
+          <Image key={"PPI Warwick Logo"} className="w-48 h-auto" src={props.logoUrl} alt="PPI Warwick Logo" width={240} height={240} priority />
           <p className="inline sm:block md:inline xl:block text-secondary-700 font-bold">Inquiries? Contact Us:</p>
           <p className="inline sm:block md:inline xl:block">{props.contactEmail}</p>
           <p className="inline sm:block md:inline xl:block">{props.contactPhoneNumber}</p>

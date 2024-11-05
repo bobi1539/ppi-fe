@@ -24,7 +24,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
   const [photoUrl, setPhotoUrl] = useState<string>("");
   const router = useRouter();
   const [isDropdownProfileOpen, setIsDropdownProfileOpen] = useState<boolean>(false);
-  const [urlLogo, setUrlLogo] = useState<string>("");
+  const [urlLogo, setUrlLogo] = useState<string>(DEFAULT_IMAGE_URL);
 
   useEffect(() => {
     fetchUserByHeader();
@@ -39,7 +39,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
 
   const fetchSetting = async (): Promise<void> => {
     const response = await webSettingFindById(SETTING_ID);
-    setUrlLogo(response.logo);
+    setUrlLogo(fileDownload(DIRECTORY_SETTING, response.logo));
   };
 
   const setPhotoUrlFromResponse = (response: UserResponse): void => {
@@ -77,7 +77,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
             <span className="sr-only">Toggle sidebar</span>
           </button>
           <Link href={FE_DASHBOARD} className="flex items-center">
-            <Image key={"logo"} className="w-auto h-9 mr-3" src={fileDownload(DIRECTORY_SETTING, urlLogo)} alt="PPI Warwick Logo" width={100} height={36} priority />
+            <Image key={"logo"} className="w-auto h-9 mr-3" src={urlLogo} alt="PPI Warwick Logo" width={100} height={36} priority />
             <span className="hidden md:block self-center text-secondary-800 text-xl font-semibold whitespace-nowrap">PPI Warwick</span>
           </Link>
         </div>

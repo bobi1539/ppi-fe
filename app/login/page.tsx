@@ -9,9 +9,8 @@ import { LoginRequest } from "../dto/request/login-request";
 import { login } from "../backend-api/auth";
 import { getSessionForClient, saveSessionLogin } from "./helper";
 import ButtonIcon from "../components/button/button-icon";
-import { SettingResponse } from "../dto/response/setting-response";
 import { webSettingFindById } from "../backend-api/setting";
-import { DIRECTORY_SETTING, SETTING_ID } from "../constants/constant";
+import { DEFAULT_IMAGE_URL, DIRECTORY_SETTING, SETTING_ID } from "../constants/constant";
 import Image from "next/image";
 import { fileDownload } from "../backend-api/file";
 
@@ -22,7 +21,8 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [setting, setSetting] = useState<SettingResponse>();
+  const [backgroundUrl, setBackgroundUrl] = useState<string>(DEFAULT_IMAGE_URL);
+  const [logoUrl, setLogoUrl] = useState<string>(DEFAULT_IMAGE_URL);
 
   const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
@@ -65,18 +65,19 @@ export default function Login() {
 
   const fetchSetting = async (): Promise<void> => {
     const response = await webSettingFindById(SETTING_ID);
-    setSetting(response);
+    setBackgroundUrl(fileDownload(DIRECTORY_SETTING, response.banner));
+    setLogoUrl(fileDownload(DIRECTORY_SETTING, response.logo));
   };
 
   return (
     <>
       {!isLogin && (
-        <section className="bg-[url('https://ppiwarwick.org/image/Kabi.png')] bg-gray-700 bg-no-repeat bg-cover bg-center bg-blend-multiply bg-opacity-60 min-h-screen">
+        <section style={{ backgroundImage: `url(${backgroundUrl})` }} className="bg-gray-700 bg-no-repeat bg-cover bg-center bg-blend-multiply bg-opacity-60 min-h-screen">
           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen pt:mt-0">
             <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
               <div className="p-6 md:p-8">
                 <div className="flex justify-center gap-3">
-                  <Image key={"logo"} className="w-auto h-9" src={fileDownload(DIRECTORY_SETTING, setting?.logo ?? "")} alt="PPI Warwick Logo" width={100} height={36} priority />
+                  <Image key={"logo"} className="w-auto h-9" src={logoUrl} alt="PPI Warwick Logo" width={100} height={36} priority />
                   <span className="self-center text-secondary-700 text-xl font-semibold whitespace-nowrap">PPI Warwick</span>
                 </div>
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl mb-6">Sign in to your account</h1>

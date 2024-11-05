@@ -1,7 +1,5 @@
 "use client";
 
-import { fileDownload } from "@/app/backend-api/file";
-import { DIRECTORY_SETTING } from "@/app/constants/constant";
 import { FE_WEB_EVENT, FE_WEB_NEWSLETTER } from "@/app/constants/endpoint-fe";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 interface NavbarProps {
-  urlLogo: string;
+  logoUrl: string;
 }
 
 export default function Navbar(props: Readonly<NavbarProps>) {
@@ -44,7 +42,7 @@ export default function Navbar(props: Readonly<NavbarProps>) {
       <nav className="bg-white border-gray-200 px-4 md:px-6 py-2.5">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <Link href="/" className="flex items-center">
-            <Image key={"logo"} className="mr-3 w-auto h-6 sm:h-9" src={fileDownload(DIRECTORY_SETTING, props.urlLogo)} alt="PPI Warwick Logo" width={100} height={36} priority />
+            <Image key={"logo"} className="mr-3 w-auto h-6 sm:h-9" src={props.logoUrl} alt="PPI Warwick Logo" width={100} height={36} priority />
             <span className="self-center text-secondary-800 text-xl font-semibold whitespace-nowrap">PPI Warwick</span>
           </Link>
           <div className="flex items-center md:order-2">
