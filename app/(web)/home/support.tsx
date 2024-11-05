@@ -8,17 +8,28 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function Support() {
+interface SupportProps {
+  eventIdActive: number;
+  supportAccountName: string;
+  supportAccountNumber: string;
+  supportShortCode: string;
+}
+
+export default function Support(props: Readonly<SupportProps>) {
   const [galleries, setGalleries] = useState<GalleryResponse[]>([]);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [currentImageId, setCurrentImageId] = useState<number>(0);
 
   useEffect(() => {
     fetchGallery();
-  }, []);
+  }, [props]);
 
   const fetchGallery = async (): Promise<void> => {
-    const response = await webGalleryFindAll({ search: "", eventId: 44 });
+    let eventId = 1;
+    if (props.eventIdActive) {
+      eventId = props.eventIdActive;
+    }
+    const response = await webGalleryFindAll({ search: "", eventId: eventId });
     setGalleries(response);
   };
 
@@ -80,9 +91,9 @@ export default function Support() {
               <p className="inline text-3xl sm:block md:inline text-orange-500">cause</p>
             </div>
             <div className="flex flex-col">
-              <p className="inline sm:block md:inline">Account holder name : DINA MAULIA</p>
-              <p className="inline sm:block md:inline">Account number : 93777928</p>
-              <p className="inline sm:block md:inline">Sort code : 20-26-22</p>
+              <p className="inline sm:block md:inline">Account holder name : {props.supportAccountName}</p>
+              <p className="inline sm:block md:inline">Account number : {props.supportAccountNumber}</p>
+              <p className="inline sm:block md:inline">Sort code : {props.supportShortCode}</p>
             </div>
           </div>
         </div>

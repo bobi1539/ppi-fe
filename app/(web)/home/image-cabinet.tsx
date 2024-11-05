@@ -1,5 +1,12 @@
+import { fileDownload } from "@/app/backend-api/file";
+import { DIRECTORY_SETTING } from "@/app/constants/constant";
+import Image from "next/image";
 import React from "react";
 
-export default function ImageCabinet() {
-  return <img className="w-screen" src="https://ppiwarwick.org/image/Kabi.png" alt="PPI Warwick Cabinet"></img>;
+interface ImageCabinetProps {
+  urlBanner: string;
+}
+
+export default function ImageCabinet(props: Readonly<ImageCabinetProps>) {
+  return <Image key={"banner"} className="w-screen" src={fileDownload(DIRECTORY_SETTING, props.urlBanner)} alt="PPI Warwick Cabinet" width={1920} height={1080} priority />;
 }

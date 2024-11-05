@@ -10,9 +10,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuPortal, DropdownMenuTrig
 import { userFindByHeader } from "@/app/backend-api/user";
 import { UserResponse } from "@/app/dto/response/user-response";
 import { fileDownload } from "@/app/backend-api/file";
-import { DEFAULT_IMAGE_URL, DIRECTORY_USER } from "@/app/constants/constant";
+import { DEFAULT_IMAGE_URL, DIRECTORY_SETTING, DIRECTORY_USER, SETTING_ID } from "@/app/constants/constant";
 import Image from "next/image";
 import { authLogout } from "@/app/backend-api/auth";
+import { webSettingFindById } from "@/app/backend-api/setting";
 
 interface TopbarProps {
   setIsSidebarOpen: () => void;
@@ -23,15 +24,22 @@ export default function Topbar(props: Readonly<TopbarProps>) {
   const [photoUrl, setPhotoUrl] = useState<string>("");
   const router = useRouter();
   const [isDropdownProfileOpen, setIsDropdownProfileOpen] = useState<boolean>(false);
+  const [urlLogo, setUrlLogo] = useState<string>("");
 
   useEffect(() => {
     fetchUserByHeader();
+    fetchSetting();
   }, []);
 
   const fetchUserByHeader = async (): Promise<void> => {
     const response = await userFindByHeader();
     setUser(response);
     setPhotoUrlFromResponse(response);
+  };
+
+  const fetchSetting = async (): Promise<void> => {
+    const response = await webSettingFindById(SETTING_ID);
+    setUrlLogo(response.logo);
   };
 
   const setPhotoUrlFromResponse = (response: UserResponse): void => {
@@ -69,7 +77,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
             <span className="sr-only">Toggle sidebar</span>
           </button>
           <Link href={FE_DASHBOARD} className="flex items-center">
-            <img src="https://ppiwarwick.org/logo.png" className="mr-3 h-9" alt="PPIW Logo" />
+            <Image key={"logo"} className="w-auto h-9 mr-3" src={fileDownload(DIRECTORY_SETTING, urlLogo)} alt="PPI Warwick Logo" width={100} height={36} priority />
             <span className="hidden md:block self-center text-secondary-800 text-xl font-semibold whitespace-nowrap">PPI Warwick</span>
           </Link>
         </div>

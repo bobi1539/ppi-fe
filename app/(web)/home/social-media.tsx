@@ -1,4 +1,16 @@
-export default function SocialMedia() {
+import { fileDownload } from "@/app/backend-api/file";
+import { DIRECTORY_SETTING } from "@/app/constants/constant";
+import Image from "next/image";
+
+interface SocialMediaProps {
+  instagram: string;
+  tiktok: string;
+  linkedin: string;
+  youtube: string;
+  urlQrCode: string;
+}
+
+export default function SocialMedia(props: Readonly<SocialMediaProps>) {
   return (
     <section>
       <div className=" bg-white px-16 py-8">
@@ -7,7 +19,7 @@ export default function SocialMedia() {
             <p className="inline text-3xl sm:block md:inline xl:block text-black font-extrabold">Follow our</p>
             <p className="inline text-3xl sm:block md:inline xl:block text-orange-500 font-extrabold">Social Media!</p>
             <div className="flex gap-4 mt-4 mx-auto md:mx-0">
-              <a href="https://www.instagram.com/ppiwarwick/" target="_blank" className="p-1 font-semibold inline-flex items-center space-x-2 rounded">
+              <a href={props.instagram} target="_blank" className="p-1 font-semibold inline-flex items-center space-x-2 rounded">
                 <svg width="40px" height="40px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" fill="#6d28d9">
                   <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                   <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -23,7 +35,7 @@ export default function SocialMedia() {
                   </g>
                 </svg>
               </a>
-              <a href="https://www.tiktok.com/@ppiwarwick" target="_blank" className="p-1 font-semibold inline-flex items-center space-x-2 rounded">
+              <a href={props.tiktok} target="_blank" className="p-1 font-semibold inline-flex items-center space-x-2 rounded">
                 <svg fill="#6d28d9" width="40px" height="40px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve" stroke="#6d28d9">
                   <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                   <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.048"></g>
@@ -32,7 +44,7 @@ export default function SocialMedia() {
                   </g>
                 </svg>
               </a>
-              <a href="https://www.linkedin.com/company/ppi-warwick/" target="_blank" className="p-1 font-semibold inline-flex items-center space-x-2 rounded">
+              <a href={props.linkedin} target="_blank" className="p-1 font-semibold inline-flex items-center space-x-2 rounded">
                 <svg width="35px" height="35px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" fill="#000000">
                   <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                   <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -48,7 +60,7 @@ export default function SocialMedia() {
                   </g>
                 </svg>
               </a>
-              <a href="https://www.youtube.com/@ppiwarwick2502" target="_blank" className="p-1 font-semibold inline-flex items-center space-x-2 rounded">
+              <a href={props.youtube} target="_blank" className="p-1 font-semibold inline-flex items-center space-x-2 rounded">
                 <svg width="45px" height="45px" viewBox="0 -3 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" fill="#000000">
                   <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                   <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -76,7 +88,7 @@ export default function SocialMedia() {
             </div>
           </div>
           <div className="md:pl-8 flex justify-center items-center">
-            <img width="240px" src="https://ppiwarwick.org/image/ppiwarwick_qr.png" alt="ppi warwick qr" />
+            <Image key={"qrcode-ppi-warwick"} className="w-[240px]" src={fileDownload(DIRECTORY_SETTING, props.urlQrCode)} alt="PPI Warwick Qr Code" width={240} height={240} priority />
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ import ContentTitle from "../components/content-title";
 import { settingFindById, settingUpdate } from "@/app/backend-api/setting";
 import InputImage from "@/app/components/input/input-image";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
-import { DIRECTORY_SETTING } from "@/app/constants/constant";
+import { DIRECTORY_SETTING, SETTING_ID } from "@/app/constants/constant";
 import InputLabel from "@/app/components/input/input-label";
 import { SettingRequest } from "@/app/dto/request/setting-request";
 import { buildUpdateFileUploadRequest, getFileFormData } from "@/app/utils/helper";
@@ -55,7 +55,7 @@ export default function Setting() {
   }, []);
 
   const fetchSetting = async (): Promise<void> => {
-    const response = await settingFindById(1);
+    const response = await settingFindById(SETTING_ID);
     setId(response.id);
     setLogo(response.logo);
     setBanner(response.banner);
@@ -134,9 +134,9 @@ export default function Setting() {
             <InputLabel label="Tiktok Link" value={tiktok} onChange={(e) => setTiktok(e.target.value)} name={TIKTOK} type="text" placeHolder="Type tiktok link" isRequired={true} />
             <InputLabel label="Linkedin Link" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} name={LINKEDIN} type="text" placeHolder="Type linkedin link" isRequired={true} />
             <InputLabel label="Youtube Link" value={youtube} onChange={(e) => setYoutube(e.target.value)} name={YOUTUBE} type="text" placeHolder="Type youtube link" isRequired={true} />
-            <InputLabel label="Support Account Name" value={supportAccountName} onChange={(e) => setSupportAccountName(e.target.value)} name={SUPPORT_ACCOUNT_NAME} type="text" placeHolder="Type support account name" isRequired={true} />
-            <InputLabel label="Support Account Number" value={supportAccountNumber} onChange={(e) => setSupportAccountNumber(e.target.value)} name={SUPPORT_ACCOUNT_NUMBER} type="text" placeHolder="Type support account number" isRequired={true} />
-            <InputLabel label="Support Short Code" value={supportShortCode} onChange={(e) => setSupportShortCode(e.target.value)} name={SUPPORT_SHORT_CODE} type="text" placeHolder="Type short code" isRequired={true} />
+            <InputLabel label="Account Holder Name" value={supportAccountName} onChange={(e) => setSupportAccountName(e.target.value)} name={SUPPORT_ACCOUNT_NAME} type="text" placeHolder="Type account holder name" isRequired={true} />
+            <InputLabel label="Account Number" value={supportAccountNumber} onChange={(e) => setSupportAccountNumber(e.target.value)} name={SUPPORT_ACCOUNT_NUMBER} type="text" placeHolder="Type account number" isRequired={true} />
+            <InputLabel label="Short Code" value={supportShortCode} onChange={(e) => setSupportShortCode(e.target.value)} name={SUPPORT_SHORT_CODE} type="text" placeHolder="Type short code" isRequired={true} />
             <InputLabel label="Contact Email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} name={CONTACT_EMAIL} type="text" placeHolder="Type contact email" isRequired={true} />
             <InputLabel label="Contact Phone Number" value={contactPhoneNumber} onChange={(e) => setContactPhoneNumber(e.target.value)} name={CONTACT_PHONE_NUMBER} type="text" placeHolder="Type contact phone number" isRequired={true} />
             <div />

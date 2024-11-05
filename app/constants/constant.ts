@@ -25,3 +25,4 @@ export const DIRECTORY_SETTING: string = "setting";
 export const DEFAULT_IMAGE_URL: string = "/images/default-image.jpg";
 export const HTTP_CODE_UNAUTHORIZED: number = 401;
 export const HTTP_CODE_BAD_REQUEST: number = 400;
+export const SETTING_ID: number = 1;

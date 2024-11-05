@@ -9,6 +9,11 @@ import { LoginRequest } from "../dto/request/login-request";
 import { login } from "../backend-api/auth";
 import { getSessionForClient, saveSessionLogin } from "./helper";
 import ButtonIcon from "../components/button/button-icon";
+import { SettingResponse } from "../dto/response/setting-response";
+import { webSettingFindById } from "../backend-api/setting";
+import { DIRECTORY_SETTING, SETTING_ID } from "../constants/constant";
+import Image from "next/image";
+import { fileDownload } from "../backend-api/file";
 
 export const USERNAME: string = "username";
 export const PASSWORD: string = "password";
@@ -17,6 +22,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [setting, setSetting] = useState<SettingResponse>();
 
   const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
@@ -46,6 +52,7 @@ export default function Login() {
 
   useEffect(() => {
     validateIsLogin();
+    fetchSetting();
   }, []);
 
   const validateIsLogin = async () => {
@@ -56,6 +63,11 @@ export default function Login() {
     }
   };
 
+  const fetchSetting = async (): Promise<void> => {
+    const response = await webSettingFindById(SETTING_ID);
+    setSetting(response);
+  };
+
   return (
     <>
       {!isLogin && (
@@ -64,7 +76,7 @@ export default function Login() {
             <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
               <div className="p-6 md:p-8">
                 <div className="flex justify-center gap-3">
-                  <img src="https://ppiwarwick.org/logo.png" className="h-9" alt="PPIW Logo" />
+                  <Image key={"logo"} className="w-auto h-9" src={fileDownload(DIRECTORY_SETTING, setting?.logo ?? "")} alt="PPI Warwick Logo" width={100} height={36} priority />
                   <span className="self-center text-secondary-700 text-xl font-semibold whitespace-nowrap">PPI Warwick</span>
                 </div>
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl mb-6">Sign in to your account</h1>

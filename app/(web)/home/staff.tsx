@@ -1,9 +1,11 @@
 "use client";
 
 import { fileDownload } from "@/app/backend-api/file";
+import { webSettingFindById } from "@/app/backend-api/setting";
 import { webStaffFindAll } from "@/app/backend-api/staff";
 import { DIRECTORY_STAFF } from "@/app/constants/constant";
 import { FE_WEB_DEPARTMENT } from "@/app/constants/endpoint-fe";
+import { SettingResponse } from "@/app/dto/response/setting-response";
 import { StaffResponse } from "@/app/dto/response/staff-response";
 import { StaffSearchDto } from "@/app/dto/search/staff-search-dto";
 import Autoplay from "embla-carousel-autoplay";
@@ -12,7 +14,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function Staff() {
+interface StaffProps {
+  periodIdActive: number;
+}
+
+export default function Staff(props: Readonly<StaffProps>) {
   const autoplay = Autoplay({ delay: 3000 });
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [autoplay]);
   const [currentFaceId, setCurrentFaceId] = useState<number>(0);
@@ -31,7 +37,7 @@ export default function Staff() {
     return (): void => {
       emblaApi.off("select", onSelect);
     };
-  }, [emblaApi]);
+  }, [emblaApi, props.periodIdActive]);
 
   const scrollTo = (index: number) => {
     emblaApi?.scrollTo(index);
@@ -44,9 +50,11 @@ export default function Staff() {
   };
 
   const buildSearchDto = (): StaffSearchDto => {
+    let periodId = 1;
+    if (props.periodIdActive) periodId = props.periodIdActive;
     return {
       search: "",
-      periodId: 1,
+      periodId: periodId,
       isHead: true,
     };
   };
