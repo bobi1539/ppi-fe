@@ -2,7 +2,7 @@
 
 import { menuFindAll } from "@/app/backend-api/menu";
 import { userRoleFindById } from "@/app/backend-api/user-role";
-import { userRoleMenuCreate } from "@/app/backend-api/user-role-menu";
+import { userRoleMenuCreate, userRoleMenuFindByUserRoleId } from "@/app/backend-api/user-role-menu";
 import ButtonBack from "@/app/components/button/button-back";
 import ButtonIcon from "@/app/components/button/button-icon";
 import InputCheckbox from "@/app/components/input/input-checkbox";
@@ -24,11 +24,18 @@ interface UserRoleMenuProps {
 export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
   const [roleName, setRoleName] = useState<string>("");
   const [menus, setMenus] = useState<MenuResponse[]>([]);
+  const [menuMap, setMenuMap] = useState<Map<number, boolean>>(new Map());
+  const [subMenuMap, setSubMenuMap] = useState<Map<number, boolean>>(new Map());
 
   useEffect(() => {
     fetchUserRoleById();
     fetchMenu();
-  }, [roleName]);
+    fetchUserRoleMenuByUserRoleId();
+  }, []);
+
+  useEffect(() => {
+    console.log("hello world");
+  }, [menuMap, subMenuMap]);
 
   const fetchUserRoleById = async (): Promise<void> => {
     const response = await userRoleFindById(props.params.userRoleId);
@@ -38,6 +45,28 @@ export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
   const fetchMenu = async (): Promise<void> => {
     const response = await menuFindAll({ search: "" });
     setMenus(response);
+  };
+
+  const fetchUserRoleMenuByUserRoleId = async (): Promise<void> => {
+    const response = await userRoleMenuFindByUserRoleId(props.params.userRoleId);
+    response.menus.forEach((menu) => {
+      setMenuMap((prev) => {
+        const newMenuMap = new Map(prev);
+        newMenuMap.set(menu.id, true);
+        return newMenuMap;
+      });
+      makeSubMenuMap(menu.subMenus);
+    });
+  };
+
+  const makeSubMenuMap = (subMenus: SubMenuResponse[]): void => {
+    subMenus.forEach((subMenu) => {
+      setSubMenuMap((prev) => {
+        const newSubMenuMap = new Map(prev);
+        newSubMenuMap.set(subMenu.id, true);
+        return newSubMenuMap;
+      });
+    });
   };
 
   const submitSaveUserRoleMenu = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -89,9 +118,9 @@ export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
             <div className="px-8 py-4">
               {menus.map((menu) => (
                 <div key={menu.id}>
-                  <InputCheckbox id={`menu-${menu.id}`} name={`menu-id-${menu.id}`} label={menu.name} />
+                  <InputCheckbox id={`menu-${menu.id}`} name={`menu-id-${menu.id}`} label={menu.name} checked={menuMap.get(menu.id)} />
                   {menu.subMenus.map((subMenu) => (
-                    <InputCheckbox className="ml-10" key={`sub-menu-id-${subMenu.id}`} id={`sub-menu-id-${subMenu.id}`} name={`sub-menu-id-${subMenu.id}`} label={subMenu.name} />
+                    <InputCheckbox className="ml-10" key={`sub-menu-id-${subMenu.id}`} id={`sub-menu-id-${subMenu.id}`} name={`sub-menu-id-${subMenu.id}`} label={subMenu.name} checked={subMenuMap.get(subMenu.id)} />
                   ))}
                 </div>
               ))}
