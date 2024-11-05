@@ -4,7 +4,7 @@ import { webEventFindBySlug } from "@/app/backend-api/event";
 import { fileDownload } from "@/app/backend-api/file";
 import { webGalleryFindAll } from "@/app/backend-api/gallery";
 import Nl2Br from "@/app/components/paragraph/nl2br";
-import { DIRECTORY_EVENT, DIRECTORY_GALLERY } from "@/app/constants/constant";
+import { DEFAULT_IMAGE_URL, DIRECTORY_EVENT, DIRECTORY_GALLERY } from "@/app/constants/constant";
 import { EventResponse } from "@/app/dto/response/event-response";
 import { GalleryResponse } from "@/app/dto/response/gallery-response";
 import { formatDate } from "@/app/utils/date-helper";
@@ -20,6 +20,7 @@ interface EventDetailProps {
 export default function EventDetail(props: Readonly<EventDetailProps>) {
   const [event, setEvent] = useState<EventResponse>();
   const [galleries, setGalleries] = useState<GalleryResponse[]>([]);
+  const [eventCoverUrl, setEventCoverUrl] = useState<string>(DEFAULT_IMAGE_URL);
 
   useEffect(() => {
     fetchEvent();
@@ -29,6 +30,7 @@ export default function EventDetail(props: Readonly<EventDetailProps>) {
     const response = await webEventFindBySlug(props.params.slug);
     setEvent(response);
     fetchGallery(response.id);
+    setEventCoverUrl(fileDownload(DIRECTORY_EVENT, response.cover));
   };
 
   const fetchGallery = async (eventId: number): Promise<void> => {
@@ -40,7 +42,7 @@ export default function EventDetail(props: Readonly<EventDetailProps>) {
     <section className="bg-white">
       <div className="mx-auto py-4 px-4 md:py-16 md:max-w-7xl md:px-8 grid md:grid-cols-3 gap-8 md:gap-10 lg:gap-16">
         <div className="md:col-span-1">
-          <Image key={event?.id} className="rounded-lg" src={fileDownload(DIRECTORY_EVENT, event?.cover ?? "")} alt={event?.title ?? ""} width={1024} height={1024} priority />
+          <Image key={event?.id} className="rounded-lg" src={eventCoverUrl} alt={event?.title ?? ""} width={1024} height={1024} priority />
         </div>
         <div className="md:col-span-2">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl flex flex-row gap-2">{event?.title}</h1>
