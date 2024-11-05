@@ -6,7 +6,7 @@ import InputLabel from "@/app/components/input/input-label";
 import { FE_EVENT } from "@/app/constants/endpoint-fe";
 import ButtonIcon from "@/app/components/button/button-icon";
 import TextArea from "@/app/components/input/text-area";
-import { DESCRIPTION, END_DATE, END_TIME, START_DATE, START_TIME, TITLE } from "./helper";
+import { COVER, DESCRIPTION, END_DATE, END_TIME, START_DATE, START_TIME, TITLE } from "./helper";
 import ContentTitle from "../components/content-title";
 import { useEffect, useState } from "react";
 import { EventResponse } from "@/app/dto/response/event-response";
@@ -47,7 +47,7 @@ export default function EventCreateOrUpdate(props: Readonly<EventCreateOrUpdateP
           <form onSubmit={props.submit}>
             <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mb-4 justify-center">
               <div className="col-span-2">
-                <InputImage label="Upload Cover" currentImage={cover} directoryName={DIRECTORY_EVENT} inputName={"cover"} classNameImagePreview="border border-gray-200 rounded-lg" />
+                <InputImage label="Upload Cover" currentImage={cover} directoryName={DIRECTORY_EVENT} inputName={COVER} classNameImagePreview="border border-gray-200 rounded-lg" />
               </div>
               <div className="col-span-3 flex flex-col gap-3">
                 <InputLabel label="Title" value={title} onChange={(e) => setTitle(e.target.value)} name={TITLE} type="text" placeHolder="Type title" isRequired={true} />
