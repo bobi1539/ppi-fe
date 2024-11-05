@@ -43,7 +43,7 @@ export default function HomePage() {
         <Staff periodIdActive={setting?.periodActive.id ?? 0} />
         <SocialMedia instagram={setting?.instagram ?? ""} tiktok={setting?.tiktok ?? ""} linkedin={setting?.linkedin ?? ""} youtube={setting?.youtube ?? ""} urlQrCode={urlQrCode} />
         <Support eventIdActive={setting?.eventGallery.id ?? 0} supportAccountName={setting?.supportAccountName ?? ""} supportAccountNumber={setting?.supportAccountNumber ?? ""} supportShortCode={setting?.supportShortCode ?? ""} />
-        <WebCount />
+        <WebCount periodActiveId={setting?.periodActive.id ?? 0} />
       </main>
       <Footer logoUrl={logoUrl} contactEmail={setting?.contactEmail ?? ""} contactPhoneNumber={setting?.contactPhoneNumber ?? ""} />
     </div>

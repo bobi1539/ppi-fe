@@ -52,13 +52,15 @@ export default function EventDetail(props: Readonly<EventDetailProps>) {
           <Nl2Br text={event?.description ?? ""} className="mt-2" />
         </div>
       </div>
-      <div className="columns-1 md:columns-2 lg:columns-3 2xl:columns-4 p-4 md:p-8 bg-secondary-100">
-        {galleries.map((gallery) => (
-          <div key={gallery.id} className="p-2 mb-4 rounded-lg transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl">
-            <Image className="rounded-lg" src={fileDownload(DIRECTORY_GALLERY, gallery.fileName)} alt={`${gallery.event.title}-gallery`} width={1024} height={1024} priority />
-          </div>
-        ))}
-      </div>
+      {galleries && galleries.length > 0 && (
+        <div className="columns-1 md:columns-2 lg:columns-3 2xl:columns-4 p-4 md:p-8 bg-gray-100">
+          {galleries.map((gallery) => (
+            <div key={gallery.id} className="p-2 mb-4 rounded-lg transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl">
+              <Image className="rounded-lg" src={fileDownload(DIRECTORY_GALLERY, gallery.fileName)} alt={`${gallery.event.title}-gallery`} width={1024} height={1024} priority />
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

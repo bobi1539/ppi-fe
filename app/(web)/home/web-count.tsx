@@ -13,7 +13,11 @@ interface WebCountData {
   staff: number;
 }
 
-export default function WebCount() {
+interface WebCountProps {
+  periodActiveId: number;
+}
+
+export default function WebCount(props: Readonly<WebCountProps>) {
   const [webCountData, setWebCountData] = useState<WebCountData>({
     student: 100,
     event: 0,
@@ -23,12 +27,12 @@ export default function WebCount() {
 
   useEffect(() => {
     countData();
-  }, []);
+  }, [props.periodActiveId]);
 
   const countData = async (): Promise<void> => {
     const eventCount = await webEventCountAll();
     const newsletterCount = await webNewsletterCountAll();
-    const staffCount = await webStaffCountByPeriod(1);
+    const staffCount = await webStaffCountByPeriod(props.periodActiveId);
     const studentCount = await webStudentCountAll();
 
     setWebCountData((prev) => ({
