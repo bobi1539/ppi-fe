@@ -1,16 +1,14 @@
 interface ButtonLoadingProps {
-  text: string;
+  text?: string;
   className?: string;
+  padding?: string;
 }
 
 export default function ButtonLoading(props: Readonly<ButtonLoadingProps>) {
   return (
-    <button type="button" disabled className={`${props.className} flex justify-center rounded-md bg-secondary-700 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-secondary-600`}>
-      <svg className="w-5 h-5 mr-3 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle className="opacity-25" cx={12} cy={12} r={10} stroke="currentColor" strokeWidth={4} />
-        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-      </svg>
-      {props.text}
+    <button type="button" disabled className={`${props.className} flex justify-center items-center gap-2 rounded-md bg-secondary-700 ${props.padding ?? "px-3.5 py-2.5"} text-sm font-semibold text-white shadow-sm hover:bg-secondary-600`}>
+      <div className="w-5 h-5 border-2 border-t-2 border-gray-200 rounded-full animate-spin border-t-secondary-700" />
+      {props.text && <span>{props.text}</span>}
     </button>
   );
 }

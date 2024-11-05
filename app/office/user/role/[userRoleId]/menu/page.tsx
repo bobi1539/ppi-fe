@@ -5,6 +5,7 @@ import { userRoleFindById } from "@/app/backend-api/user-role";
 import { userRoleMenuCreate, userRoleMenuFindByUserRoleId } from "@/app/backend-api/user-role-menu";
 import ButtonBack from "@/app/components/button/button-back";
 import ButtonIcon from "@/app/components/button/button-icon";
+import ButtonLoading from "@/app/components/button/button-loading";
 import InputCheckbox from "@/app/components/input/input-checkbox";
 import { FE_USER_ROLE } from "@/app/constants/endpoint-fe";
 import { UserRoleMenuRequest } from "@/app/dto/request/user-role-menu-request";
@@ -13,6 +14,7 @@ import { MenuResponse } from "@/app/dto/response/menu-response";
 import { SubMenuResponse } from "@/app/dto/response/sub-menu-response";
 import ContentTitle from "@/app/office/components/content-title";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface UserRoleMenuProps {
@@ -26,6 +28,8 @@ export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
   const [menus, setMenus] = useState<MenuResponse[]>([]);
   const [menuMap, setMenuMap] = useState<Map<number, boolean>>(new Map());
   const [subMenuMap, setSubMenuMap] = useState<Map<number, boolean>>(new Map());
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     fetchUserRoleById();
@@ -70,6 +74,7 @@ export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
   };
 
   const submitSaveUserRoleMenu = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    setIsLoading(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const menuIds = getMenuIds(formData);
@@ -79,6 +84,8 @@ export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
     };
     await userRoleMenuCreate(request);
     await showSuccessDialog();
+    router.push(FE_USER_ROLE);
+    setIsLoading(false);
   };
 
   const getMenuIds = (formData: FormData): UserRoleSubMenuRequest[] => {
@@ -113,7 +120,7 @@ export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
     <div className="flex justify-center">
       <div className="w-full md:max-w-2xl">
         <ContentTitle title={`Role ${roleName}`} />
-        <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden pb-5">
+        <section className="bg-white relative shadow-md sm:rounded-lg overflow-hidden">
           <form onSubmit={submitSaveUserRoleMenu}>
             <div className="px-8 py-4">
               {menus.map((menu) => (
@@ -127,7 +134,7 @@ export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
             </div>
             <div className="flex justify-between p-4">
               <ButtonBack href={FE_USER_ROLE} />
-              <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+              {isLoading ? <ButtonLoading padding="px-9" /> : <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />}
             </div>
           </form>
         </section>
