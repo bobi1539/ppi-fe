@@ -38,7 +38,7 @@ export default function HomePage() {
         <Support eventIdActive={setting?.eventGallery.id ?? 0} supportAccountName={setting?.supportAccountName ?? ""} supportAccountNumber={setting?.supportAccountNumber ?? ""} supportShortCode={setting?.supportShortCode ?? ""} />
         <WebCount />
       </main>
-      <Footer urlLogo={setting?.logo??""} contactEmail={setting?.contactEmail ?? ""} contactPhoneNumber={setting?.contactPhoneNumber ?? ""} />
+      <Footer urlLogo={setting?.logo ?? ""} contactEmail={setting?.contactEmail ?? ""} contactPhoneNumber={setting?.contactPhoneNumber ?? ""} />
     </div>
   );
 }
