@@ -1,6 +1,6 @@
 "use client";
 
-import { findByHeader } from "@/app/backend-api/user-role-menu";
+import { userRoleMenuFindByHeader } from "@/app/backend-api/user-role-menu";
 import { MenuResponse } from "@/app/dto/response/menu-response";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,7 +28,7 @@ export default function Sidebar(props: Readonly<SidebarProps>) {
   }, []);
 
   const fetchUserRoleMenu = async (): Promise<void> => {
-    const response = await findByHeader();
+    const response = await userRoleMenuFindByHeader();
     setMenus(response.menus);
   };
 
