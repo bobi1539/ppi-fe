@@ -1,10 +1,13 @@
 import { SearchDto } from "./../dto/search/search-dto";
 import { BE_USER } from "../constants/endpoint-be";
 import { PageResponse } from "../dto/response/page-response";
-import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
+import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest, makePutRequestWithoutId } from "./helper";
 import { UserResponse } from "../dto/response/user-response";
 import { UserCreateRequest } from "../dto/request/user-create-request";
 import { UserUpdateRequest } from "../dto/request/user-update-request";
+import { ChangePasswordRequest } from "../dto/request/change-password-request";
+
+const CHANGE_PASSWORD_URL: string = BE_USER + "/change-password";
 
 export const userFindAllPagination = async (search: SearchDto): Promise<PageResponse<UserResponse>> => {
   const headers = await createHeaders();
@@ -46,5 +49,17 @@ export const userDelete = async (id: number): Promise<UserResponse> => {
 export const userRestore = async (id: number): Promise<UserResponse> => {
   const headers = await createHeaders();
   const response = await makePutRequest(id, BE_USER + "/restore", headers, null);
+  return await handleResponse(response);
+};
+
+export const userChangePasswordById = async (id: number, request: ChangePasswordRequest): Promise<UserResponse> => {
+  const headers = await createHeaders();
+  const response = await makePutRequest(id, CHANGE_PASSWORD_URL, headers, request);
+  return await handleResponse(response);
+};
+
+export const userChangePasswordByHeader = async (request: ChangePasswordRequest): Promise<UserResponse> => {
+  const headers = await createHeaders();
+  const response = await makePutRequestWithoutId(`${CHANGE_PASSWORD_URL}/header`, headers, request);
   return await handleResponse(response);
 };

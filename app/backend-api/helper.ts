@@ -61,6 +61,19 @@ export const makePutRequest = async (id: number, url: string, headers: Headers, 
   return response;
 };
 
+export const makePutRequestWithoutId = async (url: string, headers: Headers, body: any): Promise<Response> => {
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: headers,
+    body: createRequestBody(body),
+  });
+  if (response.status === HTTP_CODE_UNAUTHORIZED) {
+    await handleTokenExpired();
+    return makePutRequestWithoutId(url, await createHeaders(), body);
+  }
+  return response;
+};
+
 export const makeDeleteRequest = async (id: number, url: string, headers: Headers): Promise<Response> => {
   const response = await fetch(url + "/" + id, {
     method: "DELETE",
