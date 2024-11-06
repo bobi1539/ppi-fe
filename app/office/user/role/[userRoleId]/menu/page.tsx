@@ -74,18 +74,23 @@ export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
   };
 
   const submitSaveUserRoleMenu = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    setIsLoading(true);
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const menuIds = getMenuIds(formData);
-    const request: UserRoleMenuRequest = {
-      userRoleId: props.params.userRoleId,
-      menuIds: menuIds,
-    };
-    await userRoleMenuCreate(request);
-    await showSuccessDialog();
-    router.push(FE_USER_ROLE);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const menuIds = getMenuIds(formData);
+      const request: UserRoleMenuRequest = {
+        userRoleId: props.params.userRoleId,
+        menuIds: menuIds,
+      };
+      await userRoleMenuCreate(request);
+      await showSuccessDialog();
+      router.push(FE_USER_ROLE);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getMenuIds = (formData: FormData): UserRoleSubMenuRequest[] => {

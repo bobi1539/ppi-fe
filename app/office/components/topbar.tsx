@@ -107,7 +107,7 @@ export default function Topbar(props: Readonly<TopbarProps>) {
                 </div>
                 <ul className="py-1 text-gray-700">
                   <li>
-                    <Link href="#" className="block py-2 px-4 text-sm text-gray-700 hover:text-white hover:bg-secondary-700 transition ease-in duration-200">
+                    <Link href="/office/user/profile" onClick={() => setIsDropdownProfileOpen(false)} className="block py-2 px-4 text-sm text-gray-700 hover:text-white hover:bg-secondary-700 transition ease-in duration-200">
                       My profile
                     </Link>
                   </li>
