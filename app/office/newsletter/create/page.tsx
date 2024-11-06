@@ -6,18 +6,27 @@ import { useRouter } from "next/navigation";
 import { buildNewsletterRequest } from "../helper";
 import { newsletterCreate } from "@/app/backend-api/newsletter";
 import NewsletterCreateOrUpdate from "../create-or-update";
+import { useState } from "react";
 
 export default function NewsletterCreate() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const submitSaveEvent = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const request = await buildNewsletterRequest(formData);
-    await newsletterCreate(request);
-    await showSuccessDialog();
-    router.push(FE_NEWSLETTER);
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const request = await buildNewsletterRequest(formData);
+      await newsletterCreate(request);
+      await showSuccessDialog();
+      router.push(FE_NEWSLETTER);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return <NewsletterCreateOrUpdate submit={submitSaveEvent} title="Add Newsletter" />;
+  return <NewsletterCreateOrUpdate isLoading={isLoading} submit={submitSaveEvent} title="Add Newsletter" />;
 }

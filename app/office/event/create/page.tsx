@@ -6,18 +6,27 @@ import { eventCreate } from "@/app/backend-api/event";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { useRouter } from "next/navigation";
 import EventCreateOrUpdate from "../create-or-update";
+import { useState } from "react";
 
 export default function EventCreate() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const submitSaveEvent = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const request = await buildEventRequest(formData);
-    await eventCreate(request);
-    await showSuccessDialog();
-    router.push(FE_EVENT);
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const request = await buildEventRequest(formData);
+      await eventCreate(request);
+      await showSuccessDialog();
+      router.push(FE_EVENT);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return <EventCreateOrUpdate submit={submitSaveEvent} title="Add Event" />;
+  return <EventCreateOrUpdate isLoading={isLoading} submit={submitSaveEvent} title="Add Event" />;
 }

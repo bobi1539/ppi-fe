@@ -11,8 +11,10 @@ import { useEffect, useState } from "react";
 import { EventResponse } from "@/app/dto/response/event-response";
 import ButtonBack from "@/app/components/button/button-back";
 import ButtonSave from "@/app/components/button/button-save";
+import ButtonLoading from "@/app/components/button/button-loading";
 
 interface EventCreateOrUpdateProps {
+  isLoading: boolean;
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   title: string;
   event?: EventResponse;
@@ -64,7 +66,7 @@ export default function EventCreateOrUpdate(props: Readonly<EventCreateOrUpdateP
             </div>
             <div className="flex justify-between">
               <ButtonBack href={FE_EVENT} />
-              <ButtonSave />
+              {props.isLoading ? <ButtonLoading className="px-9" /> : <ButtonSave />}
             </div>
           </form>
         </section>

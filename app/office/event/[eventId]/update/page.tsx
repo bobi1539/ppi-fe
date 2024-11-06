@@ -16,6 +16,7 @@ interface EventUpdateProps {
 }
 
 export default function EventUpdate(props: Readonly<EventUpdateProps>) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [event, setEvent] = useState<EventResponse>();
   const router = useRouter();
 
@@ -29,13 +30,20 @@ export default function EventUpdate(props: Readonly<EventUpdateProps>) {
   };
 
   const submitUpdateEvent = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const request = await buildEventRequest(formData, event?.cover);
-    await eventUpdate(props.params.eventId, request);
-    await showSuccessDialog();
-    router.push(FE_EVENT);
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const request = await buildEventRequest(formData, event?.cover);
+      await eventUpdate(props.params.eventId, request);
+      await showSuccessDialog();
+      router.push(FE_EVENT);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return <EventCreateOrUpdate submit={submitUpdateEvent} event={event} title="Edit Event" />;
+  return <EventCreateOrUpdate isLoading={isLoading} submit={submitUpdateEvent} event={event} title="Edit Event" />;
 }

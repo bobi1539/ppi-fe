@@ -10,6 +10,7 @@ import { buildNewsletterRequest } from "../../helper";
 import NewsletterCreateOrUpdate from "../../create-or-update";
 
 export default function NewsletterUpdate({ params }: Readonly<{ params: { newsletterId: number } }>) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [newsletter, setNewsletter] = useState<NewsletterResponse>();
   const router = useRouter();
 
@@ -23,13 +24,20 @@ export default function NewsletterUpdate({ params }: Readonly<{ params: { newsle
   };
 
   const submitUpdateNewsletter = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const request = await buildNewsletterRequest(formData, newsletter?.cover, newsletter?.content);
-    await newsletterUpdate(params.newsletterId, request);
-    await showSuccessDialog();
-    router.push(FE_NEWSLETTER);
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const request = await buildNewsletterRequest(formData, newsletter?.cover, newsletter?.content);
+      await newsletterUpdate(params.newsletterId, request);
+      await showSuccessDialog();
+      router.push(FE_NEWSLETTER);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return <NewsletterCreateOrUpdate submit={submitUpdateNewsletter} newsletter={newsletter} title="Edit Newsletter" />;
+  return <NewsletterCreateOrUpdate isLoading={isLoading} submit={submitUpdateNewsletter} newsletter={newsletter} title="Edit Newsletter" />;
 }

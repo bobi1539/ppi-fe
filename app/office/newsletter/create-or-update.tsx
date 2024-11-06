@@ -14,8 +14,10 @@ import InputFile from "@/app/components/input/input-file";
 import { fileDownload } from "@/app/backend-api/file";
 import ButtonBack from "@/app/components/button/button-back";
 import ButtonSave from "@/app/components/button/button-save";
+import ButtonLoading from "@/app/components/button/button-loading";
 
 interface EventCreateOrUpdateProps {
+  isLoading: boolean;
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   title: string;
   newsletter?: NewsletterResponse;
@@ -61,7 +63,7 @@ export default function NewsletterCreateOrUpdate(props: Readonly<EventCreateOrUp
             </div>
             <div className="flex justify-between">
               <ButtonBack href={FE_NEWSLETTER} />
-              <ButtonSave />
+              {props.isLoading ? <ButtonLoading className="px-9" /> : <ButtonSave />}
             </div>
           </form>
         </section>
