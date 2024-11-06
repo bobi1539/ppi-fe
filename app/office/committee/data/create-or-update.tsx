@@ -1,12 +1,12 @@
 "use client";
 
-import ButtonIcon from "@/app/components/button/button-icon";
 import InputLabel from "@/app/components/input/input-label";
 import InputSelectLabel, { Option } from "@/app/components/input/input-select-label";
 import Modal from "@/app/components/modal/modal";
 import { PeriodResponse } from "@/app/dto/response/period-response";
 import { useEffect, useState } from "react";
 import { COMMITTEE_NAME, END_DATE, getStatusOption, START_DATE, STATUS, statusOptions } from "./helper";
+import ButtonSave from "@/app/components/button/button-save";
 
 interface CommitteeDataModalProps {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -40,7 +40,7 @@ export default function CommitteeDataModal(props: Readonly<CommitteeDataModalPro
           <InputLabel value={endDate} onChange={(e) => setEndDate(e.target.value)} label="End" name={END_DATE} type="date" isRequired={true} />
         </div>
         <div className="flex justify-end">
-          <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+          <ButtonSave />
         </div>
       </form>
     </Modal>

@@ -1,7 +1,6 @@
 "use client";
 
 import InputLabel from "@/app/components/input/input-label";
-import ButtonIcon from "@/app/components/button/button-icon";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { userFindById, userUpdate } from "@/app/backend-api/user";
 import { buildUserUpdateRequest, DESCRIPTION, EMAIL, getUserRoleOption, getUserRoleOptions, IS_ACTIVE, NAME, PHOTO, USER_ROLE_ID, USERNAME } from "./../../helper";
@@ -17,6 +16,7 @@ import InputImage from "@/app/components/input/input-image";
 import { DIRECTORY_USER } from "@/app/constants/constant";
 import ButtonBack from "@/app/components/button/button-back";
 import TextArea from "@/app/components/input/text-area";
+import ButtonSave from "@/app/components/button/button-save";
 
 export default function UserDataUpdate({ params }: Readonly<{ params: { userId: number } }>) {
   const router = useRouter();
@@ -86,7 +86,7 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
             </div>
             <div className="flex justify-between">
               <ButtonBack href={FE_USER_DATA} />
-              <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+              <ButtonSave />
             </div>
           </form>
         </section>

@@ -5,7 +5,6 @@ import { DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
 import InputLabel from "@/app/components/input/input-label";
 import { FE_NEWSLETTER } from "@/app/constants/endpoint-fe";
 import Link from "next/link";
-import ButtonIcon from "@/app/components/button/button-icon";
 import TextArea from "@/app/components/input/text-area";
 import { TITLE, DESCRIPTION, CONTENT } from "./helper";
 import ContentTitle from "../components/content-title";
@@ -14,6 +13,7 @@ import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
 import InputFile from "@/app/components/input/input-file";
 import { fileDownload } from "@/app/backend-api/file";
 import ButtonBack from "@/app/components/button/button-back";
+import ButtonSave from "@/app/components/button/button-save";
 
 interface EventCreateOrUpdateProps {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -61,7 +61,7 @@ export default function NewsletterCreateOrUpdate(props: Readonly<EventCreateOrUp
             </div>
             <div className="flex justify-between">
               <ButtonBack href={FE_NEWSLETTER} />
-              <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+              <ButtonSave />
             </div>
           </form>
         </section>

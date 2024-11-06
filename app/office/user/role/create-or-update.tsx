@@ -1,11 +1,11 @@
 "use client";
 
-import ButtonIcon from "@/app/components/button/button-icon";
 import InputLabel from "@/app/components/input/input-label";
 import Modal from "@/app/components/modal/modal";
 import { useEffect, useState } from "react";
 import { ROLE_NAME } from "./helper";
 import { UserRoleResponse } from "@/app/dto/response/user-role-response";
+import ButtonSave from "@/app/components/button/button-save";
 
 interface UserRoleModalProps {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -30,7 +30,7 @@ export default function UserRoleModal(props: Readonly<UserRoleModalProps>) {
           <InputLabel value={roleName} onChange={(e) => setRoleName(e.target.value)} label="Role Name" name={ROLE_NAME} type="text" placeHolder="Type role name" isRequired={true} />
         </div>
         <div className="flex justify-end">
-          <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+          <ButtonSave />
         </div>
       </form>
     </Modal>

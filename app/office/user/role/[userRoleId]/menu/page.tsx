@@ -4,8 +4,8 @@ import { menuFindAll } from "@/app/backend-api/menu";
 import { userRoleFindById } from "@/app/backend-api/user-role";
 import { userRoleMenuCreate, userRoleMenuFindByUserRoleId } from "@/app/backend-api/user-role-menu";
 import ButtonBack from "@/app/components/button/button-back";
-import ButtonIcon from "@/app/components/button/button-icon";
 import ButtonLoading from "@/app/components/button/button-loading";
+import ButtonSave from "@/app/components/button/button-save";
 import InputCheckbox from "@/app/components/input/input-checkbox";
 import { FE_USER_ROLE } from "@/app/constants/endpoint-fe";
 import { UserRoleMenuRequest } from "@/app/dto/request/user-role-menu-request";
@@ -139,7 +139,7 @@ export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
             </div>
             <div className="flex justify-between p-4">
               <ButtonBack href={FE_USER_ROLE} />
-              {isLoading ? <ButtonLoading padding="px-9" /> : <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />}
+              {isLoading ? <ButtonLoading padding="px-9" /> : <ButtonSave />}
             </div>
           </form>
         </section>

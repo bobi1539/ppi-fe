@@ -6,7 +6,6 @@ import InputImage from "@/app/components/input/input-image";
 import { DIRECTORY_STUDENT } from "@/app/constants/constant";
 import { FE_STUDENT } from "@/app/constants/endpoint-fe";
 import ButtonBack from "@/app/components/button/button-back";
-import ButtonIcon from "@/app/components/button/button-icon";
 import { BIRTH_DATE, EDUCATION, EMAIL, GENDER_ID, getGenderOption, getGenderOptions, GRADUATION, MAJOR, NAME, PHOTO } from "./helper";
 import InputLabel from "@/app/components/input/input-label";
 import { useEffect, useState } from "react";
@@ -15,6 +14,7 @@ import { systemParameterListFindAll } from "@/app/backend-api/system-parameter-l
 import { SYSTEM_PARAMETER_GENDER } from "@/app/backend-api/system-parameter";
 import { SystemParameterListSearchDto } from "@/app/dto/search/system-parameter-list-search-dto";
 import { SystemParameterListResponse } from "@/app/dto/response/system-parameter-list-response";
+import ButtonSave from "@/app/components/button/button-save";
 
 interface StudentCreateOrUpdateProps {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -80,7 +80,7 @@ export default function StudentCreateOrUpdate(props: Readonly<StudentCreateOrUpd
             </div>
             <div className="flex justify-between">
               <ButtonBack href={FE_STUDENT} />
-              <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+              <ButtonSave />
             </div>
           </form>
         </section>

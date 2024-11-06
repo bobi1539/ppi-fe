@@ -12,7 +12,7 @@ import { buildUpdateFileUploadRequest, getFileFormData } from "@/app/utils/helpe
 import InputSelectLabel, { Option } from "@/app/components/input/input-select-label";
 import { periodFindAll } from "@/app/backend-api/period";
 import { eventFindAll } from "@/app/backend-api/event";
-import ButtonIcon from "@/app/components/button/button-icon";
+import ButtonSave from "@/app/components/button/button-save";
 
 const LOGO: string = "logo";
 const BANNER: string = "banner";
@@ -147,7 +147,7 @@ export default function Setting() {
             <InputImage label="Upload Qr Code" currentImage={qrCode} directoryName={DIRECTORY_SETTING} inputName={QR_CODE} classNameImagePreview="w-auto border border-gray-200 rounded-lg h-24 md:h-32" />
           </div>
           <div className="flex justify-end mt-2">
-            <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+            <ButtonSave />
           </div>
         </form>
       </section>

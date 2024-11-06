@@ -2,13 +2,13 @@
 
 import InputLabel from "@/app/components/input/input-label";
 import Modal from "@/app/components/modal/modal";
-import ButtonIcon from "@/app/components/button/button-icon";
 import { buildSubMenuRequest, SEQUENCE, SUB_MENU_NAME } from "./helper";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { useEffect, useState } from "react";
 import { removeNonDigit } from "@/app/utils/helper";
 import { SubMenuResponse } from "@/app/dto/response/sub-menu-response";
 import { subMenuFindById, subMenuUpdate } from "@/app/backend-api/sub-menu";
+import ButtonSave from "@/app/components/button/button-save";
 
 interface SubMenuModalUpdateProps {
   id: number;
@@ -51,7 +51,7 @@ export default function SubMenuModalUpdate(props: Readonly<SubMenuModalUpdatePro
           <InputLabel value={sequence} onChange={(e) => setSequence(removeNonDigit(e))} label="Sequence" name={SEQUENCE} type="text" placeHolder="Type sequence" isRequired={true} />
         </div>
         <div className="flex justify-end">
-          <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+          <ButtonSave />
         </div>
       </form>
     </Modal>

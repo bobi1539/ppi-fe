@@ -7,12 +7,13 @@ import TextArea from "@/app/components/input/text-area";
 import ButtonIcon from "@/app/components/button/button-icon";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { useEffect, useState } from "react";
-import { DIRECTORY_USER, ICON_SAVE, ICON_UNLOCK } from "@/app/constants/constant";
+import { DIRECTORY_USER, ICON_UNLOCK } from "@/app/constants/constant";
 import { userFindByHeader, userUpdate } from "@/app/backend-api/user";
 import { UserUpdateRequest } from "@/app/dto/request/user-update-request";
 import { getFileFormData } from "@/app/utils/helper";
 import ButtonLoading from "@/app/components/button/button-loading";
 import ProfileChangePassword from "./profile-change-password";
+import ButtonSave from "@/app/components/button/button-save";
 
 const PHOTO: string = "photo";
 const USERNAME: string = "username";
@@ -99,7 +100,7 @@ export default function UserProfile() {
             </div>
             <div className="flex justify-between">
               <ButtonIcon onClick={() => setIsModalChangePasswordOpen(!isModalChangePasswordOpen)} type="button" icon={ICON_UNLOCK} text="Change Password" className="w-auto px-5 py-2.5" color="bg-gray-500 hover:bg-gray-400" />
-              {isLoading ? <ButtonLoading className="px-9" /> : <ButtonIcon type="submit" icon={ICON_SAVE} text="Save" className="w-auto px-5 py-2.5" />}
+              {isLoading ? <ButtonLoading className="px-9" /> : <ButtonSave />}
             </div>
           </form>
           {isModalChangePasswordOpen && <ProfileChangePassword username={username} closeModal={() => setIsModalChangePasswordOpen(false)} />}

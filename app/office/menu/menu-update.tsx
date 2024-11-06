@@ -2,13 +2,13 @@
 
 import InputLabel from "@/app/components/input/input-label";
 import Modal from "@/app/components/modal/modal";
-import ButtonIcon from "@/app/components/button/button-icon";
 import { buildMenuRequest, MENU_NAME, SEQUENCE } from "./helper";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { useEffect, useState } from "react";
 import { menuFindById, menuUpdate } from "@/app/backend-api/menu";
 import { MenuResponse } from "@/app/dto/response/menu-response";
 import { removeNonDigit } from "@/app/utils/helper";
+import ButtonSave from "@/app/components/button/button-save";
 
 interface MenuModalUpdateProps {
   id: number;
@@ -50,7 +50,7 @@ export default function MenuModalUpdate(props: Readonly<MenuModalUpdateProps>) {
           <InputLabel value={sequence} onChange={(e) => setSequence(removeNonDigit(e))} label="Sequence" name={SEQUENCE} type="text" placeHolder="Type sequence" isRequired={true} />
         </div>
         <div className="flex justify-end">
-          <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+          <ButtonSave />
         </div>
       </form>
     </Modal>

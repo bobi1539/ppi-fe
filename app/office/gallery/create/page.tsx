@@ -2,7 +2,6 @@
 
 import ContentTitle from "../../components/content-title";
 import { FE_GALLERY } from "@/app/constants/endpoint-fe";
-import ButtonIcon from "@/app/components/button/button-icon";
 import { ChangeEvent, useEffect, useState } from "react";
 import { EventResponse } from "@/app/dto/response/event-response";
 import { eventFindAll } from "@/app/backend-api/event";
@@ -13,6 +12,7 @@ import { galleryCreate } from "@/app/backend-api/gallery";
 import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { useRouter } from "next/navigation";
 import ButtonBack from "@/app/components/button/button-back";
+import ButtonSave from "@/app/components/button/button-save";
 
 export default function GalleryCreate() {
   const [events, setEvents] = useState<EventResponse[]>([]);
@@ -63,7 +63,7 @@ export default function GalleryCreate() {
             </div>
             <div className="flex justify-between">
               <ButtonBack href={FE_GALLERY} />
-              <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+              <ButtonSave />
             </div>
           </form>
         </section>

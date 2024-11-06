@@ -1,5 +1,5 @@
-import ButtonIcon from "@/app/components/button/button-icon";
 import ButtonLoading from "@/app/components/button/button-loading";
+import ButtonSave from "@/app/components/button/button-save";
 import InputLabel from "@/app/components/input/input-label";
 import Modal from "@/app/components/modal/modal";
 import { useState } from "react";
@@ -25,7 +25,7 @@ export default function ModalChangePassword(props: Readonly<ChangePasswordProps>
           <InputLabel value={password} onChange={(e) => setPassword(e.target.value)} label="Password" name={PASSWORD} type="password" placeHolder="Type password" isRequired={true} />
           <InputLabel value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} label="Password Confirm" name={PASSWORD_CONFIRM} type="password" placeHolder="Type password confirm" isRequired={true} />
         </div>
-        <div className="flex justify-end mt-4">{isLoading ? <ButtonLoading className="px-9" /> : <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />}</div>
+        <div className="flex justify-end mt-4">{isLoading ? <ButtonLoading className="px-9" /> : <ButtonSave />}</div>
       </form>
     </Modal>
   );

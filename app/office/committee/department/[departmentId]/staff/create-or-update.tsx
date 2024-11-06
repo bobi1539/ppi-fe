@@ -1,6 +1,5 @@
 "use client";
 
-import ButtonIcon from "@/app/components/button/button-icon";
 import InputLabel from "@/app/components/input/input-label";
 import { useEffect, useState } from "react";
 import { DESCRIPTION, FUN_FACT, getIsHeadOption, IS_HEAD, isHeadOptions, JOB_DESCRIPTION, POSITION, QUOTE, STAFF_NAME, STAFF_PHOTO } from "./helper";
@@ -10,6 +9,7 @@ import InputImage from "@/app/components/input/input-image";
 import { DIRECTORY_STAFF } from "@/app/constants/constant";
 import TextArea from "@/app/components/input/text-area";
 import Modal from "@/app/components/modal/modal";
+import ButtonSave from "@/app/components/button/button-save";
 
 interface DepartmentStaffModalProps {
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -61,7 +61,7 @@ export default function DepartmentStaffModal(props: Readonly<DepartmentStaffModa
           </div>
         </div>
         <div className="flex justify-end">
-          <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />
+          <ButtonSave />
         </div>
       </form>
     </Modal>
