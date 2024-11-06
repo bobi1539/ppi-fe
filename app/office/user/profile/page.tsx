@@ -12,6 +12,7 @@ import { userFindByHeader, userUpdate } from "@/app/backend-api/user";
 import { UserUpdateRequest } from "@/app/dto/request/user-update-request";
 import { getFileFormData } from "@/app/utils/helper";
 import ButtonLoading from "@/app/components/button/button-loading";
+import ChangePassword from "../change-password";
 
 const PHOTO: string = "photo";
 const USERNAME: string = "username";
@@ -29,6 +30,7 @@ export default function UserProfile() {
   const [userRoleId, setUserRoleId] = useState<number>(0);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isModalChangePasswordOpen, setIsModalChangePasswordOpen] = useState<boolean>(false);
 
   useEffect(() => {
     fetchUser();
@@ -88,7 +90,7 @@ export default function UserProfile() {
                   <InputImage directoryName={DIRECTORY_USER} currentImage={photo} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
                 </div>
                 <div className="grid grid-cols-1 gap-3">
-                  <InputLabel className="mt-3" value={username} onChange={(e) => setUsername(e.target.value)} label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
+                  <InputLabel value={username} onChange={(e) => setUsername(e.target.value)} label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />
                   <InputLabel value={name} onChange={(e) => setName(e.target.value)} label="Name" name={NAME} type="text" placeHolder="Type name" isRequired={true} />
                   <InputLabel value={email} onChange={(e) => setEmail(e.target.value)} label="Email" name={EMAIL} type="email" placeHolder="Type email" isRequired={true} />
                   <TextArea label="Description" currentValue={description} onChange={(e) => setDescription(e.target.value)} name={DESCRIPTION} rows={5} isRequired={false} />
@@ -96,10 +98,11 @@ export default function UserProfile() {
               </div>
             </div>
             <div className="flex justify-between">
-              <div />
+              <ButtonIcon onClick={() => setIsModalChangePasswordOpen(!isModalChangePasswordOpen)} type="button" icon="fa-solid fa-unlock" text="Change Password" className="w-auto px-5 py-2.5" color="bg-gray-500 hover:bg-gray-400" />
               {isLoading ? <ButtonLoading className="px-9" /> : <ButtonIcon type="submit" icon="fa-solid fa-floppy-disk" text="Save" className="w-auto px-5 py-2.5" />}
             </div>
           </form>
+          {isModalChangePasswordOpen && <ChangePassword userId={userId} username={username} closeModal={() => setIsModalChangePasswordOpen(false)} />}
         </section>
       </div>
     </div>

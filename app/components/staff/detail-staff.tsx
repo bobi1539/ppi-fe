@@ -19,7 +19,7 @@ export default function DetailStaff(props: Readonly<DetailStaffProps>) {
       </div>
       <div className="flex flex-col gap-4">
         <div className="p-6 border border-gray-200 shadow rounded-lg hover:bg-gray-100">
-          <h1 className="font-bold">{props.staff?.quote}</h1>
+          <q className="font-bold">{props.staff?.quote}</q>
         </div>
         <div className="p-6 border border-gray-200 shadow rounded-lg hover:bg-gray-100">
           <h1 className="font-normal">
