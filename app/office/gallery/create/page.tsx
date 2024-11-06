@@ -13,8 +13,10 @@ import { showSuccessDialog } from "@/app/utils/sweet-alert";
 import { useRouter } from "next/navigation";
 import ButtonBack from "@/app/components/button/button-back";
 import ButtonSave from "@/app/components/button/button-save";
+import ButtonLoading from "@/app/components/button/button-loading";
 
 export default function GalleryCreate() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<EventResponse[]>([]);
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
   const router = useRouter();
@@ -29,12 +31,19 @@ export default function GalleryCreate() {
   };
 
   const submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const request = await buildGalleryRequest(formData);
-    await galleryCreate(request);
-    await showSuccessDialog();
-    router.push(FE_GALLERY);
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const request = await buildGalleryRequest(formData);
+      await galleryCreate(request);
+      await showSuccessDialog();
+      router.push(FE_GALLERY);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGalleryFiles = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -63,7 +72,7 @@ export default function GalleryCreate() {
             </div>
             <div className="flex justify-between">
               <ButtonBack href={FE_GALLERY} />
-              <ButtonSave />
+              {isLoading ? <ButtonLoading className="px-9" /> : <ButtonSave />}
             </div>
           </form>
         </section>
