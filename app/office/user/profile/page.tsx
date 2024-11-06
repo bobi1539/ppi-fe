@@ -103,7 +103,7 @@ export default function UserProfile() {
               {isLoading ? <ButtonLoading className="px-9" /> : <ButtonSave />}
             </div>
           </form>
-          {isModalChangePasswordOpen && <ProfileChangePassword username={username} closeModal={() => setIsModalChangePasswordOpen(false)} />}
+          {isModalChangePasswordOpen && <ProfileChangePassword name={name} closeModal={() => setIsModalChangePasswordOpen(false)} />}
         </section>
       </div>
     </div>

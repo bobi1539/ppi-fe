@@ -129,7 +129,7 @@ export default function UserData() {
                       <CustomDropdownItem onClick={() => handleRestoreUser(user.id)} className={TEXT_COLOR_RESTORE} icon={ICON_RESTORE} text={TEXT_RESTORE} />
                     ) : (
                       <>
-                        <CustomDropdownItem onClick={() => handleChangePasswordUser(user.id, user.username)} className={TEXT_COLOR_EDIT} icon={ICON_UNLOCK} text={"Password"} />
+                        <CustomDropdownItem onClick={() => handleChangePasswordUser(user.id, user.name)} className={TEXT_COLOR_EDIT} icon={ICON_UNLOCK} text={"Password"} />
                         <CustomDropdownItem onClick={() => handleEditUser(user.id)} className={TEXT_COLOR_EDIT} icon={ICON_EDIT} text={TEXT_EDIT} />
                       </>
                     )}
@@ -141,7 +141,7 @@ export default function UserData() {
           )}
         </CustomTable>
         <FooterTable numberOfElements={userPages?.numberOfElements ?? 0} totalElements={userPages?.totalElements ?? 0} totalPages={userPages?.totalPages ?? 10} handlePageChange={handlePageChange} />
-        {isModalChangePasswordOpen && <UserChangePassword userId={userIdChangePassword} username={usernameChangePassword} closeModal={() => setIsModalChangePasswordOpen(false)} />}
+        {isModalChangePasswordOpen && <UserChangePassword userId={userIdChangePassword} name={usernameChangePassword} closeModal={() => setIsModalChangePasswordOpen(false)} />}
       </section>
     </div>
   );
