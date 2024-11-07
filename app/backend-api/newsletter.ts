@@ -4,6 +4,8 @@ import { PageResponse } from "../dto/response/page-response";
 import { buildPageResponse, buildUrlFindAll, createHeaders, createHeadersWithoutSession, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
 import { NewsletterResponse } from "../dto/response/newsletter-response";
 import { NewsletterRequest } from "../dto/request/newsletter-request";
+import { NewsletterSubscriptionRequest } from "../dto/request/newsletter-email-request";
+import { NewsletterSubscriptionResponse } from "../dto/response/newsletter-email-response";
 
 export const newsletterFindAllPagination = async (search: SearchDto): Promise<PageResponse<NewsletterResponse>> => {
   const headers = await createHeaders();
@@ -70,5 +72,11 @@ export const webNewsletterFindBySlug = async (slug: string): Promise<NewsletterR
 export const webNewsletterCountAll = async (): Promise<number> => {
   const headers = await createHeadersWithoutSession();
   const response = await makeGetRequest(BE_WEB_NEWSLETTER + "/count", headers);
+  return await handleResponse(response);
+};
+
+export const webNewsletterEmailCreate = async (request: NewsletterSubscriptionRequest): Promise<NewsletterSubscriptionResponse> => {
+  const headers = await createHeadersWithoutSession();
+  const response = await makePostRequest(BE_WEB_NEWSLETTER + "/subscribe", headers, request);
   return await handleResponse(response);
 };

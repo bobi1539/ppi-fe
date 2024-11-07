@@ -11,7 +11,10 @@ import { FE_WEB_NEWSLETTER } from "@/app/constants/endpoint-fe";
 import Image from "next/image";
 import { fileDownload } from "@/app/backend-api/file";
 import { DIRECTORY_NEWSLETTER } from "@/app/constants/constant";
-import { webNewsletterFindAllPagination } from "@/app/backend-api/newsletter";
+import { webNewsletterEmailCreate, webNewsletterFindAllPagination } from "@/app/backend-api/newsletter";
+import { NewsletterSubscriptionRequest } from "@/app/dto/request/newsletter-email-request";
+
+const EMAIL: string = "email";
 
 export default function NewsLetter() {
   const [newsletters, setNewsletters] = useState<PageResponse<NewsletterResponse>>();
@@ -27,10 +30,19 @@ export default function NewsLetter() {
 
   const subscribeNewsletter = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     const result = await showConfirmDialog("Are you sure to subscribe?");
     if (result.isConfirmed) {
+      const request = buildNewsletterEmailRequest(formData);
+      await webNewsletterEmailCreate(request);
       showSuccessDialog("You have subscribed.");
     }
+  };
+
+  const buildNewsletterEmailRequest = (formData: FormData): NewsletterSubscriptionRequest => {
+    return {
+      email: String(formData.get(EMAIL)),
+    };
   };
 
   return (
@@ -44,7 +56,7 @@ export default function NewsLetter() {
             </div>
             <form onSubmit={subscribeNewsletter}>
               <div className="flex gap-x-4">
-                <Input name="email" type="email" autoComplete="email" placeHolder="Enter your email" isRequired={true} />
+                <Input name={EMAIL} type="email" autoComplete="email" placeHolder="Enter your email" isRequired={true} />
                 <Button text="Subscribe" />
               </div>
             </form>
