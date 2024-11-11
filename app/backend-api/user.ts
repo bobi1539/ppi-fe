@@ -12,7 +12,7 @@ const CHANGE_PASSWORD_URL: string = BE_USER + "/change-password";
 export const userFindAllPagination = async (search: SearchDto): Promise<PageResponse<UserResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(buildUrlFindAll(BE_USER, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<UserResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

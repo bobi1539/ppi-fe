@@ -10,7 +10,7 @@ import { NewsletterSubscriptionResponse } from "../dto/response/newsletter-email
 export const newsletterFindAllPagination = async (search: SearchDto): Promise<PageResponse<NewsletterResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(buildUrlFindAll(BE_NEWSLETTER, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<NewsletterResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 
@@ -59,7 +59,7 @@ export const newsletterRestore = async (id: number): Promise<NewsletterResponse>
 export const webNewsletterFindAllPagination = async (search: SearchDto): Promise<PageResponse<NewsletterResponse>> => {
   const headers = await createHeadersWithoutSession();
   const response = await makeGetRequest(buildUrlFindAll(BE_WEB_NEWSLETTER, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<NewsletterResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

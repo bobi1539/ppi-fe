@@ -8,7 +8,7 @@ import { EventRequest } from "../dto/request/event-request";
 export const eventFindAllPagination = async (search: SearchDto): Promise<PageResponse<EventResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(buildUrlFindAll(BE_EVENT, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<EventResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 
@@ -57,7 +57,7 @@ export const eventRestore = async (id: number): Promise<EventResponse> => {
 export const webEventFindAllPagination = async (search: SearchDto): Promise<PageResponse<EventResponse>> => {
   const headers = await createHeadersWithoutSession();
   const response = await makeGetRequest(buildUrlFindAll(BE_WEB_EVENT, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<EventResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

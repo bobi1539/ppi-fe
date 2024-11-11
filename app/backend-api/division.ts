@@ -10,7 +10,7 @@ export const PERIOD_ID = "periodId";
 export const divisionFindAllPagination = async (search: DivisionSearchDto): Promise<PageResponse<DivisionResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(getUrlFindAll(BE_DIVISION, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<DivisionResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

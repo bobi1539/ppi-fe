@@ -36,7 +36,7 @@ export default function Login() {
       const isLoginSession = await saveSessionLogin(response);
       setIsLogin(isLoginSession);
       router.push(FE_DASHBOARD);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);

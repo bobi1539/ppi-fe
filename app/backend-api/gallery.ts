@@ -10,7 +10,7 @@ export const EVENT_ID = "eventId";
 export const galleryFindAllPagination = async (search: GallerySearchDto): Promise<PageResponse<GalleryResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(getUrlFindAll(BE_GALLERY, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<GalleryResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

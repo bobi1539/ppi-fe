@@ -8,7 +8,7 @@ import { buildPageResponse, buildUrlFindAll, createHeaders, createHeadersWithout
 export const studentFindAllPagination = async (search: SearchDto): Promise<PageResponse<StudentResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(buildUrlFindAll(BE_STUDENT, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<StudentResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

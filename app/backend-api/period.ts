@@ -8,7 +8,7 @@ import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, make
 export const periodFindAllPagination = async (search: SearchDto): Promise<PageResponse<PeriodResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(buildUrlFindAll(BE_PERIOD, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<PeriodResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

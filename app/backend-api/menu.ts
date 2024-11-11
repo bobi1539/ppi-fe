@@ -8,7 +8,7 @@ import { MenuRequest } from "../dto/request/menu-request";
 export const menuFindAllPagination = async (search: SearchDto): Promise<PageResponse<MenuResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(buildUrlFindAll(BE_MENU, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<MenuResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

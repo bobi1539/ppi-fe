@@ -10,7 +10,7 @@ export const SYSTEM_PARAMETER_ID = "systemParameterId";
 export const systemParameterListFindAllPagination = async (search: SystemParameterListSearchDto): Promise<PageResponse<SystemParameterListResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(getUrlFindAll(BE_SYSTEM_PARAMETER_LIST, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<SystemParameterListResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

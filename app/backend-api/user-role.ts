@@ -8,7 +8,7 @@ import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, make
 export const userRoleFindAllPagination = async (search: SearchDto): Promise<PageResponse<UserRoleResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(buildUrlFindAll(BE_USER_ROLE, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<UserRoleResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

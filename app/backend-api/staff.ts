@@ -13,7 +13,7 @@ export const IS_HEAD = "isHead";
 export const staffFindAllPagination = async (search: StaffSearchDto): Promise<PageResponse<StaffResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(getUrlFindAll(BE_STAFF, search), headers);
-  const result = await handleResponse(response);
+  const result: PageResponse<StaffResponse> = await handleResponse(response);
   return buildPageResponse(result);
 };
 

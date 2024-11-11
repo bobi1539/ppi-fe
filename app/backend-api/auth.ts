@@ -9,7 +9,7 @@ export const login = async (request: LoginRequest): Promise<LoginResponse> => {
   const LOGIN = BE_AUTH + "/login";
   const headers = await createHeadersWithoutSession();
   const response = await makePostRequest(LOGIN, headers, request);
-  const result = await handleResponse(response);
+  const result: LoginResponse = await handleResponse(response);
   return buildLoginResponse(result);
 };
 
