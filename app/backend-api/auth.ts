@@ -38,7 +38,7 @@ const getRefreshTokenRequest = async (): Promise<RefreshTokenRequest> => {
   };
 };
 
-export const buildLoginResponse = async (result: any): Promise<LoginResponse> => {
+export const buildLoginResponse = async (result: LoginResponse): Promise<LoginResponse> => {
   return {
     jwt: result.jwt,
     refreshToken: result.refreshToken,

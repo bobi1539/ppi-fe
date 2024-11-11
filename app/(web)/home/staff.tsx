@@ -1,11 +1,9 @@
 "use client";
 
 import { fileDownload } from "@/app/backend-api/file";
-import { webSettingFindById } from "@/app/backend-api/setting";
 import { webStaffFindAll } from "@/app/backend-api/staff";
 import { DIRECTORY_STAFF } from "@/app/constants/constant";
 import { FE_WEB_DEPARTMENT } from "@/app/constants/endpoint-fe";
-import { SettingResponse } from "@/app/dto/response/setting-response";
 import { StaffResponse } from "@/app/dto/response/staff-response";
 import { StaffSearchDto } from "@/app/dto/search/staff-search-dto";
 import Autoplay from "embla-carousel-autoplay";
