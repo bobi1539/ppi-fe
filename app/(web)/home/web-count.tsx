@@ -26,23 +26,23 @@ export default function WebCount(props: Readonly<WebCountProps>) {
   });
 
   useEffect(() => {
+    const countData = async (): Promise<void> => {
+      const eventCount = await webEventCountAll();
+      const newsletterCount = await webNewsletterCountAll();
+      const staffCount = await webStaffCountByPeriod(props.periodActiveId);
+      const studentCount = await webStudentCountAll();
+
+      setWebCountData((prev) => ({
+        ...prev,
+        event: eventCount,
+        newsletter: newsletterCount,
+        staff: staffCount,
+        student: studentCount,
+      }));
+    };
+    
     countData();
   }, [props.periodActiveId]);
-
-  const countData = async (): Promise<void> => {
-    const eventCount = await webEventCountAll();
-    const newsletterCount = await webNewsletterCountAll();
-    const staffCount = await webStaffCountByPeriod(props.periodActiveId);
-    const studentCount = await webStudentCountAll();
-
-    setWebCountData((prev) => ({
-      ...prev,
-      event: eventCount,
-      newsletter: newsletterCount,
-      staff: staffCount,
-      student: studentCount,
-    }));
-  };
 
   return (
     <section>

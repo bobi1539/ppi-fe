@@ -25,19 +25,19 @@ export default function CommitteeStaff(props: Readonly<CommitteeStaffProps>) {
   const [staffClick, setStaffClick] = useState<StaffResponse>();
 
   useEffect(() => {
+    const fetchPeriodById = async (): Promise<void> => {
+      const response = await periodFindById(props.params.periodId);
+      setPeriod(response);
+    };
+
+    const fetchStaff = async (): Promise<void> => {
+      const response = await staffFindByPeriodId(props.params.periodId);
+      setStaffs(response);
+    };
+
     fetchPeriodById();
     fetchStaff();
-  }, []);
-
-  const fetchPeriodById = async (): Promise<void> => {
-    const response = await periodFindById(props.params.periodId);
-    setPeriod(response);
-  };
-
-  const fetchStaff = async (): Promise<void> => {
-    const response = await staffFindByPeriodId(props.params.periodId);
-    setStaffs(response);
-  };
+  }, [props.params.periodId]);
 
   const handleClickCardStaff = (staff: StaffResponse): void => {
     setIsModalOpen(!isModalOpen);

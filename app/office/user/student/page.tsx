@@ -4,7 +4,7 @@ import ButtonIcon from "@/app/components/button/button-icon";
 import ContentSearch from "../../components/content-search";
 import ContentTitle from "../../components/content-title";
 import InputSearch from "../../components/input-search";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FE_STUDENT, FE_STUDENT_CREATE } from "@/app/constants/endpoint-fe";
 import { PageResponse } from "@/app/dto/response/page-response";
@@ -28,24 +28,24 @@ export default function Student() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
-    fetchStudent();
-  }, [currentPage, searchValue]);
+  const fetchStudent = useCallback(async (): Promise<void> => {
+    const buildSearchDto = (): SearchDto => {
+      return {
+        search: searchValue,
+        page: currentPage,
+        size: CONSTANT_PAGE_SIZE_VALUE,
+      };
+    };
 
-  const fetchStudent = async (): Promise<void> => {
     setIsLoading(true);
     const response = await studentFindAllPagination(buildSearchDto());
     setStudentPages(response);
     setIsLoading(false);
-  };
+  }, [currentPage, searchValue]);
 
-  const buildSearchDto = (): SearchDto => {
-    return {
-      search: searchValue,
-      page: currentPage,
-      size: 10,
-    };
-  };
+  useEffect(() => {
+    fetchStudent();
+  }, [fetchStudent]);
 
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);

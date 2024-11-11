@@ -3,7 +3,7 @@
 import ButtonIcon from "@/app/components/button/button-icon";
 import ContentTitle from "../../components/content-title";
 import InputSearch from "../../components/input-search";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { DivisionResponse } from "@/app/dto/response/division-response";
 import { DivisionSearchDto } from "@/app/dto/search/division-search-dto";
@@ -38,26 +38,26 @@ export default function CommitteeDepartment() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
-    fetchDivision();
-    fetchPeriod();
-  }, [currentPage, searchValue, periodOption]);
+  const fetchDivision = useCallback(async (): Promise<void> => {
+    const buildSearchDto = (): DivisionSearchDto => {
+      return {
+        search: searchValue,
+        page: currentPage,
+        size: CONSTANT_PAGE_SIZE_VALUE,
+        periodId: Number(periodOption?.value),
+      };
+    };
 
-  const fetchDivision = async (): Promise<void> => {
     setIsLoading(true);
     const response = await divisionFindAllPagination(buildSearchDto());
     setDivisionPages(response);
     setIsLoading(false);
-  };
+  }, [currentPage, searchValue, periodOption]);
 
-  const buildSearchDto = (): DivisionSearchDto => {
-    return {
-      search: searchValue,
-      page: currentPage,
-      size: CONSTANT_PAGE_SIZE_VALUE,
-      periodId: Number(periodOption?.value),
-    };
-  };
+  useEffect(() => {
+    fetchDivision();
+    fetchPeriod();
+  }, [fetchDivision]);
 
   const fetchPeriod = async (): Promise<void> => {
     const response = await periodFindAll({ search: "", isDeleted: false });

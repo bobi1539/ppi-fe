@@ -32,35 +32,35 @@ export default function UserRoleMenu(props: Readonly<UserRoleMenuProps>) {
   const router = useRouter();
 
   useEffect(() => {
+    const fetchUserRoleById = async (): Promise<void> => {
+      const response = await userRoleFindById(props.params.userRoleId);
+      setRoleName(response.name);
+    };
+
+    const fetchUserRoleMenuByUserRoleId = async (): Promise<void> => {
+      const response = await userRoleMenuFindByUserRoleId(props.params.userRoleId);
+      response.menus.forEach((menu) => {
+        setMenuMap((prev) => {
+          const newMenuMap = new Map(prev);
+          newMenuMap.set(menu.id, true);
+          return newMenuMap;
+        });
+        makeSubMenuMap(menu.subMenus);
+      });
+    };
+
     fetchUserRoleById();
     fetchMenu();
     fetchUserRoleMenuByUserRoleId();
-  }, []);
+  }, [props.params.userRoleId]);
 
   useEffect(() => {
     console.log("hello world");
   }, [menuMap, subMenuMap]);
 
-  const fetchUserRoleById = async (): Promise<void> => {
-    const response = await userRoleFindById(props.params.userRoleId);
-    setRoleName(response.name);
-  };
-
   const fetchMenu = async (): Promise<void> => {
     const response = await menuFindAll({ search: "" });
     setMenus(response);
-  };
-
-  const fetchUserRoleMenuByUserRoleId = async (): Promise<void> => {
-    const response = await userRoleMenuFindByUserRoleId(props.params.userRoleId);
-    response.menus.forEach((menu) => {
-      setMenuMap((prev) => {
-        const newMenuMap = new Map(prev);
-        newMenuMap.set(menu.id, true);
-        return newMenuMap;
-      });
-      makeSubMenuMap(menu.subMenus);
-    });
   };
 
   const makeSubMenuMap = (subMenus: SubMenuResponse[]): void => {

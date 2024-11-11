@@ -19,7 +19,13 @@ import TextArea from "@/app/components/input/text-area";
 import ButtonSave from "@/app/components/button/button-save";
 import ButtonLoading from "@/app/components/button/button-loading";
 
-export default function UserDataUpdate({ params }: Readonly<{ params: { userId: number } }>) {
+interface UserDataUpdateProps {
+  params: {
+    userId: number;
+  };
+}
+
+export default function UserDataUpdate(props: Readonly<UserDataUpdateProps>) {
   const router = useRouter();
   const [userRoles, setUserRoles] = useState<UserRoleResponse[]>([]);
   const [username, setUsername] = useState<string>("");
@@ -32,9 +38,20 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    const fetchUserById = async (): Promise<void> => {
+      const response = await userFindById(props.params.userId);
+      setUsername(response.username);
+      setName(response.name);
+      setEmail(response.email);
+      setUserRoleOption(getUserRoleOption(response.userRole));
+      setIsActiveOption(getStatusOption(response.isActive));
+      setDescription(response.description);
+      setPhoto(response.photo);
+    };
+
     fetchUserById();
     fetchUserRole();
-  }, []);
+  }, [props.params.userId]);
 
   useEffect(() => {}, [photo]);
 
@@ -43,24 +60,13 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
     setUserRoles(response);
   };
 
-  const fetchUserById = async (): Promise<void> => {
-    const response = await userFindById(params.userId);
-    setUsername(response.username);
-    setName(response.name);
-    setEmail(response.email);
-    setUserRoleOption(getUserRoleOption(response.userRole));
-    setIsActiveOption(getStatusOption(response.isActive));
-    setDescription(response.description);
-    setPhoto(response.photo);
-  };
-
   const submitUpdateUser = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     try {
       setIsLoading(true);
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const request = await buildUserUpdateRequest(formData);
-      await userUpdate(params.userId, request);
+      await userUpdate(props.params.userId, request);
       await showSuccessDialog();
       router.push(FE_USER_DATA);
     } catch (error) {

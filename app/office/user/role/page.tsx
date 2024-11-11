@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ButtonIcon from "../../../components/button/button-icon";
 import ContentTitle from "../../components/content-title";
 import InputSearch from "../../components/input-search";
@@ -31,24 +31,24 @@ export default function UserRole() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
-    fetchUserRole();
-  }, [currentPage, searchValue]);
+  const fetchUserRole = useCallback(async (): Promise<void> => {
+    const buildSearchDto = (): SearchDto => {
+      return {
+        search: searchValue,
+        page: currentPage,
+        size: CONSTANT_PAGE_SIZE_VALUE,
+      };
+    };
 
-  const fetchUserRole = async (): Promise<void> => {
     setIsLoading(true);
     const response = await userRoleFindAllPagination(buildSearchDto());
     setUserRolePages(response);
     setIsLoading(false);
-  };
+  }, [currentPage, searchValue]);
 
-  const buildSearchDto = (): SearchDto => {
-    return {
-      search: searchValue,
-      page: currentPage,
-      size: CONSTANT_PAGE_SIZE_VALUE,
-    };
-  };
+  useEffect(() => {
+    fetchUserRole();
+  }, [fetchUserRole]);
 
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);

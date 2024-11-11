@@ -17,14 +17,14 @@ export default function InputImage(props: Readonly<InputImageProps>) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
-    setCurrentImagePreview();
-  }, [props.currentImage]);
+    const setCurrentImagePreview = async (): Promise<void> => {
+      if (props.currentImage && props.currentImage !== null) {
+        setImagePreview(fileDownload(props.directoryName, props.currentImage));
+      }
+    };
 
-  const setCurrentImagePreview = async (): Promise<void> => {
-    if (props.currentImage && props.currentImage !== null) {
-      setImagePreview(fileDownload(props.directoryName, props.currentImage));
-    }
-  };
+    setCurrentImagePreview();
+  }, [props.currentImage, props.directoryName]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

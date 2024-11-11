@@ -17,13 +17,13 @@ export default function CommitteeDepartmentModalUpdate(props: Readonly<Committee
   const [division, setDivision] = useState<DivisionResponse>();
 
   useEffect(() => {
+    const fetchDivisionById = async (): Promise<void> => {
+      const response = await divisionFindById(props.id);
+      setDivision(response);
+    };
+    
     fetchDivisionById();
-  }, []);
-
-  const fetchDivisionById = async (): Promise<void> => {
-    const response = await divisionFindById(props.id);
-    setDivision(response);
-  };
+  }, [props.id]);
 
   const submitUpdatePeriod = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();

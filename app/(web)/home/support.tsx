@@ -21,17 +21,17 @@ export default function Support(props: Readonly<SupportProps>) {
   const [currentImageId, setCurrentImageId] = useState<number>(0);
 
   useEffect(() => {
+    const fetchGallery = async (): Promise<void> => {
+      let eventId = 1;
+      if (props.eventIdActive) {
+        eventId = props.eventIdActive;
+      }
+      const response = await webGalleryFindAll({ search: "", eventId: eventId });
+      setGalleries(response);
+    };
+    
     fetchGallery();
   }, [props]);
-
-  const fetchGallery = async (): Promise<void> => {
-    let eventId = 1;
-    if (props.eventIdActive) {
-      eventId = props.eventIdActive;
-    }
-    const response = await webGalleryFindAll({ search: "", eventId: eventId });
-    setGalleries(response);
-  };
 
   const prev = () => {
     emblaApi?.scrollPrev();

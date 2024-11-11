@@ -18,14 +18,14 @@ export default function NewsletterDetail(props: Readonly<NewsletterDetailProps>)
   const [contentUrl, setContentUrl] = useState<string>(DEFAULT_IMAGE_URL);
 
   useEffect(() => {
-    fetchNewsletter();
-  }, []);
+    const fetchNewsletter = async (): Promise<void> => {
+      const response = await webNewsletterFindBySlug(props.params.slug);
+      setNewsletter(response);
+      setContentUrl(fileDownload(DIRECTORY_NEWSLETTER, response.content));
+    };
 
-  const fetchNewsletter = async (): Promise<void> => {
-    const response = await webNewsletterFindBySlug(props.params.slug);
-    setNewsletter(response);
-    setContentUrl(fileDownload(DIRECTORY_NEWSLETTER, response.content));
-  };
+    fetchNewsletter();
+  }, [props.params.slug]);
 
   return (
     <section className="bg-white">

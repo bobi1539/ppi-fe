@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ContentTitle from "../../components/content-title";
 import InputSearch from "../../components/input-search";
 import ButtonIcon from "@/app/components/button/button-icon";
@@ -34,24 +34,24 @@ export default function CommitteeData() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
-    fetchPeriod();
-  }, [currentPage, searchValue]);
+  const fetchPeriod = useCallback(async (): Promise<void> => {
+    const buildSearchDto = (): SearchDto => {
+      return {
+        search: searchValue,
+        page: currentPage,
+        size: CONSTANT_PAGE_SIZE_VALUE,
+      };
+    };
 
-  const fetchPeriod = async (): Promise<void> => {
     setIsLoading(true);
     const response = await periodFindAllPagination(buildSearchDto());
     setPeriodPages(response);
     setIsLoading(false);
-  };
+  }, [currentPage, searchValue]);
 
-  const buildSearchDto = (): SearchDto => {
-    return {
-      search: searchValue,
-      page: currentPage,
-      size: CONSTANT_PAGE_SIZE_VALUE,
-    };
-  };
+  useEffect(() => {
+    fetchPeriod();
+  }, [fetchPeriod]);
 
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);

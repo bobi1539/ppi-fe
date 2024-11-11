@@ -20,13 +20,13 @@ export default function StudentUpdate(props: Readonly<StudentUpdateProps>) {
   const router = useRouter();
 
   useEffect(() => {
-    fetchStudentById();
-  }, []);
+    const fetchStudentById = async (): Promise<void> => {
+      const response = await studentFindById(props.params.studentId);
+      setStudent(response);
+    };
 
-  const fetchStudentById = async (): Promise<void> => {
-    const response = await studentFindById(props.params.studentId);
-    setStudent(response);
-  };
+    fetchStudentById();
+  }, [props.params.studentId]);
 
   const submitUpdateStudent = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();

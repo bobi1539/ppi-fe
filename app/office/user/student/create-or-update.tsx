@@ -34,6 +34,11 @@ export default function StudentCreateOrUpdate(props: Readonly<StudentCreateOrUpd
   const [genderOption, setGenderOption] = useState<Option>();
 
   useEffect(() => {
+    const fetchGender = async (): Promise<void> => {
+      const response = await systemParameterListFindAll(buildSearchGender());
+      setGenders(response);
+    };
+
     fetchGender();
     if (props.student) {
       setName(props.student.name);
@@ -46,11 +51,6 @@ export default function StudentCreateOrUpdate(props: Readonly<StudentCreateOrUpd
       setGenderOption(getGenderOption(props.student.gender));
     }
   }, [props.student]);
-
-  const fetchGender = async (): Promise<void> => {
-    const response = await systemParameterListFindAll(buildSearchGender());
-    setGenders(response);
-  };
 
   const buildSearchGender = (): SystemParameterListSearchDto => {
     return { search: "", systemParameterId: SYSTEM_PARAMETER_GENDER };

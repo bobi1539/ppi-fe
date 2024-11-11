@@ -23,30 +23,30 @@ export default function DepartmentDetail(props: Readonly<DepartmentDetailProps>)
   const [division, setDivision] = useState<DivisionResponse>();
 
   useEffect(() => {
+    const buildSearchDto = (isHead: boolean): StaffSearchDto => {
+      return {
+        search: "",
+        divisionId: props.params.departmentId,
+        isHead: isHead,
+      };
+    };
+
+    const fetchHead = async (): Promise<void> => {
+      const response = await webStaffFindAll(buildSearchDto(true));
+      setHeads(response);
+      if (response && response.length > 0) {
+        setDivision(response[0].division);
+      }
+    };
+
+    const fetchTeam = async (): Promise<void> => {
+      const response = await webStaffFindAll(buildSearchDto(false));
+      setTeams(response);
+    };
+
     fetchHead();
     fetchTeam();
-  }, []);
-
-  const fetchHead = async (): Promise<void> => {
-    const response = await webStaffFindAll(buildSearchDto(true));
-    setHeads(response);
-    if (response && response.length > 0) {
-      setDivision(response[0].division);
-    }
-  };
-
-  const fetchTeam = async (): Promise<void> => {
-    const response = await webStaffFindAll(buildSearchDto(false));
-    setTeams(response);
-  };
-
-  const buildSearchDto = (isHead: boolean): StaffSearchDto => {
-    return {
-      search: "",
-      divisionId: props.params.departmentId,
-      isHead: isHead,
-    };
-  };
+  }, [props.params.departmentId]);
 
   return (
     <section className="bg-white">

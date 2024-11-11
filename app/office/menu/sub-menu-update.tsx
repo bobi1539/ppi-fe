@@ -23,15 +23,15 @@ export default function SubMenuModalUpdate(props: Readonly<SubMenuModalUpdatePro
   const [sequence, setSequence] = useState<number>(0);
 
   useEffect(() => {
-    fetchSubMenubyId();
-  }, []);
+    const fetchSubMenubyId = async () => {
+      const response = await subMenuFindById(props.id);
+      setSubMenu(response);
+      setSubMenuName(response.name);
+      setSequence(response.sequence);
+    };
 
-  const fetchSubMenubyId = async () => {
-    const response = await subMenuFindById(props.id);
-    setSubMenu(response);
-    setSubMenuName(response.name);
-    setSequence(response.sequence);
-  };
+    fetchSubMenubyId();
+  }, [props.id]);
 
   const submitUpdateSubMenu = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();

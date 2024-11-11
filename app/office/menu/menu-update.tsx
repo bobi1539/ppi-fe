@@ -22,15 +22,15 @@ export default function MenuModalUpdate(props: Readonly<MenuModalUpdateProps>) {
   const [sequence, setSequence] = useState<number>(0);
 
   useEffect(() => {
-    fetchMenubyId();
-  }, []);
+    const fetchMenubyId = async () => {
+      const response = await menuFindById(props.id);
+      setMenu(response);
+      setMenuName(response.name);
+      setSequence(response.sequence);
+    };
 
-  const fetchMenubyId = async () => {
-    const response = await menuFindById(props.id);
-    setMenu(response);
-    setMenuName(response.name);
-    setSequence(response.sequence);
-  };
+    fetchMenubyId();
+  }, [props.id]);
 
   const submitUpdateMenu = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();

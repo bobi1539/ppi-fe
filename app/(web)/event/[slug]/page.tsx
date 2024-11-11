@@ -23,20 +23,20 @@ export default function EventDetail(props: Readonly<EventDetailProps>) {
   const [eventCoverUrl, setEventCoverUrl] = useState<string>(DEFAULT_IMAGE_URL);
 
   useEffect(() => {
+    const fetchEvent = async (): Promise<void> => {
+      const response = await webEventFindBySlug(props.params.slug);
+      setEvent(response);
+      fetchGallery(response.id);
+      setEventCoverUrl(fileDownload(DIRECTORY_EVENT, response.cover));
+    };
+
+    const fetchGallery = async (eventId: number): Promise<void> => {
+      const response = await webGalleryFindAll({ search: "", eventId: eventId });
+      setGalleries(response);
+    };
+
     fetchEvent();
-  }, []);
-
-  const fetchEvent = async (): Promise<void> => {
-    const response = await webEventFindBySlug(props.params.slug);
-    setEvent(response);
-    fetchGallery(response.id);
-    setEventCoverUrl(fileDownload(DIRECTORY_EVENT, response.cover));
-  };
-
-  const fetchGallery = async (eventId: number): Promise<void> => {
-    const response = await webGalleryFindAll({ search: "", eventId: eventId });
-    setGalleries(response);
-  };
+  }, [props.params.slug]);
 
   return (
     <section className="bg-white">

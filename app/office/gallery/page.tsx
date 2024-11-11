@@ -3,7 +3,7 @@
 import ButtonIcon from "@/app/components/button/button-icon";
 import ContentSearch from "../components/content-search";
 import ContentTitle from "../components/content-title";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { eventFindAll } from "@/app/backend-api/event";
 import { FE_GALLERY_CREATE } from "@/app/constants/endpoint-fe";
@@ -31,26 +31,26 @@ export default function Gallery() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
-    fetchGallery();
-    fetchEvent();
-  }, [currentPage, eventOption]);
+  const fetchGallery = useCallback(async (): Promise<void> => {
+    const buildSearchDto = (): GallerySearchDto => {
+      return {
+        search: "",
+        page: currentPage,
+        size: 16,
+        eventId: Number(eventOption?.value),
+      };
+    };
 
-  const fetchGallery = async (): Promise<void> => {
     setIsLoading(true);
     const response = await galleryFindAllPagination(buildSearchDto());
     setGalleryPages(response);
     setIsLoading(false);
-  };
+  }, [currentPage, eventOption]);
 
-  const buildSearchDto = (): GallerySearchDto => {
-    return {
-      search: "",
-      page: currentPage,
-      size: 16,
-      eventId: Number(eventOption?.value),
-    };
-  };
+  useEffect(() => {
+    fetchGallery();
+    fetchEvent();
+  }, [fetchGallery]);
 
   const fetchEvent = async (): Promise<void> => {
     const response = await eventFindAll({ search: "", isDeleted: false });

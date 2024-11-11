@@ -22,16 +22,16 @@ export default function OfficeLayout({ children }: Readonly<{ children: React.Re
   };
 
   useEffect(() => {
-    validateIsLogin();
-  }, []);
+    const validateIsLogin = async () => {
+      const session = await getSessionForClient();
+      setIsLogin(session.isLoggedIn);
+      if (!session.isLoggedIn) {
+        router.push(FE_LOGIN);
+      }
+    };
 
-  const validateIsLogin = async () => {
-    const session = await getSessionForClient();
-    setIsLogin(session.isLoggedIn);
-    if (!session.isLoggedIn) {
-      router.push(FE_LOGIN);
-    }
-  };
+    validateIsLogin();
+  }, [router]);
 
   return (
     <>

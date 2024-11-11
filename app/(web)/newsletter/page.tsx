@@ -19,21 +19,21 @@ export default function Newsletter() {
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   useEffect(() => {
+    const buildSearchDto = (): SearchDto => {
+      return {
+        search: "",
+        page: currentPage,
+        size: 12,
+      };
+    };
+
+    const fetchNewsletter = async (): Promise<void> => {
+      const response = await webNewsletterFindAllPagination(buildSearchDto());
+      setNewsletterPages(response);
+    };
+
     fetchNewsletter();
   }, [currentPage]);
-
-  const fetchNewsletter = async (): Promise<void> => {
-    const response = await webNewsletterFindAllPagination(buildSearchDto());
-    setNewsletterPages(response);
-  };
-
-  const buildSearchDto = (): SearchDto => {
-    return {
-      search: "",
-      page: currentPage,
-      size: 12,
-    };
-  };
 
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);

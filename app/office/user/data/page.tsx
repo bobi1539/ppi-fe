@@ -4,7 +4,7 @@ import ButtonIcon from "@/app/components/button/button-icon";
 import ContentSearch from "../../components/content-search";
 import ContentTitle from "../../components/content-title";
 import InputSearch from "../../components/input-search";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { UserResponse } from "@/app/dto/response/user-response";
 import { userDelete, userFindAllPagination, userRestore } from "@/app/backend-api/user";
@@ -32,24 +32,24 @@ export default function UserData() {
   const [usernameChangePassword, setUsernameChangePassword] = useState<string>("");
   const router = useRouter();
 
-  useEffect(() => {
-    fetchUser();
-  }, [currentPage, searchValue]);
+  const fetchUser = useCallback(async (): Promise<void> => {
+    const buildSearchDto = (): SearchDto => {
+      return {
+        search: searchValue,
+        page: currentPage,
+        size: CONSTANT_PAGE_SIZE_VALUE,
+      };
+    };
 
-  const fetchUser = async (): Promise<void> => {
     setIsLoading(true);
     const response = await userFindAllPagination(buildSearchDto());
     setUserPages(response);
     setIsLoading(false);
-  };
+  }, [currentPage, searchValue]);
 
-  const buildSearchDto = (): SearchDto => {
-    return {
-      search: searchValue,
-      page: currentPage,
-      size: CONSTANT_PAGE_SIZE_VALUE,
-    };
-  };
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);

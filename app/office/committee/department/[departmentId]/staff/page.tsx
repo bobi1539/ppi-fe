@@ -6,11 +6,10 @@ import ButtonIcon from "@/app/components/button/button-icon";
 import { FE_DEPARTMENT } from "@/app/constants/endpoint-fe";
 import { DivisionResponse } from "@/app/dto/response/division-response";
 import ContentTitle from "@/app/office/components/content-title";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import DepartmentStaffModalCreate from "./create";
 import { StaffResponse } from "@/app/dto/response/staff-response";
 import { staffDelete, staffFindAll, staffRestore } from "@/app/backend-api/staff";
-import { StaffSearchDto } from "@/app/dto/search/staff-search-dto";
 import CardStaffOffice from "@/app/components/card/card-staff-office";
 import { showConfirmDialog, showSuccessDialog } from "@/app/utils/sweet-alert";
 import DepartmentStaffModalUpdate from "./update";
@@ -31,35 +30,34 @@ export default function DepartmentStaff(props: Readonly<DepartmentStaffProps>) {
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState<boolean>(false);
   const [staffIdUpdate, setStaffIdUpdate] = useState<number>(0);
 
+  const fetchStaffHead = useCallback(async (): Promise<void> => {
+    const response = await staffFindAll({
+      search: "",
+      divisionId: props.params.departmentId,
+      isHead: true,
+    });
+    setStaffHeads(response);
+  }, [props.params.departmentId]);
+
+  const fetchStaffTeam = useCallback(async (): Promise<void> => {
+    const response = await staffFindAll({
+      search: "",
+      divisionId: props.params.departmentId,
+      isHead: false,
+    });
+    setStaffTeams(response);
+  }, [props.params.departmentId]);
+
   useEffect(() => {
+    const fetchDivisionById = async (): Promise<void> => {
+      const response = await divisionFindById(props.params.departmentId);
+      setDivision(response);
+    };
+
     fetchDivisionById();
     fetchStaffHead();
     fetchStaffTeam();
-  }, []);
-
-  const fetchDivisionById = async (): Promise<void> => {
-    const response = await divisionFindById(props.params.departmentId);
-    setDivision(response);
-  };
-
-  const fetchStaffHead = async (): Promise<void> => {
-    const response = await staffFindAll(buildSearchDto(true));
-    console.log(response);
-    setStaffHeads(response);
-  };
-
-  const fetchStaffTeam = async (): Promise<void> => {
-    const response = await staffFindAll(buildSearchDto(false));
-    setStaffTeams(response);
-  };
-
-  const buildSearchDto = (isHead: boolean): StaffSearchDto => {
-    return {
-      search: "",
-      divisionId: props.params.departmentId,
-      isHead: isHead,
-    };
-  };
+  }, [fetchStaffHead, fetchStaffTeam, props.params.departmentId]);
 
   const handleClickStaff = (id: number): void => {
     setPopUpItemId(popUpItemId === id ? 0 : id);

@@ -19,10 +19,29 @@ const PASSWORD: string = "password";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router = useRouter();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [backgroundUrl, setBackgroundUrl] = useState<string>(DEFAULT_IMAGE_URL);
   const [logoUrl, setLogoUrl] = useState<string>(DEFAULT_IMAGE_URL);
+  const router = useRouter();
+
+  useEffect(() => {
+    const validateIsLogin = async () => {
+      const session = await getSessionForClient();
+      setIsLogin(session.isLoggedIn);
+      if (session.isLoggedIn) {
+        router.push(FE_DASHBOARD);
+      }
+    };
+
+    const fetchSetting = async (): Promise<void> => {
+      const response = await webSettingFindById(SETTING_ID);
+      setBackgroundUrl(fileDownload(DIRECTORY_SETTING, response.banner));
+      setLogoUrl(fileDownload(DIRECTORY_SETTING, response.logo));
+    };
+
+    validateIsLogin();
+    fetchSetting();
+  }, [router]);
 
   const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
@@ -48,25 +67,6 @@ export default function Login() {
       username: String(formData.get(USERNAME)),
       password: String(formData.get(PASSWORD)),
     };
-  };
-
-  useEffect(() => {
-    validateIsLogin();
-    fetchSetting();
-  }, []);
-
-  const validateIsLogin = async () => {
-    const session = await getSessionForClient();
-    setIsLogin(session.isLoggedIn);
-    if (session.isLoggedIn) {
-      router.push(FE_DASHBOARD);
-    }
-  };
-
-  const fetchSetting = async (): Promise<void> => {
-    const response = await webSettingFindById(SETTING_ID);
-    setBackgroundUrl(fileDownload(DIRECTORY_SETTING, response.banner));
-    setLogoUrl(fileDownload(DIRECTORY_SETTING, response.logo));
   };
 
   return (

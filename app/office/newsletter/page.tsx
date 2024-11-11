@@ -4,7 +4,7 @@ import ButtonIcon from "@/app/components/button/button-icon";
 import ContentSearch from "../components/content-search";
 import ContentTitle from "../components/content-title";
 import InputSearch from "../components/input-search";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
 import { newsletterDelete, newsletterFindAllPagination, newsletterRestore } from "@/app/backend-api/newsletter";
@@ -30,24 +30,24 @@ export default function Newsletter() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
-    fetchNewsletter();
-  }, [currentPage, searchValue]);
+  const fetchNewsletter = useCallback(async (): Promise<void> => {
+    const buildSearchDto = (): SearchDto => {
+      return {
+        search: searchValue,
+        page: currentPage,
+        size: 8,
+      };
+    };
 
-  const fetchNewsletter = async (): Promise<void> => {
     setIsLoading(true);
     const response = await newsletterFindAllPagination(buildSearchDto());
     setNewsletterPages(response);
     setIsLoading(false);
-  };
+  }, [currentPage, searchValue]);
 
-  const buildSearchDto = (): SearchDto => {
-    return {
-      search: searchValue,
-      page: currentPage,
-      size: 8,
-    };
-  };
+  useEffect(() => {
+    fetchNewsletter();
+  }, [fetchNewsletter]);
 
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);

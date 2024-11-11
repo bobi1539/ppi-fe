@@ -21,13 +21,13 @@ export default function EventUpdate(props: Readonly<EventUpdateProps>) {
   const router = useRouter();
 
   useEffect(() => {
-    fetchEventById();
-  }, []);
+    const fetchEventById = async (): Promise<void> => {
+      const response = await eventFindById(props.params.eventId);
+      setEvent(response);
+    };
 
-  const fetchEventById = async (): Promise<void> => {
-    const response = await eventFindById(props.params.eventId);
-    setEvent(response);
-  };
+    fetchEventById();
+  }, [props.params.eventId]);
 
   const submitUpdateEvent = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     try {

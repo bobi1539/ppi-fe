@@ -9,19 +9,25 @@ import { newsletterFindById, newsletterUpdate } from "@/app/backend-api/newslett
 import { buildNewsletterRequest } from "../../helper";
 import NewsletterCreateOrUpdate from "../../create-or-update";
 
-export default function NewsletterUpdate({ params }: Readonly<{ params: { newsletterId: number } }>) {
+interface NewsletterUpdateProps {
+  params: {
+    newsletterId: number;
+  };
+}
+
+export default function NewsletterUpdate(props: Readonly<NewsletterUpdateProps>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [newsletter, setNewsletter] = useState<NewsletterResponse>();
   const router = useRouter();
 
   useEffect(() => {
-    fetchNewsletterById();
-  }, []);
+    const fetchNewsletterById = async (): Promise<void> => {
+      const response = await newsletterFindById(props.params.newsletterId);
+      setNewsletter(response);
+    };
 
-  const fetchNewsletterById = async (): Promise<void> => {
-    const response = await newsletterFindById(params.newsletterId);
-    setNewsletter(response);
-  };
+    fetchNewsletterById();
+  }, [props.params.newsletterId]);
 
   const submitUpdateNewsletter = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     try {
@@ -29,7 +35,7 @@ export default function NewsletterUpdate({ params }: Readonly<{ params: { newsle
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const request = await buildNewsletterRequest(formData, newsletter?.cover, newsletter?.content);
-      await newsletterUpdate(params.newsletterId, request);
+      await newsletterUpdate(props.params.newsletterId, request);
       await showSuccessDialog();
       router.push(FE_NEWSLETTER);
     } catch (error) {

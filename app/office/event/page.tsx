@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ContentTitle from "../components/content-title";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { EventResponse } from "@/app/dto/response/event-response";
@@ -27,24 +27,24 @@ export default function Event() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
-    fetchEvent();
-  }, [currentPage, searchValue]);
+  const fetchEvent = useCallback(async (): Promise<void> => {
+    const buildSearchDto = (): SearchDto => {
+      return {
+        search: searchValue,
+        page: currentPage,
+        size: 8,
+      };
+    };
 
-  const fetchEvent = async (): Promise<void> => {
     setIsLoading(true);
     const response = await eventFindAllPagination(buildSearchDto());
     setEventPages(response);
     setIsLoading(false);
-  };
+  }, [currentPage, searchValue]);
 
-  const buildSearchDto = (): SearchDto => {
-    return {
-      search: searchValue,
-      page: currentPage,
-      size: 8,
-    };
-  };
+  useEffect(() => {
+    fetchEvent();
+  }, [fetchEvent]);
 
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);

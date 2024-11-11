@@ -17,13 +17,13 @@ export default function CommitteeDataModalUpdate(props: Readonly<CommitteeDataMo
   const [period, setPeriod] = useState<PeriodResponse>();
 
   useEffect(() => {
-    fetchPeriodById();
-  }, []);
+    const fetchPeriodById = async (): Promise<void> => {
+      const response = await periodFindById(props.id);
+      setPeriod(response);
+    };
 
-  const fetchPeriodById = async (): Promise<void> => {
-    const response = await periodFindById(props.id);
-    setPeriod(response);
-  };
+    fetchPeriodById();
+  }, [props.id]);
 
   const submitUpdatePeriod = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();

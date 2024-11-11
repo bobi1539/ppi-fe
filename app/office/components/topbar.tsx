@@ -27,15 +27,15 @@ export default function Topbar(props: Readonly<TopbarProps>) {
   const [urlLogo, setUrlLogo] = useState<string>(DEFAULT_IMAGE_URL);
 
   useEffect(() => {
+    const fetchUserByHeader = async (): Promise<void> => {
+      const response = await userFindByHeader();
+      setUser(response);
+      setPhotoUrlFromResponse(response);
+    };
+
     fetchUserByHeader();
     fetchSetting();
   }, []);
-
-  const fetchUserByHeader = async (): Promise<void> => {
-    const response = await userFindByHeader();
-    setUser(response);
-    setPhotoUrlFromResponse(response);
-  };
 
   const fetchSetting = async (): Promise<void> => {
     const response = await webSettingFindById(SETTING_ID);

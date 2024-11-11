@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ContentSearch from "../components/content-search";
 import ContentTitle from "../components/content-title";
 import InputSearch from "../components/input-search";
@@ -24,16 +24,16 @@ export default function Menu() {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    fetchMenu();
-  }, [searchValue]);
-
-  const fetchMenu = async (): Promise<void> => {
+  const fetchMenu = useCallback(async (): Promise<void> => {
     setIsLoading(true);
     const response = await menuFindAll({ search: searchValue });
     setMenus(response);
     setIsLoading(false);
-  };
+  }, [searchValue]);
+
+  useEffect(() => {
+    fetchMenu();
+  }, [fetchMenu]);
 
   const handleEditMenu = (id: number): void => {
     setIsModalUpdateMenuOpen(!isModalUpdateMenuOpen);

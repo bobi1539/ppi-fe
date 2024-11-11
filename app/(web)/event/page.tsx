@@ -17,21 +17,20 @@ export default function Event() {
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   useEffect(() => {
+    const buildSearchDto = (): SearchDto => {
+      return {
+        search: "",
+        page: currentPage,
+        size: 16,
+      };
+    };
+
+    const fetchEvent = async (): Promise<void> => {
+      const response = await webEventFindAllPagination(buildSearchDto());
+      setEventPages(response);
+    };
     fetchEvent();
   }, [currentPage]);
-
-  const fetchEvent = async (): Promise<void> => {
-    const response = await webEventFindAllPagination(buildSearchDto());
-    setEventPages(response);
-  };
-
-  const buildSearchDto = (): SearchDto => {
-    return {
-      search: "",
-      page: currentPage,
-      size: 16,
-    };
-  };
 
   const handlePageChange = (page: number): void => {
     setCurrentPage(page - 1);

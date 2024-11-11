@@ -23,6 +23,20 @@ export default function Staff(props: Readonly<StaffProps>) {
   const [staffs, setStaffs] = useState<StaffResponse[]>([]);
 
   useEffect(() => {
+    const buildSearchDto = (): StaffSearchDto => {
+      let periodId = 1;
+      if (props.periodIdActive) periodId = props.periodIdActive;
+      return {
+        search: "",
+        periodId: periodId,
+        isHead: true,
+      };
+    };
+
+    const fetchStaff = async (): Promise<void> => {
+      const response = await webStaffFindAll(buildSearchDto());
+      setStaffs(response);
+    };
     fetchStaff();
 
     if (!emblaApi) return;
@@ -40,21 +54,6 @@ export default function Staff(props: Readonly<StaffProps>) {
   const scrollTo = (index: number) => {
     emblaApi?.scrollTo(index);
     setCurrentFaceId(index);
-  };
-
-  const fetchStaff = async (): Promise<void> => {
-    const response = await webStaffFindAll(buildSearchDto());
-    setStaffs(response);
-  };
-
-  const buildSearchDto = (): StaffSearchDto => {
-    let periodId = 1;
-    if (props.periodIdActive) periodId = props.periodIdActive;
-    return {
-      search: "",
-      periodId: periodId,
-      isHead: true,
-    };
   };
 
   return (

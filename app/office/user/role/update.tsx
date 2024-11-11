@@ -17,13 +17,13 @@ export default function UserRoleModalUpdate(props: Readonly<UserRoleUpdateProps>
   const [userRole, setUserRole] = useState<UserRoleResponse>();
 
   useEffect(() => {
-    fetchUserRoleById();
-  }, []);
+    const fetchUserRoleById = async () => {
+      const response = await userRoleFindById(props.id);
+      setUserRole(response);
+    };
 
-  const fetchUserRoleById = async () => {
-    const response = await userRoleFindById(props.id);
-    setUserRole(response);
-  };
+    fetchUserRoleById();
+  }, [props.id]);
 
   const submitUpdateUserRole = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();

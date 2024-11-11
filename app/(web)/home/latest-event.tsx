@@ -15,21 +15,21 @@ export default function LatestEvent() {
   const [eventPages, setEventPages] = useState<PageResponse<EventResponse>>();
 
   useEffect(() => {
+    const buildSearchDto = (): SearchDto => {
+      return {
+        search: "",
+        page: 0,
+        size: 2,
+      };
+    };
+
+    const fetchEvent = async (): Promise<void> => {
+      const response = await webEventFindAllPagination(buildSearchDto());
+      setEventPages(response);
+    };
+
     fetchEvent();
   }, []);
-
-  const fetchEvent = async (): Promise<void> => {
-    const response = await webEventFindAllPagination(buildSearchDto());
-    setEventPages(response);
-  };
-
-  const buildSearchDto = (): SearchDto => {
-    return {
-      search: "",
-      page: 0,
-      size: 2,
-    };
-  };
 
   return (
     <section>

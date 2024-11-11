@@ -18,13 +18,13 @@ export default function DepartmentStaffModalUpdate(props: Readonly<DepartmentSta
   const [staff, setStaff] = useState<StaffResponse>();
 
   useEffect(() => {
-    fetchStaffById();
-  }, []);
+    const fetchStaffById = async (): Promise<void> => {
+      const response = await staffFindById(props.id);
+      setStaff(response);
+    };
 
-  const fetchStaffById = async (): Promise<void> => {
-    const response = await staffFindById(props.id);
-    setStaff(response);
-  };
+    fetchStaffById();
+  }, [props.id]);
   const submitUpdateStaff = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
