@@ -35,7 +35,7 @@ export const makeGetRequest = async (url: string, headers: Headers): Promise<Res
   return response;
 };
 
-export const makePostRequest = async (url: string, headers: Headers, body: any): Promise<Response> => {
+export const makePostRequest = async <T>(url: string, headers: Headers, body: T): Promise<Response> => {
   const response = await fetch(url, {
     method: "POST",
     headers: headers,
@@ -48,7 +48,7 @@ export const makePostRequest = async (url: string, headers: Headers, body: any):
   return response;
 };
 
-export const makePutRequest = async (id: number, url: string, headers: Headers, body: any): Promise<Response> => {
+export const makePutRequest = async <T>(id: number, url: string, headers: Headers, body: T): Promise<Response> => {
   const response = await fetch(url + "/" + id, {
     method: "PUT",
     headers: headers,
@@ -61,7 +61,7 @@ export const makePutRequest = async (id: number, url: string, headers: Headers, 
   return response;
 };
 
-export const makePutRequestWithoutId = async (url: string, headers: Headers, body: any): Promise<Response> => {
+export const makePutRequestWithoutId = async <T>(url: string, headers: Headers, body: T): Promise<Response> => {
   const response = await fetch(url, {
     method: "PUT",
     headers: headers,
@@ -86,16 +86,16 @@ export const makeDeleteRequest = async (id: number, url: string, headers: Header
   return response;
 };
 
-export const handleResponse = async (response: Response): Promise<any> => {
+export const handleResponse = async <T>(response: Response): Promise<T> => {
   const result = await response.json();
   if (!response.ok) {
     showErrorDialog(result.message);
     throw new Error(`Error : ${result.message}`);
   }
-  return result.data;
+  return result.data as T;
 };
 
-export const createRequestBody = (body: any): string => {
+export const createRequestBody = <T>(body: T): string => {
   return JSON.stringify(body);
 };
 
