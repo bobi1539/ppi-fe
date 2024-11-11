@@ -14,8 +14,8 @@ import { DEFAULT_IMAGE_URL, DIRECTORY_SETTING, SETTING_ID } from "../constants/c
 import Image from "next/image";
 import { fileDownload } from "../backend-api/file";
 
-export const USERNAME: string = "username";
-export const PASSWORD: string = "password";
+const USERNAME: string = "username";
+const PASSWORD: string = "password";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);

@@ -1,3 +1,3 @@
 import { UserRequest } from "./user-request";
 
-export interface UserUpdateRequest extends UserRequest {}
+export type UserUpdateRequest = UserRequest;

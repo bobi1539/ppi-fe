@@ -17,6 +17,7 @@ import { DIRECTORY_USER } from "@/app/constants/constant";
 import ButtonBack from "@/app/components/button/button-back";
 import TextArea from "@/app/components/input/text-area";
 import ButtonSave from "@/app/components/button/button-save";
+import ButtonLoading from "@/app/components/button/button-loading";
 
 export default function UserDataUpdate({ params }: Readonly<{ params: { userId: number } }>) {
   const router = useRouter();
@@ -28,6 +29,7 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
   const [isActiveOption, setIsActiveOption] = useState<Option>();
   const [description, setDescription] = useState<string>("");
   const [photo, setPhoto] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     fetchUserById();
@@ -53,12 +55,19 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
   };
 
   const submitUpdateUser = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const request = await buildUserUpdateRequest(formData);
-    await userUpdate(params.userId, request);
-    await showSuccessDialog();
-    router.push(FE_USER_DATA);
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const request = await buildUserUpdateRequest(formData);
+      await userUpdate(params.userId, request);
+      await showSuccessDialog();
+      router.push(FE_USER_DATA);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -86,7 +95,7 @@ export default function UserDataUpdate({ params }: Readonly<{ params: { userId: 
             </div>
             <div className="flex justify-between">
               <ButtonBack href={FE_USER_DATA} />
-              <ButtonSave />
+              {isLoading ? <ButtonLoading className="px-9" /> : <ButtonSave />}
             </div>
           </form>
         </section>

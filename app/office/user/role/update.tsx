@@ -14,7 +14,6 @@ interface UserRoleUpdateProps {
 }
 
 export default function UserRoleModalUpdate(props: Readonly<UserRoleUpdateProps>) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userRole, setUserRole] = useState<UserRoleResponse>();
 
   useEffect(() => {
@@ -36,5 +35,5 @@ export default function UserRoleModalUpdate(props: Readonly<UserRoleUpdateProps>
     props.closeModal();
   };
 
-  return <UserRoleModal submit={submitUpdateUserRole} closeModal={props.closeModal} title="Edit User Role" userRole={userRole} isLoading={isLoading} setIsLoading={setIsLoading} />;
+  return <UserRoleModal submit={submitUpdateUserRole} closeModal={props.closeModal} title="Edit User Role" userRole={userRole} />;
 }
