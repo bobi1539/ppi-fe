@@ -49,7 +49,7 @@ export default function DepartmentStaffModal(props: Readonly<DepartmentStaffModa
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 my-4">
           <div className="grid grid-cols-1 gap-3">
             <div className=" mt-3">
-              <InputImage label="Upload Photo" currentImage={photo} directoryName={DIRECTORY_STAFF} inputName={STAFF_PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full" />
+              <InputImage label="Upload Photo" currentImage={photo} directoryName={DIRECTORY_STAFF} inputName={STAFF_PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
             </div>
             <InputLabel value={staffName} onChange={(e) => setStaffName(e.target.value)} label="Staff Name" name={STAFF_NAME} type="text" placeHolder="Type staff name" isRequired={true} />
             <InputLabel value={position} onChange={(e) => setPosition(e.target.value)} label="Position" name={POSITION} type="text" placeHolder="Type position" isRequired={true} />
