@@ -4,8 +4,6 @@ import { SearchDto } from "../dto/search/search-dto";
 import { getSessionForClient, logout, saveSessionLogin } from "../login/helper";
 import { showErrorDialog } from "../utils/sweet-alert";
 import { loginWithRefreshToken } from "./auth";
-import { FE_LOGIN } from "../constants/endpoint-fe";
-import { redirectTo } from "../utils/helper";
 
 export const createHeadersWithoutSession = async (): Promise<Headers> => {
   const headers: Record<string, string> = {
@@ -135,6 +133,5 @@ export const handleTokenExpired = async (): Promise<void> => {
     console.error(error);
     await logout();
     await showErrorDialog("Your session is expired.");
-    redirectTo(FE_LOGIN);
   }
 };

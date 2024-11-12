@@ -42,5 +42,6 @@ export const buildLoginResponse = async (result: LoginResponse): Promise<LoginRe
   return {
     jwt: result.jwt,
     refreshToken: result.refreshToken,
+    routes: result.routes,
   };
 };
