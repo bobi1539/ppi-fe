@@ -16,6 +16,7 @@ interface DepartmentStaffModalUpdateProps {
 
 export default function DepartmentStaffModalUpdate(props: Readonly<DepartmentStaffModalUpdateProps>) {
   const [staff, setStaff] = useState<StaffResponse>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchStaffById = async (): Promise<void> => {
@@ -25,16 +26,24 @@ export default function DepartmentStaffModalUpdate(props: Readonly<DepartmentSta
 
     fetchStaffById();
   }, [props.id]);
+  
   const submitUpdateStaff = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const request = await buildStaffRequest(formData, staff?.division.id ?? 0, staff?.photo);
-    await staffUpdate(props.id, request);
-    await showSuccessDialog();
-    await props.fetchStaffHead();
-    await props.fetchStaffTeam();
-    props.closeModal();
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const request = await buildStaffRequest(formData, staff?.division.id ?? 0, staff?.photo);
+      await staffUpdate(props.id, request);
+      await showSuccessDialog();
+      await props.fetchStaffHead();
+      await props.fetchStaffTeam();
+      props.closeModal();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return <DepartmentStaffModal submit={submitUpdateStaff} closeModal={props.closeModal} title="Edit Staff" staff={staff} />;
+  return <DepartmentStaffModal isLoading={isLoading} submit={submitUpdateStaff} closeModal={props.closeModal} title="Edit Staff" staff={staff} />;
 }

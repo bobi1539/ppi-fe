@@ -10,8 +10,10 @@ import { DIRECTORY_STAFF } from "@/app/constants/constant";
 import TextArea from "@/app/components/input/text-area";
 import Modal from "@/app/components/modal/modal";
 import ButtonSave from "@/app/components/button/button-save";
+import ButtonLoading from "@/app/components/button/button-loading";
 
 interface DepartmentStaffModalProps {
+  isLoading: boolean;
   submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   closeModal: () => void;
   title: string;
@@ -60,9 +62,7 @@ export default function DepartmentStaffModal(props: Readonly<DepartmentStaffModa
             <TextArea label="Job Description" currentValue={jobDescription} onChange={(e) => setJobDescription(e.target.value)} name={JOB_DESCRIPTION} rows={12} />
           </div>
         </div>
-        <div className="flex justify-end">
-          <ButtonSave />
-        </div>
+        <div className="flex justify-end">{props.isLoading ? <ButtonLoading className="px-9" /> : <ButtonSave />}</div>
       </form>
     </Modal>
   );
