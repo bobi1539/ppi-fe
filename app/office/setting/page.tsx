@@ -13,6 +13,7 @@ import InputSelectLabel, { Option } from "@/app/components/input/input-select-la
 import { periodFindAll } from "@/app/backend-api/period";
 import { eventFindAll } from "@/app/backend-api/event";
 import ButtonSave from "@/app/components/button/button-save";
+import ButtonLoading from "@/app/components/button/button-loading";
 
 const LOGO: string = "logo";
 const BANNER: string = "banner";
@@ -47,6 +48,7 @@ export default function Setting() {
   const [eventOption, setEventOption] = useState<Option>();
   const [periodOptions, setPeriodOptions] = useState<Option[]>([]);
   const [eventOptions, setEventOptions] = useState<Option[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     fetchSetting();
@@ -92,12 +94,19 @@ export default function Setting() {
   };
 
   const submitUpdateSetting = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const request = await buildSettingRequest(formData);
-    await settingUpdate(id, request);
-    await showSuccessDialog();
-    await fetchSetting();
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const request = await buildSettingRequest(formData);
+      await settingUpdate(id, request);
+      await showSuccessDialog();
+      await fetchSetting();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const buildSettingRequest = async (formData: FormData): Promise<SettingRequest> => {
@@ -146,9 +155,7 @@ export default function Setting() {
             </div>
             <InputImage label="Upload Qr Code" currentImage={qrCode} directoryName={DIRECTORY_SETTING} inputName={QR_CODE} classNameImagePreview="w-auto border border-gray-200 rounded-lg h-24 md:h-32" />
           </div>
-          <div className="flex justify-end mt-2">
-            <ButtonSave />
-          </div>
+          <div className="flex justify-end mt-2">{isLoading ? <ButtonLoading className="px-9" /> : <ButtonSave />}</div>
         </form>
       </section>
     </div>
