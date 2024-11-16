@@ -4,11 +4,12 @@ import { SystemParameterListResponse } from "./system-parameter-list-response";
 export interface StudentResponse extends BaseResponse {
   id: number;
   name: string;
+  nickname: string;
   email: string;
   photo: string;
   major: string;
-  education: string;
-  graduation: string;
+  expectedGraduationYear: string;
   birthDate: string;
   gender: SystemParameterListResponse;
+  education: SystemParameterListResponse;
 }

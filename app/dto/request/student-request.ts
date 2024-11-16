@@ -2,11 +2,12 @@ import { FileUploadRequest } from "./file-upload-request";
 
 export interface StudentRequest {
   name: string;
+  nickname: string;
   email: string;
-  photo: FileUploadRequest | null;
   major: string;
-  education: string;
-  graduation: string | null;
-  birthDate: string | null;
+  expectedGraduationYear: string;
+  birthDate: string;
   genderId: number;
+  educationId: number;
+  photo: FileUploadRequest | null;
 }

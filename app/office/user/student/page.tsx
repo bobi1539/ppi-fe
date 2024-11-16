@@ -81,7 +81,7 @@ export default function Student() {
     }
   };
 
-  const headsTable = ["seq", "photo", "name", "email", "gender", "major", "education", ""];
+  const headsTable = ["seq", "photo", "name", "email", "gender", "major", "education", "graduation", ""];
 
   return (
     <div>
@@ -103,7 +103,7 @@ export default function Student() {
                   {currentPage * CONSTANT_PAGE_SIZE_VALUE + index + 1}
                 </td>
                 <td scope="row" className="px-2.5 py-2 whitespace-nowrap flex justify-center w-20 xl:w-full">
-                  <Image src={student.photo ? fileDownload(DIRECTORY_STUDENT, student.photo) : DEFAULT_IMAGE_URL} alt={student.name} width={250} height={250} priority className="w-16 h-16 rounded-lg border-4 border-gray-200 object-cover" />
+                  <Image src={student.photo ? fileDownload(DIRECTORY_STUDENT, student.photo) : DEFAULT_IMAGE_URL} alt={student.name} width={250} height={250} priority className="w-16 h-16 rounded-full border-2 border-gray-200 object-cover" />
                 </td>
                 <td scope="row" className="px-2.5 py-2 break-words text-left whitespace-nowrap">
                   {student.name}
@@ -118,7 +118,10 @@ export default function Student() {
                   {student.major}
                 </td>
                 <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap">
-                  {student.education}
+                  {student.education.name}
+                </td>
+                <td scope="row" className="px-2.5 py-2 break-words whitespace-nowrap">
+                  {student.expectedGraduationYear}
                 </td>
                 <td scope="row" className="px-2.5 py-2 whitespace-nowrap">
                   <CustomDropdown>

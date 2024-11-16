@@ -47,7 +47,7 @@ export default function EventCreateOrUpdate(props: Readonly<EventCreateOrUpdateP
         <ContentTitle title={props.title} />
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form onSubmit={props.submit}>
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mb-4 justify-center">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 mb-4 justify-center">
               <div className="col-span-2">
                 <InputImage label="Upload Cover" currentImage={cover} directoryName={DIRECTORY_EVENT} inputName={COVER} classNameImagePreview="border border-gray-200 rounded-lg" />
               </div>

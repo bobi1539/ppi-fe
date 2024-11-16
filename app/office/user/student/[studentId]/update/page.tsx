@@ -16,6 +16,7 @@ interface StudentUpdateProps {
 }
 
 export default function StudentUpdate(props: Readonly<StudentUpdateProps>) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [student, setStudent] = useState<StudentResponse>();
   const router = useRouter();
 
@@ -29,13 +30,20 @@ export default function StudentUpdate(props: Readonly<StudentUpdateProps>) {
   }, [props.params.studentId]);
 
   const submitUpdateStudent = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const request = await buildStudentRequest(formData);
-    await studentUpdate(props.params.studentId, request);
-    await showSuccessDialog();
-    router.push(FE_STUDENT);
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const request = await buildStudentRequest(formData);
+      await studentUpdate(props.params.studentId, request);
+      await showSuccessDialog();
+      router.push(FE_STUDENT);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return <StudentCreateOrUpdate student={student} submit={submitUpdateStudent} title="Add Student" />;
+  return <StudentCreateOrUpdate student={student} submit={submitUpdateStudent} title="Add Student" isLoading={isLoading} />;
 }

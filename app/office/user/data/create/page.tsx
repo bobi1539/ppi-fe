@@ -48,7 +48,7 @@ export default function UserDataCreate() {
         </div>
         <section className="bg-white relative shadow-md rounded-lg overflow-hidden p-5">
           <form onSubmit={submitSaveUser}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-4">
               <div className="grid grid-cols-1 gap-3">
                 <InputImage directoryName={DIRECTORY_USER} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
                 <InputLabel className="mt-3" label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />

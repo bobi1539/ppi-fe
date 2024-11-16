@@ -85,7 +85,7 @@ export default function UserDataUpdate(props: Readonly<UserDataUpdateProps>) {
         <section className="bg-white shadow-md sm:rounded-lg overflow-hidden p-5">
           <form onSubmit={submitUpdateUser}>
             <div className="my-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                 <div className="grid grid-cols-1 gap-3">
                   <InputImage directoryName={DIRECTORY_USER} currentImage={photo} inputName={PHOTO} classNameImagePreview="w-32 h-32 border border-gray-200 rounded-full object-cover" />
                   <InputLabel className="mt-3" value={username} onChange={(e) => setUsername(e.target.value)} label="Username" name={USERNAME} type="text" placeHolder="Type username" isRequired={true} />

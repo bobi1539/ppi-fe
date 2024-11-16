@@ -1,5 +1,7 @@
 import { SessionOptions } from "iron-session";
 import { FileUploadRequest } from "../dto/request/file-upload-request";
+import { SystemParameterListResponse } from "../dto/response/system-parameter-list-response";
+import { RadioOption } from "../components/input/radio-button";
 
 export const limitText = (text: string, limit: number, suffix: string = "(...)"): string => {
   if (text.length > limit) {
@@ -72,4 +74,11 @@ export const scrollToTop = (): void => {
     top: 0,
     behavior: "smooth",
   });
+};
+
+export const getRadioOptionsFromParameterList = (parameterList: SystemParameterListResponse[]): RadioOption[] => {
+  return parameterList.map((parameter) => ({
+    value: String(parameter.id),
+    label: parameter.name,
+  }));
 };

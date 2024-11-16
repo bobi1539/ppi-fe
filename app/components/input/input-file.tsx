@@ -15,7 +15,7 @@ export default function InputFile(props: Readonly<InputFileProps>) {
   return (
     <div className="relative">
       <label htmlFor={props.name} className="block mb-1 text-sm font-medium text-gray-900">
-        {props.label}
+        {props.label} {props.isRequired ? <span className="text-red-500">*</span> : ""}
       </label>
       <button onClick={() => inputFileRef.current?.click()} type="button" className={`${props.multiple ? "px-[17px]" : "px-3.5"} absolute bottom-0 left-0 hover:bg-secondary-600 bg-secondary-700 text-white rounded-l-lg text-sm py-[11px] transition duration-200`}>
         Choose File
