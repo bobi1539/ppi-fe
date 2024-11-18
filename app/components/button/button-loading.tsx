@@ -6,7 +6,7 @@ interface ButtonLoadingProps {
 
 export default function ButtonLoading(props: Readonly<ButtonLoadingProps>) {
   return (
-    <button type="button" disabled className={`${props.className} flex justify-center items-center gap-2 rounded-md bg-secondary-700 ${props.padding ?? "px-3.5 py-2.5"} text-sm font-semibold text-white shadow-sm hover:bg-secondary-600`}>
+    <button type="button" disabled className={`${props.className} flex justify-center items-center gap-2 rounded-lg bg-secondary-700 ${props.padding ?? "px-3.5 py-2.5"} text-sm font-semibold text-white shadow-sm hover:bg-secondary-600`}>
       <div className="w-5 h-5 border-2 border-t-2 border-gray-200 rounded-full animate-spin border-t-secondary-700" />
       {props.text && <span>{props.text}</span>}
     </button>

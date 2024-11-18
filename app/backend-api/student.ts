@@ -4,18 +4,13 @@ import { PageResponse } from "../dto/response/page-response";
 import { StudentResponse } from "../dto/response/student-response";
 import { SearchDto } from "../dto/search/search-dto";
 import { buildPageResponse, buildUrlFindAll, createHeaders, createHeadersWithoutSession, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
+import { SecretKeyResponse } from "@/app/dto/response/secret-key-response";
 
 export const studentFindAllPagination = async (search: SearchDto): Promise<PageResponse<StudentResponse>> => {
   const headers = await createHeaders();
   const response = await makeGetRequest(buildUrlFindAll(BE_STUDENT, search), headers);
   const result: PageResponse<StudentResponse> = await handleResponse(response);
   return buildPageResponse(result);
-};
-
-export const studentFindAll = async (search: SearchDto): Promise<StudentResponse[]> => {
-  const headers = await createHeaders();
-  const response = await makeGetRequest(buildUrlFindAll(BE_STUDENT + "/all", search), headers);
-  return await handleResponse(response);
 };
 
 export const studentFindById = async (id: number): Promise<StudentResponse> => {
@@ -51,5 +46,17 @@ export const studentRestore = async (id: number): Promise<StudentResponse> => {
 export const webStudentCountAll = async (): Promise<number> => {
   const headers = await createHeadersWithoutSession();
   const response = await makeGetRequest(BE_WEB_STUDENT + "/count", headers);
+  return await handleResponse(response);
+};
+
+export const getStudentFormKey = async (): Promise<SecretKeyResponse> => {
+  const headers = await createHeaders();
+  const response = await makeGetRequest(BE_STUDENT + "/student-form-key", headers);
+  return await handleResponse(response);
+};
+
+export const generateStudentFormKey = async (): Promise<SecretKeyResponse> => {
+  const headers = await createHeaders();
+  const response = await makePostRequest(BE_STUDENT + "/student-form-key", headers, null);
   return await handleResponse(response);
 };

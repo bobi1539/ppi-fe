@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { FE_STUDENT, FE_STUDENT_CREATE } from "@/app/constants/endpoint-fe";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { StudentResponse } from "@/app/dto/response/student-response";
-import { studentDelete, studentFindAllPagination, studentRestore } from "@/app/backend-api/student";
+import { generateStudentFormKey, getStudentFormKey, studentDelete, studentFindAllPagination, studentRestore } from "@/app/backend-api/student";
 import { SearchDto } from "@/app/dto/search/search-dto";
 import Image from "next/image";
 import { fileDownload } from "@/app/backend-api/file";
@@ -20,6 +20,9 @@ import CustomTable from "@/app/components/table/custom-table";
 import CustomDropdown from "@/app/components/dropdown/custom-dropdown";
 import CustomDropdownItem from "@/app/components/dropdown/custom-dropdown-item";
 import LoadingTable from "@/app/components/loading/loading-table";
+import { SecretKeyResponse } from "@/app/dto/response/secret-key-response";
+import { formatDateTime } from "@/app/utils/date-helper";
+import ButtonLoading from "@/app/components/button/button-loading";
 
 export default function Student() {
   const [studentPages, setStudentPages] = useState<PageResponse<StudentResponse>>();
@@ -27,6 +30,8 @@ export default function Student() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
+  const [studentFormKey, setStudentFormKey] = useState<SecretKeyResponse>();
+  const [isGenerateLoading, setIsGenerateLoading] = useState<boolean>(false);
 
   const fetchStudent = useCallback(async (): Promise<void> => {
     const buildSearchDto = (): SearchDto => {
@@ -45,6 +50,10 @@ export default function Student() {
 
   useEffect(() => {
     fetchStudent();
+
+    getStudentFormKey().then((response) => {
+      setStudentFormKey(response);
+    });
   }, [fetchStudent]);
 
   const handlePageChange = (page: number): void => {
@@ -79,6 +88,15 @@ export default function Student() {
       showSuccessDialog();
       fetchStudent();
     }
+  };
+
+  const handleGenerateStudentFormKey = (): void => {
+    setIsGenerateLoading(true);
+    generateStudentFormKey()
+      .then((response) => {
+        setStudentFormKey(response);
+      })
+      .finally(() => setIsGenerateLoading(false));
   };
 
   const headsTable = ["seq", "photo", "name", "email", "gender", "major", "education", "graduation", ""];
@@ -135,6 +153,13 @@ export default function Student() {
         </CustomTable>
         <FooterTable numberOfElements={studentPages?.numberOfElements ?? 0} totalElements={studentPages?.totalElements ?? 0} totalPages={studentPages?.totalPages ?? 10} handlePageChange={handlePageChange} />
       </section>
+      <div className="bg-white rounded-lg mt-5 p-4 shadow-md grid grid-cols-3 gap-2 w-auto">
+        <h1 className="text-gray-500">Secret Key</h1>
+        <h1 className="font-bold ml-4 text-gray-900 col-span-2">{studentFormKey?.key}</h1>
+        <h1 className="text-gray-500">Valid Until</h1>
+        <h1 className="font-bold ml-4 text-gray-900 col-span-2">{formatDateTime(studentFormKey?.validDate ?? "")}</h1>
+        <div className="col-span-3">{isGenerateLoading ? <ButtonLoading className="rounded-lg" padding="px-12 py-2" /> : <ButtonIcon className="w-full md:w-auto" icon="fa-solid fa-arrow-rotate-right" text="Regenerate" onClick={handleGenerateStudentFormKey} />}</div>
+      </div>
     </div>
   );
 }
