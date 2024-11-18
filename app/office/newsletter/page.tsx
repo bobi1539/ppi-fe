@@ -7,7 +7,7 @@ import InputSearch from "../components/input-search";
 import { useCallback, useEffect, useState } from "react";
 import { PageResponse } from "@/app/dto/response/page-response";
 import { NewsletterResponse } from "@/app/dto/response/newsletter-response";
-import { newsletterDelete, newsletterFindAllPagination, newsletterRestore } from "@/app/backend-api/newsletter";
+import { newsletterDelete, newsletterFindAllPagination, newsletterResendEmail, newsletterRestore } from "@/app/backend-api/newsletter";
 import { SearchDto } from "@/app/dto/search/search-dto";
 import { FE_NEWSLETTER, FE_NEWSLETTER_CREATE } from "@/app/constants/endpoint-fe";
 import FooterTable from "@/app/components/table/footer-table";
@@ -90,6 +90,18 @@ export default function Newsletter() {
     setNewsletterIdHover(0);
   };
 
+  const handleResendEmailNewsletter = async (id: number): Promise<void> => {
+    setNewsletterIdHover(id);
+    const result = await showConfirmDialog("Are you sure to resend email?");
+    if (result.isConfirmed) {
+      await newsletterResendEmail(id);
+      showSuccessDialog();
+      fetchNewsletter();
+    }
+    setPopUpItemId(0);
+    setNewsletterIdHover(0);
+  };
+
   return (
     <div>
       <ContentTitle title="Newsletter" />
@@ -116,7 +128,7 @@ export default function Newsletter() {
                     <p className="text-justify text-sm text-gray-800">{limitText(newsletter.description, 100)}</p>
                   </div>
                 </div>
-                {popUpItemId === newsletter.id && <ActionCard deleted={newsletter.deleted ?? false} handleEdit={() => handleEditNewsletter(newsletter.id)} handleDelete={() => handleDeleteNewsletter(newsletter.id)} handleRestore={() => handleRestoreNewsletter(newsletter.id)} />}
+                {popUpItemId === newsletter.id && <ActionCard deleted={newsletter.deleted ?? false} handleEdit={() => handleEditNewsletter(newsletter.id)} handleDelete={() => handleDeleteNewsletter(newsletter.id)} handleRestore={() => handleRestoreNewsletter(newsletter.id)} isResendEmail handleResendEmail={() => handleResendEmailNewsletter(newsletter.id)} />}
               </CardHover>
             ))}
           </div>

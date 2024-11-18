@@ -56,6 +56,11 @@ export const newsletterRestore = async (id: number): Promise<NewsletterResponse>
   return await handleResponse(response);
 };
 
+export const newsletterResendEmail = async (id: number): Promise<void> => {
+  const headers = await createHeaders();
+  await makePostRequest(BE_NEWSLETTER + "/resend-email/" + id, headers, null);
+};
+
 export const webNewsletterFindAllPagination = async (search: SearchDto): Promise<PageResponse<NewsletterResponse>> => {
   const headers = await createHeadersWithoutSession();
   const response = await makeGetRequest(buildUrlFindAll(BE_WEB_NEWSLETTER, search), headers);
