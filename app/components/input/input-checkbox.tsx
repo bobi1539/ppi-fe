@@ -9,6 +9,7 @@ interface InputCheckboxProps {
   className?: string;
   disabled?: boolean;
   checked?: boolean;
+  fontBold?: boolean;
 }
 
 export default function InputCheckbox(props: Readonly<InputCheckboxProps>) {
@@ -24,7 +25,7 @@ export default function InputCheckbox(props: Readonly<InputCheckboxProps>) {
         <input type="checkbox" onChange={(e) => setIsChecked(e.target.checked)} name={props.name} id={`${props.id}`} className={`w-[22px] h-[22px] appearance-none border  rounded ${isChecked ? "bg-secondary-700 border-secondary-700" : "bg-gray-50 border-gray-300"}`} disabled={props.disabled} checked={isChecked} />
         {isChecked && <i className="fa-solid fa-check text-white absolute top-1 left-1" onClick={() => setIsChecked(!isChecked)} />}
       </div>
-      <label className={`${props.disabled ? "text-gray-400" : "text-gray-900"}`} htmlFor={`${props.id}`}>
+      <label className={`${props.disabled ? "text-gray-400" : "text-gray-900"} ${props.fontBold ? "font-bold" : ""}`} htmlFor={`${props.id}`}>
         {props.label}
       </label>
     </div>

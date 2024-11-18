@@ -25,3 +25,4 @@ export const BE_WEB_GALLERY: string = BE_WEB + "/galleries";
 export const BE_WEB_STAFF: string = BE_WEB + "/staffs";
 export const BE_WEB_STUDENT: string = BE_WEB + "/students";
 export const BE_WEB_SETTING: string = BE_WEB + "/settings";
+export const BE_WEB_SYSTEM_PARAMETER_LIST: string = BE_WEB + "/system-parameter-lists";

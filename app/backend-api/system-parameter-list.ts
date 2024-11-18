@@ -1,6 +1,7 @@
+import { BE_WEB_SYSTEM_PARAMETER_LIST } from './../constants/endpoint-be';
 import { BE_SYSTEM_PARAMETER_LIST } from "../constants/endpoint-be";
 import { PageResponse } from "../dto/response/page-response";
-import { buildPageResponse, buildUrlFindAll, createHeaders, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
+import { buildPageResponse, buildUrlFindAll, createHeaders, createHeadersWithoutSession, handleResponse, makeDeleteRequest, makeGetRequest, makePostRequest, makePutRequest } from "./helper";
 import { SystemParameterListResponse } from "../dto/response/system-parameter-list-response";
 import { SystemParameterListSearchDto } from "../dto/search/system-parameter-list-search-dto";
 import { SystemParameterListRequest } from "../dto/request/system-parameter-list-request";
@@ -56,4 +57,10 @@ export const getUrlFindAll = (url: string, search: SystemParameterListSearchDto)
     urlWithParam.searchParams.append(SYSTEM_PARAMETER_ID, search.systemParameterId.toString());
   }
   return urlWithParam.toString();
+};
+
+export const webSystemParameterListFindAll = async (search: SystemParameterListSearchDto): Promise<SystemParameterListResponse[]> => {
+  const headers = await createHeadersWithoutSession();
+  const response = await makeGetRequest(getUrlFindAll(BE_WEB_SYSTEM_PARAMETER_LIST + "/all", search), headers);
+  return await handleResponse(response);
 };
