@@ -8,7 +8,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 export default function Dashboard() {
   const [dashboard, setDashboard] = useState<DashboardResponse>();
-  const [year, setYear] = useState<string>("2024");
+  const [year, setYear] = useState<string>(new Date().getFullYear().toString());
 
   useEffect(() => {
     dashboardGet(year).then((response) => setDashboard(response));
